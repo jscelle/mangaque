@@ -5,7 +5,6 @@
 //  Created by Artyom Raykh on 09.08.2022.
 //
 
-import Foundation
 import Alamofire
 
 class BaseNetworkManager {

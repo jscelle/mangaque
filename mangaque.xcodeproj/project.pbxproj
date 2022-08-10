@@ -19,6 +19,7 @@
 		9B98317A28A3B9FE0053A472 /* MangaNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317928A3B9FE0053A472 /* MangaNetworkManager.swift */; };
 		9B98317D28A3BBD30053A472 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317C28A3BBD30053A472 /* EmptyResponse.swift */; };
 		9B98317F28A3CA330053A472 /* MangaModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317E28A3CA330053A472 /* MangaModelItem.swift */; };
+		9B98318128A3DB5D0053A472 /* AggregateModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98318028A3DB5D0053A472 /* AggregateModelItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		9B98317928A3B9FE0053A472 /* MangaNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaNetworkManager.swift; sourceTree = "<group>"; };
 		9B98317C28A3BBD30053A472 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		9B98317E28A3CA330053A472 /* MangaModelItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaModelItem.swift; sourceTree = "<group>"; };
+		9B98318028A3DB5D0053A472 /* AggregateModelItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateModelItem.swift; sourceTree = "<group>"; };
 		A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mangaque.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 			children = (
 				9B98317C28A3BBD30053A472 /* EmptyResponse.swift */,
 				9B98317E28A3CA330053A472 /* MangaModelItem.swift */,
+				9B98318028A3DB5D0053A472 /* AggregateModelItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				9B98315B28A2D7E80053A472 /* ViewController.swift in Sources */,
 				9B98317D28A3BBD30053A472 /* EmptyResponse.swift in Sources */,
 				9B98315728A2D7E80053A472 /* AppDelegate.swift in Sources */,
+				9B98318128A3DB5D0053A472 /* AggregateModelItem.swift in Sources */,
 				9B98315928A2D7E80053A472 /* SceneDelegate.swift in Sources */,
 				9B98317A28A3B9FE0053A472 /* MangaNetworkManager.swift in Sources */,
 				9B98317228A2DB030053A472 /* BaseRouteBuilder.swift in Sources */,

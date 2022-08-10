@@ -14,4 +14,10 @@ class MangaNetworkManager: BaseNetworkManager {
             comletionHandler(data, error)
         }
     }
+    
+    func getMangaAggregate(mangaId: String, comletionHandler: @escaping (_ data: AggregateItem?, _ error: Error?) -> ()) {
+        request(route: MangaRouter.getMangaAggregate(mangaId: mangaId)) { (data: AggregateItem?, error: Error?) in
+            comletionHandler(data, error)
+        }
+    }
 }

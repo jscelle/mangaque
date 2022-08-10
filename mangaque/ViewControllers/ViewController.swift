@@ -17,9 +17,14 @@ class ViewController: UIViewController {
             if let error = error {
                 print(error)
             }
-            if let result = result {
-                result.data?.forEach {
-                    print($0.attributes?.title) 
+            if let result = result?.data?.first {
+                manager.getMangaAggregate(mangaId: result.id!) { data, error in
+                    if let error = error {
+                        print(error)
+                    }
+                    if let data = data {
+                        print(data.volumes?.first?.value.chapters?.first)
+                    }
                 }
             }
         }
