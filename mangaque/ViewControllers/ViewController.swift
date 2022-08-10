@@ -14,7 +14,14 @@ class ViewController: UIViewController {
         view.backgroundColor = .green
         let manager = MangaNetworkManager()
         manager.getManga { result, error in
-            
+            if let error = error {
+                print(error)
+            }
+            if let result = result {
+                result.data?.forEach {
+                    print($0.attributes?.title) 
+                }
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import Alamofire
 
 class BaseNetworkManager {
     
-    func request<T: Decodable>(
+    @discardableResult func request<T: Decodable>(
         route: BaseRouteBuilder,
         decoder: JSONDecoder = JSONDecoder(),
         completionHandler: @escaping ((_ data: T?, _ error: Error?) -> ())
@@ -26,10 +26,10 @@ class BaseNetworkManager {
                 }
                 
                 do {
-                    let responseCodableObject = try decoder.decode(T.self, from: data)
-                    completionHandler(responseCodableObject, responseData.error)
-                } catch {
-                    completionHandler(nil, responseData.error)
+                    let decodedData = try decoder.decode(T.self, from: data)
+                    completionHandler(decodedData, responseData.error)
+                } catch let error {
+                    completionHandler(nil, error)
                 }
         }
     }

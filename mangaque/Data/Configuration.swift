@@ -8,5 +8,6 @@
 import Foundation
 
 struct Configuration {
-    static let mangaApiUrl = "https://api.mangadex.org" 
+    static let mangaApiUrl = "https://api.mangadex.org"
+    static let sourceQualityImagesUrl = "https://uploads.mangadex.org/data"
 }
