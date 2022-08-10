@@ -7,6 +7,7 @@ target 'mangaque' do
 pod 'SnapKit'
 pod 'Alamofire'
 pod 'Swinject'
+pod 'R.swift'
 
   # Pods for mangaque
 

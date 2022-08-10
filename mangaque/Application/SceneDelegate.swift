@@ -10,13 +10,17 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    #warning("TODO: Swinject here ;/")
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
+        
+        let viewController = ViewController()
+        viewController.mangaViewModel = MangaViewModel()
+        
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
 }
