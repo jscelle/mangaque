@@ -14,6 +14,10 @@
 		9B98316028A2D7E80053A472 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B98315F28A2D7E80053A472 /* Assets.xcassets */; };
 		9B98317028A2DA7A0053A472 /* BaseNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98316F28A2DA7A0053A472 /* BaseNetworkManager.swift */; };
 		9B98317228A2DB030053A472 /* BaseRouteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317128A2DB030053A472 /* BaseRouteBuilder.swift */; };
+		9B98317628A3B42E0053A472 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317528A3B42E0053A472 /* Configuration.swift */; };
+		9B98317828A3B8FC0053A472 /* MangaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317728A3B8FC0053A472 /* MangaRouter.swift */; };
+		9B98317A28A3B9FE0053A472 /* MangaNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317928A3B9FE0053A472 /* MangaNetworkManager.swift */; };
+		9B98317D28A3BBD30053A472 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317C28A3BBD30053A472 /* EmptyResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +31,10 @@
 		9B98316428A2D7E80053A472 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B98316F28A2DA7A0053A472 /* BaseNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetworkManager.swift; sourceTree = "<group>"; };
 		9B98317128A2DB030053A472 /* BaseRouteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouteBuilder.swift; sourceTree = "<group>"; };
+		9B98317528A3B42E0053A472 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		9B98317728A3B8FC0053A472 /* MangaRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaRouter.swift; sourceTree = "<group>"; };
+		9B98317928A3B9FE0053A472 /* MangaNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaNetworkManager.swift; sourceTree = "<group>"; };
+		9B98317C28A3BBD30053A472 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mangaque.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -80,6 +88,7 @@
 		9B98315528A2D7E80053A472 /* mangaque */ = {
 			isa = PBXGroup;
 			children = (
+				9B98317428A3B3CF0053A472 /* Data */,
 				9B98317328A2DD9D0053A472 /* Application */,
 				9B98316C28A2DA3F0053A472 /* Network */,
 				9B98316B28A2D91F0053A472 /* Views */,
@@ -118,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				9B98317128A2DB030053A472 /* BaseRouteBuilder.swift */,
+				9B98317728A3B8FC0053A472 /* MangaRouter.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -126,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				9B98316F28A2DA7A0053A472 /* BaseNetworkManager.swift */,
+				9B98317928A3B9FE0053A472 /* MangaNetworkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -137,6 +148,23 @@
 				9B98315828A2D7E80053A472 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		9B98317428A3B3CF0053A472 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9B98317B28A3BBC30053A472 /* Models */,
+				9B98317528A3B42E0053A472 /* Configuration.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9B98317B28A3BBC30053A472 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9B98317C28A3BBD30053A472 /* EmptyResponse.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,9 +280,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B98317828A3B8FC0053A472 /* MangaRouter.swift in Sources */,
+				9B98317628A3B42E0053A472 /* Configuration.swift in Sources */,
 				9B98315B28A2D7E80053A472 /* ViewController.swift in Sources */,
+				9B98317D28A3BBD30053A472 /* EmptyResponse.swift in Sources */,
 				9B98315728A2D7E80053A472 /* AppDelegate.swift in Sources */,
 				9B98315928A2D7E80053A472 /* SceneDelegate.swift in Sources */,
+				9B98317A28A3B9FE0053A472 /* MangaNetworkManager.swift in Sources */,
 				9B98317228A2DB030053A472 /* BaseRouteBuilder.swift in Sources */,
 				9B98317028A2DA7A0053A472 /* BaseNetworkManager.swift in Sources */,
 			);
@@ -390,9 +422,9 @@
 				INFOPLIST_FILE = mangaque/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -419,9 +451,9 @@
 				INFOPLIST_FILE = mangaque/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

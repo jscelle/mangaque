@@ -8,11 +8,29 @@
 import Foundation
 import Alamofire
 
-class BaseNetwordManager {
+class BaseNetworkManager {
     
-    func request<T: Codable>(
-        route: BaseRouteBuilderInterface,
-    ) {
+    func request<T: Decodable>(
+        route: BaseRouteBuilder,
+        decoder: JSONDecoder = JSONDecoder(),
+        completionHandler: @escaping ((_ data: T?, _ error: Error?) -> ())
+    ) -> DataRequest {
         
+        return AF.request(route)
+            .validate()
+            .response { responseData in
+                
+                guard let data = responseData.data else {
+                    completionHandler(nil, responseData.error)
+                    return
+                }
+                
+                do {
+                    let responseCodableObject = try decoder.decode(T.self, from: data)
+                    completionHandler(responseCodableObject, responseData.error)
+                } catch {
+                    completionHandler(nil, responseData.error)
+                }
+        }
     }
 }
