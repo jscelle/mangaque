@@ -7,23 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25A3780467993B5F7A96BD47 /* Pods_mangaque.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */; };
 		9B98315728A2D7E80053A472 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98315628A2D7E80053A472 /* AppDelegate.swift */; };
 		9B98315928A2D7E80053A472 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98315828A2D7E80053A472 /* SceneDelegate.swift */; };
 		9B98315B28A2D7E80053A472 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98315A28A2D7E80053A472 /* ViewController.swift */; };
-		9B98315E28A2D7E80053A472 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B98315C28A2D7E80053A472 /* Main.storyboard */; };
 		9B98316028A2D7E80053A472 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B98315F28A2D7E80053A472 /* Assets.xcassets */; };
-		9B98316328A2D7E80053A472 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B98316128A2D7E80053A472 /* LaunchScreen.storyboard */; };
+		9B98317028A2DA7A0053A472 /* BaseNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98316F28A2DA7A0053A472 /* BaseNetworkManager.swift */; };
+		9B98317228A2DB030053A472 /* BaseRouteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B98317128A2DB030053A472 /* BaseRouteBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		44FD2EA353DF4E76FA271A0D /* Pods-mangaque.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mangaque.debug.xcconfig"; path = "Target Support Files/Pods-mangaque/Pods-mangaque.debug.xcconfig"; sourceTree = "<group>"; };
+		7F71C5195EA00DD16A81AC27 /* Pods-mangaque.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mangaque.release.xcconfig"; path = "Target Support Files/Pods-mangaque/Pods-mangaque.release.xcconfig"; sourceTree = "<group>"; };
 		9B98315328A2D7E80053A472 /* mangaque.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mangaque.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B98315628A2D7E80053A472 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B98315828A2D7E80053A472 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9B98315A28A2D7E80053A472 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		9B98315D28A2D7E80053A472 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9B98315F28A2D7E80053A472 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9B98316228A2D7E80053A472 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B98316428A2D7E80053A472 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B98316F28A2DA7A0053A472 /* BaseNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetworkManager.swift; sourceTree = "<group>"; };
+		9B98317128A2DB030053A472 /* BaseRouteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouteBuilder.swift; sourceTree = "<group>"; };
+		A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mangaque.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25A3780467993B5F7A96BD47 /* Pods_mangaque.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35E9FD874B4744CB30286B11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		418EF790E49FE4A9DCB6C5F1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				44FD2EA353DF4E76FA271A0D /* Pods-mangaque.debug.xcconfig */,
+				7F71C5195EA00DD16A81AC27 /* Pods-mangaque.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		9B98314A28A2D7E80053A472 = {
 			isa = PBXGroup;
 			children = (
 				9B98315528A2D7E80053A472 /* mangaque */,
 				9B98315428A2D7E80053A472 /* Products */,
+				418EF790E49FE4A9DCB6C5F1 /* Pods */,
+				35E9FD874B4744CB30286B11 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +80,63 @@
 		9B98315528A2D7E80053A472 /* mangaque */ = {
 			isa = PBXGroup;
 			children = (
-				9B98315628A2D7E80053A472 /* AppDelegate.swift */,
-				9B98315828A2D7E80053A472 /* SceneDelegate.swift */,
-				9B98315A28A2D7E80053A472 /* ViewController.swift */,
-				9B98315C28A2D7E80053A472 /* Main.storyboard */,
+				9B98317328A2DD9D0053A472 /* Application */,
+				9B98316C28A2DA3F0053A472 /* Network */,
+				9B98316B28A2D91F0053A472 /* Views */,
+				9B98316A28A2D9180053A472 /* ViewControllers */,
 				9B98315F28A2D7E80053A472 /* Assets.xcassets */,
-				9B98316128A2D7E80053A472 /* LaunchScreen.storyboard */,
 				9B98316428A2D7E80053A472 /* Info.plist */,
 			);
 			path = mangaque;
+			sourceTree = "<group>";
+		};
+		9B98316A28A2D9180053A472 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B98315A28A2D7E80053A472 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9B98316B28A2D91F0053A472 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9B98316C28A2DA3F0053A472 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9B98316E28A2DA590053A472 /* Managers */,
+				9B98316D28A2DA4F0053A472 /* API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9B98316D28A2DA4F0053A472 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				9B98317128A2DB030053A472 /* BaseRouteBuilder.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		9B98316E28A2DA590053A472 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				9B98316F28A2DA7A0053A472 /* BaseNetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		9B98317328A2DD9D0053A472 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9B98315628A2D7E80053A472 /* AppDelegate.swift */,
+				9B98315828A2D7E80053A472 /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +146,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B98316728A2D7E80053A472 /* Build configuration list for PBXNativeTarget "mangaque" */;
 			buildPhases = (
+				355CA71F1F3EF664C153399E /* [CP] Check Pods Manifest.lock */,
 				9B98314F28A2D7E80053A472 /* Sources */,
 				9B98315028A2D7E80053A472 /* Frameworks */,
 				9B98315128A2D7E80053A472 /* Resources */,
+				50E8CDC8443CEC374D9FB4AD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -125,13 +199,53 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B98316328A2D7E80053A472 /* LaunchScreen.storyboard in Resources */,
 				9B98316028A2D7E80053A472 /* Assets.xcassets in Resources */,
-				9B98315E28A2D7E80053A472 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		355CA71F1F3EF664C153399E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mangaque-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		50E8CDC8443CEC374D9FB4AD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mangaque/Pods-mangaque-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mangaque/Pods-mangaque-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mangaque/Pods-mangaque-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9B98314F28A2D7E80053A472 /* Sources */ = {
@@ -141,29 +255,12 @@
 				9B98315B28A2D7E80053A472 /* ViewController.swift in Sources */,
 				9B98315728A2D7E80053A472 /* AppDelegate.swift in Sources */,
 				9B98315928A2D7E80053A472 /* SceneDelegate.swift in Sources */,
+				9B98317228A2DB030053A472 /* BaseRouteBuilder.swift in Sources */,
+				9B98317028A2DA7A0053A472 /* BaseNetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		9B98315C28A2D7E80053A472 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9B98315D28A2D7E80053A472 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		9B98316128A2D7E80053A472 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9B98316228A2D7E80053A472 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9B98316528A2D7E80053A472 /* Debug */ = {
@@ -282,6 +379,7 @@
 		};
 		9B98316828A2D7E80053A472 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 44FD2EA353DF4E76FA271A0D /* Pods-mangaque.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -310,6 +408,7 @@
 		};
 		9B98316928A2D7E80053A472 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F71C5195EA00DD16A81AC27 /* Pods-mangaque.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

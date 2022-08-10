@@ -1,0 +1,6 @@
+framework module Pods_mangaque {
+  umbrella header "Pods-mangaque-umbrella.h"
+
+  export *
+  module * { export * }
+}
