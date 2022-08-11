@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.6.2)
+  - Kingfisher (7.3.0)
   - R.swift (6.1.0):
     - R.swift.Library (~> 5.3.0)
   - R.swift.Library (5.3.0)
@@ -8,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Kingfisher
   - R.swift
   - SnapKit
   - Swinject
@@ -15,6 +17,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Kingfisher
     - R.swift
     - R.swift.Library
     - SnapKit
@@ -22,11 +25,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  Kingfisher: cdb1189a9223b1bc028816bd47c8b8101a58831c
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   Swinject: b4a11b31992e8668308dc594ba1cb9b3164a37ab
 
-PODFILE CHECKSUM: 0245e15b7a973a6f0001855e4594118fd378ee3f
+PODFILE CHECKSUM: a9e19c8e8a80c8ffc05cc2108b170ad705e65f27
 
 COCOAPODS: 1.11.3

@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = R.color.background()
         
         view.addSubview(mangaView)
         mangaView.snp.makeConstraints { make in

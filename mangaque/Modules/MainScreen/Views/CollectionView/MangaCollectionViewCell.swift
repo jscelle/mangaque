@@ -17,10 +17,21 @@ class MangaCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.textColor = .white
         return label
     }()
     
-    func configureCell() {
+    override init(frame: CGRect) {
+        super.init(frame: CGRect.zero)
+        self.setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func setupViews() {
         
         addSubview(titleLabel)
         addSubview(coverImageView)
@@ -39,7 +50,9 @@ class MangaCollectionViewCell: UICollectionViewCell {
             make.top.equalToSuperview().inset(10)
         }
         
-        backgroundColor = .white
+        backgroundColor = .lightGray.withAlphaComponent(0.05)
+        
+        layer.cornerRadius = 10
         
         titleLabel.text = "Manga"
     }

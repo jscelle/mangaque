@@ -40,7 +40,10 @@ class MangaContainerView: UIView {
         addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(10)
         }
     }
 }

@@ -8,6 +8,7 @@ pod 'SnapKit'
 pod 'Alamofire'
 pod 'Swinject'
 pod 'R.swift'
+pod 'Kingfisher'
 
   # Pods for mangaque
 
