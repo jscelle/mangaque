@@ -9,4 +9,6 @@ import Foundation
 
 struct MangaViewDataItem {
     var title: String?
+    var coverUrl: String?
+    
 }

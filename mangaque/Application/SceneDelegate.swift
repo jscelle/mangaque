@@ -17,8 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let viewController = ViewController()
-        viewController.mangaViewModel = MangaViewModel()
+        let viewController = MainViewController(mangaViewModel: MangaViewModel())
         
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()

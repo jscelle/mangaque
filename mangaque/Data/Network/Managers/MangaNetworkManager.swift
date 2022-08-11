@@ -15,8 +15,20 @@ class MangaNetworkManager: BaseNetworkManager {
         }
     }
     
-    func getMangaAggregate(mangaId: String, comletionHandler: @escaping (_ data: AggregateItem?, _ error: Error?) -> ()) {
+    func getMangaAggregate(
+        mangaId: String,
+        comletionHandler: @escaping (_ data: AggregateItem?, _ error: Error?) -> ()
+    ) {
         request(route: MangaRouter.getMangaAggregate(mangaId: mangaId)) { (data: AggregateItem?, error: Error?) in
+            comletionHandler(data, error)
+        }
+    }
+    
+    func getMangaCover(
+        mangaId: String,
+        comletionHandler: @escaping (_ data: EmptyResponse?, _ error: Error?) -> ()
+    ) {
+        request(route: MangaRouter.getMangaCover(mangaId: mangaId)) { (data: EmptyResponse?, error: Error?) in
             comletionHandler(data, error)
         }
     }

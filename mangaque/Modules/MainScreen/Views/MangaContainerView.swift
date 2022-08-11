@@ -9,20 +9,18 @@ import SnapKit
 
 class MangaContainerView: UIView {
 
-    var viewData: ViewData<MangaViewDataItem> = .initial {
+    var viewData: ViewData<[MangaViewDataItem]> = .initial {
         didSet {
             setNeedsLayout()
         }
     }
     
-    lazy var label: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        return label
-    }()
+    var mangas: [MangaViewDataItem] = []
     
+    lazy var collectionView = createCollectionView()
     
     override func layoutSubviews() {
+        
         super.layoutSubviews()
         switch viewData {
         case .initial:
@@ -36,13 +34,13 @@ class MangaContainerView: UIView {
             break
         }
     }
-    #warning("make sure this is the most accurate way")
-    private func setupView(viewData: MangaViewDataItem) {
-        addSubview(label)
-        label.snp.makeConstraints { make in
+    
+    private func setupView(viewData: [MangaViewDataItem]) {
+        
+        addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        label.text = viewData.title
-        print(viewData.title)
     }
 }
