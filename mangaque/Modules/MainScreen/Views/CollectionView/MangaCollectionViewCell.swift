@@ -5,7 +5,7 @@
 //  Created by Artyom Raykh on 11.08.2022.
 //
 
-import UIKit
+import Kingfisher
 
 class MangaCollectionViewCell: UICollectionViewCell {
     
@@ -21,6 +21,12 @@ class MangaCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    var mangaItem: MangaViewDataItem? {
+        didSet {
+            configureCell()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: CGRect.zero)
         self.setupViews()
@@ -30,8 +36,7 @@ class MangaCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    func setupViews() {
+    private func setupViews() {
         
         addSubview(titleLabel)
         addSubview(coverImageView)
@@ -49,11 +54,24 @@ class MangaCollectionViewCell: UICollectionViewCell {
             make.left.equalToSuperview().inset(10)
             make.top.equalToSuperview().inset(10)
         }
-        
         backgroundColor = .lightGray.withAlphaComponent(0.05)
-        
         layer.cornerRadius = 10
+    }
+    
+    func configureCell() {
         
-        titleLabel.text = "Manga"
+        guard let mangaItem = mangaItem else {
+            return
+        }
+        titleLabel.text = mangaItem.title
+        coverImageView.kf.setImage(with: mangaItem.coverURL) { result in
+            switch result {
+            case .failure(let error):
+                #warning("present error")
+                print(error)
+            case .success:
+                break
+            }
+        }
     }
 }

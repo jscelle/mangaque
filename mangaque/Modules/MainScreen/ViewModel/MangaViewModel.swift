@@ -12,6 +12,12 @@ protocol MangaViewModelInterface {
     func startFetch()
 }
 
+enum MangaErrors: Error {
+    case failedToGetId
+    case failedToGetTitle
+    case failedToGetCoverUrl
+}
+
 final class MangaViewModel: MangaViewModelInterface {
     
     private let mangaManager = MangaNetworkManager()
@@ -30,29 +36,39 @@ final class MangaViewModel: MangaViewModelInterface {
             guard let self = self else {
                 return
             }
+            
             #warning("error handler")
             if let error = error {
-                self.updateMangaViewData?(
-                    .failure(nil)
-                )
-                print(error)
+                self.updateMangaViewData?(.failure(error))
             }
-            
-            
-            
-            if let data = data {
-                guard let title = data.data?.first?.attributes?.title?["en"] else {
-                    return
-                }
-                
-                self.updateMangaViewData?(
-                    .success(
-                        [MangaViewDataItem(
+
+            if let data = data?.data {
+                do {
+                    let mangaItems: [MangaViewDataItem] = try data.compactMap { data in
+                        
+                        guard let id = data.id else {
+                            throw MangaErrors.failedToGetId
+                        }
+                        
+                        guard let title = data.attributes?.title?["en"] else {
+                            throw MangaErrors.failedToGetTitle
+                        }
+                        
+                        guard let coverUrl = URL(string: Configuration.mangaApiUrl + "/cover/\(id)") else {
+                            throw MangaErrors.failedToGetCoverUrl
+                        }
+                        
+                        return MangaViewDataItem(
+                            mangaId: id,
                             title: title,
-                            coverUrl: nil
-                        )]
-                    )
-                )
+                            coverURL: coverUrl
+                        )
+                    }
+                    
+                    self.updateMangaViewData?(.success(mangaItems))
+                } catch let error {
+                    self.updateMangaViewData?(.failure(error))
+                }
             }
         }
     }

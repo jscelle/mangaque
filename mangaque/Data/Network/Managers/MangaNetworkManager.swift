@@ -23,13 +23,4 @@ class MangaNetworkManager: BaseNetworkManager {
             comletionHandler(data, error)
         }
     }
-    
-    func getMangaCover(
-        mangaId: String,
-        comletionHandler: @escaping (_ data: EmptyResponse?, _ error: Error?) -> ()
-    ) {
-        request(route: MangaRouter.getMangaCover(mangaId: mangaId)) { (data: EmptyResponse?, error: Error?) in
-            comletionHandler(data, error)
-        }
-    }
 }

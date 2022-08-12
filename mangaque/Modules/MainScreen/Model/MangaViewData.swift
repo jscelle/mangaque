@@ -8,7 +8,7 @@
 import Foundation
 
 struct MangaViewDataItem {
-    var title: String?
-    var coverUrl: String?
-    
+    var mangaId: String
+    var title: String
+    var coverURL: URL
 }

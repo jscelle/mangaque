@@ -10,7 +10,7 @@ import SnapKit
 class MainViewController: UIViewController {
     
     var mangaViewModel: MangaViewModelInterface
-    private var mangaView = MangaContainerView()
+    private var mangaView = MangaCollectionView()
     
     
     init(mangaViewModel: MangaViewModelInterface) {

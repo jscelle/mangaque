@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension MangaContainerView {
+extension MangaCollectionView {
     
     func createCollectionView() -> UICollectionView {
         
@@ -23,7 +23,7 @@ extension MangaContainerView {
         collectionViewLayout.itemSize = cellSize
         
         let collectionView = UICollectionView(
-            frame: CGRect.zero,
+            frame: bounds,
             collectionViewLayout: collectionViewLayout
         )
         
@@ -33,6 +33,7 @@ extension MangaContainerView {
         )
         
         collectionView.dataSource = self
+        
         collectionView.backgroundColor = .clear
         
         return collectionView
@@ -40,10 +41,10 @@ extension MangaContainerView {
     
 }
 
-extension MangaContainerView: UICollectionViewDataSource {
+extension MangaCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return mangaItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -52,6 +53,8 @@ extension MangaContainerView: UICollectionViewDataSource {
             withReuseIdentifier: "MangaCollectionViewCell",
             for: indexPath
         ) as! MangaCollectionViewCell
+        
+        cell.mangaItem = mangaItems[indexPath.row]
         
         return cell
     }

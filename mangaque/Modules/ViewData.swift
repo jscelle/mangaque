@@ -9,7 +9,7 @@ import Foundation
 
 enum ViewData<T>{
     case initial
-    case loading(T?)
+    case loading
     case success(T)
-    case failure(T?)
+    case failure(Error)
 }

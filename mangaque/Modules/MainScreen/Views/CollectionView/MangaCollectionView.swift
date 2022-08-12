@@ -7,7 +7,7 @@
 
 import SnapKit
 
-class MangaContainerView: UIView {
+class MangaCollectionView: UIView {
 
     var viewData: ViewData<[MangaViewDataItem]> = .initial {
         didSet {
@@ -15,27 +15,36 @@ class MangaContainerView: UIView {
         }
     }
     
-    var mangas: [MangaViewDataItem] = []
+    var mangaItems: [MangaViewDataItem] = []
     
     lazy var collectionView = createCollectionView()
     
     override func layoutSubviews() {
-        
         super.layoutSubviews()
+        
         switch viewData {
         case .initial:
             break
-        case .loading(_):
+        case .loading:
+            #warning("add skeleton view for loading")
             break
         case .success(let success):
-            setupView(viewData: success)
+            
+            setupView()
+            
+            mangaItems = success
+            collectionView.reloadData()
+            
             break
-        case .failure(_):
+        case .failure(let error):
+            
+            #warning("error")
+            
             break
         }
     }
     
-    private func setupView(viewData: [MangaViewDataItem]) {
+    private func setupView() {
         
         addSubview(collectionView)
         
