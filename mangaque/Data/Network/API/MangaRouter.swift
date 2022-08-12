@@ -12,6 +12,7 @@ enum MangaRouter: BaseRouteBuilder {
     case getManga
     case getRandomManga
     case getMangaAggregate(mangaId: String)
+    case getMangaCover(mangaId: String)
     
     var path: String {
         switch self {
@@ -21,6 +22,8 @@ enum MangaRouter: BaseRouteBuilder {
             return "/manga/random"
         case .getMangaAggregate(mangaId: let mangaId):
             return "/manga/\(mangaId)/aggregate"
+        case .getMangaCover(mangaId: let mangaId):
+            return "/cover/\(mangaId)"
         }
     }
     
@@ -31,6 +34,8 @@ enum MangaRouter: BaseRouteBuilder {
         case .getRandomManga:
             return .get
         case .getMangaAggregate:
+            return .get
+        case .getMangaCover:
             return .get
         }
     }
@@ -44,6 +49,8 @@ enum MangaRouter: BaseRouteBuilder {
         case .getRandomManga:
             return .url([:])
         case .getMangaAggregate:
+            return .url([:])
+        case .getMangaCover:
             return .url([:])
         }
     }

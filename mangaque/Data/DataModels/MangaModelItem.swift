@@ -16,6 +16,7 @@ struct MangaItem: Codable {
 struct Datum: Codable {
     let id, type: String?
     let attributes: DatumAttributes?
+    let relationships: [Relationships]?
 }
 
 // MARK: - DatumAttributes
@@ -44,5 +45,9 @@ struct DatumAttributes: Codable {
 
 // MARK: - Tag
 struct Tag: Codable {
+    let id, type: String?
+}
+
+struct Relationships: Codable {
     let id, type: String?
 }

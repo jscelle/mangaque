@@ -39,6 +39,7 @@ class MangaCollectionView: UIView {
         case .failure(let error):
             
             #warning("error")
+            print(error)
             
             break
         }
