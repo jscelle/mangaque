@@ -17,7 +17,7 @@ extension MangaCollectionView {
         
         let cellSize = CGSize(
             width: cellWidht,
-            height: cellWidht * 2
+            height: cellWidht * 1.5 + 50
         )
         
         collectionViewLayout.itemSize = cellSize

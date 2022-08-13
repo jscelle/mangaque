@@ -41,19 +41,23 @@ class MangaCollectionViewCell: UICollectionViewCell {
         addSubview(titleLabel)
         addSubview(coverImageView)
         
+        #warning("make it fit full widht +  bind to top")
+        coverImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+
+        }
+        
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(10)
-            make.height.equalTo(50)
+            make.top.equalTo(coverImageView.snp.bottom).inset(10)
         }
         
-        coverImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(titleLabel.snp.top).offset(10)
-            make.right.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(10)
-            make.top.equalToSuperview().inset(10)
-        }
+        coverImageView.contentMode = .scaleAspectFit
+        
+        titleLabel.numberOfLines = 0
+        
         backgroundColor = .lightGray.withAlphaComponent(0.05)
         layer.cornerRadius = 10
     }
@@ -64,14 +68,20 @@ class MangaCollectionViewCell: UICollectionViewCell {
             return
         }
         titleLabel.text = mangaItem.title
-        coverImageView.kf.setImage(with: mangaItem.coverURL) { result in
-            switch result {
-            case .failure(let error):
-                #warning("present error")
-                print(error)
-            case .success:
-                break
+        coverImageView.kf.setImage(with: mangaItem.coverURL) { [weak self] result in
+            
+            guard let self = self else {
+                return
             }
+            
+            guard let coverImage = self.coverImageView.image else {
+                return
+            }
+            
+            self.coverImageView.image = coverImage.cropImage(
+                cropWidth: coverImage.size.width,
+                cropHeight: coverImage.size.width * 1.3
+            )
         }
     }
 }

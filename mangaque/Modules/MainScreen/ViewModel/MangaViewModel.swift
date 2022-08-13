@@ -72,31 +72,18 @@ final class MangaViewModel: MangaViewModelInterface {
                                 
                                 group.addTask {
                                     
-                                    let coverItem = await self.mangaManager.getMangaCover(coverId: coverId)
-                                    
-                                    switch coverItem {
-                                    case .success(let coverItem):
-                                        
-                                        guard let coverFileName = coverItem.data?.attributes?.fileName else {
-                                            break
-                                        }
-                                        
-                                        guard let mangaCoverUrl = Configuration.mangaCoverUrl(
-                                            mangaId: mangaId,
-                                            coverFileName: coverFileName
-                                        ) else {
-                                            break
-                                        }
-                                        return MangaViewDataItem(
-                                            mangaId: mangaId,
-                                            title: mangaTitle,
-                                            coverURL: mangaCoverUrl
-                                        )
-                                        
-                                    case .failure(let error):
-                                        break
+                                    guard let coverUrl = await self.mangaManager.getCoverUrl(
+                                        coverId: coverId,
+                                        mangaId: mangaId
+                                    ) else {
+                                        return nil
                                     }
-                                    return nil
+                                    
+                                    return MangaViewDataItem(
+                                        mangaId: mangaId,
+                                        title: mangaTitle,
+                                        coverURL: coverUrl
+                                    )
                             }
                         }
                         
