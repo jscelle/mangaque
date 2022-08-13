@@ -9,27 +9,15 @@ import Alamofire
 
 class MangaNetworkManager: BaseNetworkManager {
     
-    func getManga(comletionHandler: @escaping (_ data: MangaItem?, _ error: Error?) -> ()) {
-        request(route: MangaRouter.getManga) { (data: MangaItem?, error: Error?) in
-            comletionHandler(data, error)
-        }
+    func getManga() async -> Result<MangaItem, Error> {
+        return await request(route: MangaRouter.getManga)
     }
     
-    func getMangaAggregate(
-        mangaId: String,
-        comletionHandler: @escaping (_ data: AggregateItem?, _ error: Error?) -> ()
-    ) {
-        request(route: MangaRouter.getMangaAggregate(mangaId: mangaId)) { (data: AggregateItem?, error: Error?) in
-            comletionHandler(data, error)
-        }
+    func getMangaAppregate(mangaId: String) async -> Result<AggregateItem, Error> {
+        return await request(route: MangaRouter.getMangaAggregate(mangaId: mangaId))
     }
     
-    func getMangaCover(
-        mangaId: String,
-        comletionHandler: @escaping (_ data: CoverItem?, _ error: Error?) -> ()
-    ) {
-        request(route: MangaRouter.getMangaCover(mangaId: mangaId)) { (data: CoverItem?, error: Error?) in
-            comletionHandler(data, error)
-        }
+    func getMangaCover(coverId: String) async -> Result<CoverItem, Error> {
+        return await request(route: MangaRouter.getMangaCover(coverId: coverId))
     }
 }

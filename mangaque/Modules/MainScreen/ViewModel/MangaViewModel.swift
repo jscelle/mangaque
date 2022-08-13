@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Dispatch
 
 protocol MangaViewModelInterface {
     var updateMangaViewData: ((ViewData<[MangaViewDataItem]>) -> ())? { get set }
@@ -28,79 +29,95 @@ final class MangaViewModel: MangaViewModelInterface {
         updateMangaViewData?(.initial)
     }
     
-    #warning("TODO: ALERT CONTROLLER ")
+#warning("TODO: ALERT CONTROLLER ")
+    
     func startFetch() {
         
-        mangaManager.getManga { [weak self] data, error in
+        Task {
             
-            guard let self = self else {
-                return
-            }
+            let mangaItem = await mangaManager.getManga()
             
-            #warning("error handler")
-            if let error = error {
-                self.updateMangaViewData?(.failure(error))
-            }
-
-            if let data = data?.data {
+            switch mangaItem {
+                case .success(let mangaItem):
                 
-                for mangaItem in data {
+                    var mangaItems: [MangaViewDataItem] = []
                     
-                    guard let id = mangaItem.id else {
+                    guard let data = mangaItem.data else {
                         return
                     }
-                    
-                    guard let title = mangaItem.attributes?.title?["en"] else {
-                        return
-                    }
-                    
-                    guard let coverId = mangaItem.relationships?.first(
-                        where: { relationship in
-                            relationship.type == "cover_art"
-                        }
-                    )?.id else {
-                        return
-                    }
-                    
-                    self.mangaManager.getMangaCover(mangaId: coverId) { data, error in
+                
+#warning("im not sure if self cant be actually leaked here ;/")
+                
+                    await withTaskGroup(of: MangaViewDataItem?.self) { group in
                         
-                        if let error = error {
-                            self.updateMangaViewData?(.failure(error))
+                            for dataItem in data {
+                                
+                                guard let mangaId = dataItem.id else {
+                                    break
+                                }
+                                
+                                guard let mangaTitle = dataItem
+                                    .attributes?
+                                    .title?["en"] else {
+                                    break
+                                }
+                                
+                                guard let coverId = dataItem
+                                    .relationships?
+                                    .first(where: {
+                                        $0.type == "cover_art" })?
+                                    .id else {
+                                    return
+                                }
+                                
+                                group.addTask {
+                                    
+                                    let coverItem = await self.mangaManager.getMangaCover(coverId: coverId)
+                                    
+                                    switch coverItem {
+                                    case .success(let coverItem):
+                                        
+                                        guard let coverFileName = coverItem.data?.attributes?.fileName else {
+                                            break
+                                        }
+                                        
+                                        guard let mangaCoverUrl = Configuration.mangaCoverUrl(
+                                            mangaId: mangaId,
+                                            coverFileName: coverFileName
+                                        ) else {
+                                            break
+                                        }
+                                        return MangaViewDataItem(
+                                            mangaId: mangaId,
+                                            title: mangaTitle,
+                                            coverURL: mangaCoverUrl
+                                        )
+                                        
+                                    case .failure(let error):
+                                        break
+                                    }
+                                    return nil
+                            }
                         }
-
-                        if let data = data {
-                            print(data.data?.attributes?.fileName)
+                        
+                        for await mangaItem in group {
+                            if let mangaItem = mangaItem {
+                                mangaItems.append(mangaItem)
+                            }
                         }
+                        updateViewData(data: .success(mangaItems))
                     }
-                    
-                }
-//                do {
-//                    let mangaItems: [MangaViewDataItem] = try data.compactMap { data in
-//
-//                        guard let id = data.id else {
-//                            throw MangaErrors.failedToGetId
-//                        }
-//
-//                        guard let title = data.attributes?.title?["en"] else {
-//                            throw MangaErrors.failedToGetTitle
-//                        }
-//
-//                        guard let coverUrl = URL(string: Configuration.mangaApiUrl + "/cover/\(id)") else {
-//                            throw MangaErrors.failedToGetCoverUrl
-//                        }
-//
-//                        return MangaViewDataItem(
-//                            mangaId: id,
-//                            title: title,
-//                            coverURL: coverUrl
-//                        )
-//                    }
-//
-//                    self.updateMangaViewData?(.success(mangaItems))
-//                } catch let error {
-//                    self.updateMangaViewData?(.failure(error))
-//                }
+                
+            case .failure(let error):
+            #warning("error handler")
+                updateViewData(data: .failure(error))
             }
+        }
+    }
+    
+    func updateViewData(data: ViewData<[MangaViewDataItem]>) {
+        DispatchQueue.main.async {
+            self.updateMangaViewData?(data)
         }
     }
 }

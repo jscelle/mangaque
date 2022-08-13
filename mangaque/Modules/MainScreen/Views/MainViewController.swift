@@ -38,6 +38,7 @@ class MainViewController: UIViewController {
     }
     
     private func updateView() {
+        
         mangaViewModel.updateMangaViewData = { [weak self] viewData in
             self?.mangaView.viewData = viewData
         }

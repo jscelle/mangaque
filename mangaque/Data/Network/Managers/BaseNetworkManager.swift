@@ -7,29 +7,41 @@
 
 import Alamofire
 
+enum Result<T, Error> {
+    case success(T)
+    case failure(Error)
+}
+
 class BaseNetworkManager {
     
-    @discardableResult func request<T: Decodable>(
+    func request<T: Decodable>(
         route: BaseRouteBuilder,
-        decoder: JSONDecoder = JSONDecoder(),
-        completionHandler: @escaping ((_ data: T?, _ error: Error?) -> ())
-    ) -> DataRequest {
+        decoder: JSONDecoder = JSONDecoder()
+    ) async -> Result<T, Error> {
         
-        return AF.request(route)
-            .validate()
-            .response { responseData in
+        return await withCheckedContinuation { continuation in
+            
+            AF.request(route).validate().response { response in
                 
-                guard let data = responseData.data else {
-                    completionHandler(nil, responseData.error)
+                if let error = response.error {
+                    continuation.resume(returning: .failure(error))
                     return
                 }
                 
-                do {
-                    let decodedData = try decoder.decode(T.self, from: data)
-                    completionHandler(decodedData, responseData.error)
-                } catch let error {
-                    completionHandler(nil, error)
+                if let data = response.data {
+                    
+                    do {
+                        
+                        let decodedData = try decoder.decode(T.self, from: data)
+                        continuation.resume(returning: .success(decodedData))
+                            
+                        
+                    } catch let error {
+                        continuation.resume(returning: .failure(error))
+                        return
+                    }
                 }
+            }
         }
     }
 }
