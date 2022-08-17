@@ -15,6 +15,8 @@ class MangaCollectionView: UIView {
         }
     }
     
+    var mangaSelected: ((_ item: MangaViewDataItem) -> ())?
+    
     var mangaItems: [MangaViewDataItem] = []
     
     lazy var collectionView = createCollectionView()
@@ -55,5 +57,6 @@ class MangaCollectionView: UIView {
             make.left.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(10)
         }
+        
     }
 }

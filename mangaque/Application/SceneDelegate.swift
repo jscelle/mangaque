@@ -17,7 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let viewController = MainViewController(mangaViewModel: MangaViewModel())
+        let viewModel = MainScreenMangaViewModel()
+        let router = MainScreenRouter(viewModel: viewModel)
+        
+        let viewController = MainViewController(
+            mangaViewModel: viewModel,
+            router: router
+        )
         
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()

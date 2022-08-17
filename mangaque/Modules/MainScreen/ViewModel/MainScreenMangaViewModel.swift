@@ -8,7 +8,7 @@
 import Foundation
 import Dispatch
 
-protocol MangaViewModelInterface {
+protocol MainScreenMangaViewModelInterface {
     var updateMangaViewData: ((ViewData<[MangaViewDataItem]>) -> ())? { get set }
     func startFetch()
 }
@@ -19,7 +19,7 @@ enum MangaErrors: Error {
     case failedToGetCoverUrl
 }
 
-final class MangaViewModel: MangaViewModelInterface {
+final class MainScreenMangaViewModel: MainScreenMangaViewModelInterface {
     
     private let mangaManager = MangaNetworkManager()
     
@@ -45,8 +45,6 @@ final class MangaViewModel: MangaViewModelInterface {
                     guard let data = mangaItem.data else {
                         return
                     }
-                
-#warning("im not sure if self cant be actually leaked here ;/")
                 
                     await withTaskGroup(of: MangaViewDataItem?.self) { group in
                         

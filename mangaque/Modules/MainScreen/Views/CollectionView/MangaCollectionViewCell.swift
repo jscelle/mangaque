@@ -41,25 +41,31 @@ class MangaCollectionViewCell: UICollectionViewCell {
         addSubview(titleLabel)
         addSubview(coverImageView)
         
-        #warning("make it fit full widht +  bind to top")
-        coverImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-
-        }
-        
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(10)
-            make.top.equalTo(coverImageView.snp.bottom).inset(10)
+            make.height.equalTo(50)
         }
         
-        coverImageView.contentMode = .scaleAspectFit
+        #warning("make it fit full widht +  bind to top")
+        coverImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalTo(titleLabel.snp.top).inset(-10)
+        }
+        
+        coverImageView.layer.cornerRadius = 10
+        coverImageView.clipsToBounds = true
+        
+        coverImageView.contentMode = .scaleAspectFill
         
         titleLabel.numberOfLines = 0
         
         backgroundColor = .lightGray.withAlphaComponent(0.05)
         layer.cornerRadius = 10
+        
     }
     
     func configureCell() {
@@ -68,20 +74,6 @@ class MangaCollectionViewCell: UICollectionViewCell {
             return
         }
         titleLabel.text = mangaItem.title
-        coverImageView.kf.setImage(with: mangaItem.coverURL) { [weak self] result in
-            
-            guard let self = self else {
-                return
-            }
-            
-            guard let coverImage = self.coverImageView.image else {
-                return
-            }
-            
-            self.coverImageView.image = coverImage.cropImage(
-                cropWidth: coverImage.size.width,
-                cropHeight: coverImage.size.width * 1.3
-            )
-        }
+        coverImageView.kf.setImage(with: mangaItem.coverURL)
     }
 }

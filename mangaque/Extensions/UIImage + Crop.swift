@@ -15,8 +15,8 @@ extension UIImage {
             let contextSize: CGSize = contextImage.size
             var cropX: CGFloat = 0.0
             var cropY: CGFloat = 0.0
-            var cropRatio: CGFloat = CGFloat(cropWidth/cropHeight)
-            var originalRatio: CGFloat = contextSize.width/contextSize.height
+            let cropRatio: CGFloat = CGFloat(cropWidth/cropHeight)
+            let originalRatio: CGFloat = contextSize.width/contextSize.height
             var scaledCropHeight: CGFloat = 0.0
             var scaledCropWidth: CGFloat = 0.0
 

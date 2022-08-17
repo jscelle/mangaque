@@ -17,7 +17,7 @@ extension MangaCollectionView {
         
         let cellSize = CGSize(
             width: cellWidht,
-            height: cellWidht * 1.5 + 50
+            height: cellWidht * 1.7
         )
         
         collectionViewLayout.itemSize = cellSize
@@ -33,6 +33,7 @@ extension MangaCollectionView {
         )
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         collectionView.backgroundColor = .clear
         
@@ -57,5 +58,16 @@ extension MangaCollectionView: UICollectionViewDataSource {
         cell.mangaItem = mangaItems[indexPath.row]
         
         return cell
+    }
+}
+
+extension MangaCollectionView: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let action = mangaSelected else {
+            return
+        }
+        
+        action(mangaItems[indexPath.row])
     }
 }
