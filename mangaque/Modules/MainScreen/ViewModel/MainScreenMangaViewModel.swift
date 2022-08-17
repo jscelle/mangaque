@@ -21,7 +21,7 @@ enum MangaErrors: Error {
 
 final class MainScreenMangaViewModel: MainScreenMangaViewModelInterface {
     
-    private let mangaManager = MangaNetworkManager()
+    private let mangaManager = MainMangaManager()
     
     public var updateMangaViewData: ((ViewData<[MangaViewDataItem]>) -> ())?
     

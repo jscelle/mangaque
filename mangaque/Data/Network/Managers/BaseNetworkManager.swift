@@ -31,11 +31,9 @@ class BaseNetworkManager {
                 if let data = response.data {
                     
                     do {
-                        
                         let decodedData = try decoder.decode(T.self, from: data)
                         continuation.resume(returning: .success(decodedData))
                             
-                        
                     } catch let error {
                         continuation.resume(returning: .failure(error))
                         return

@@ -8,9 +8,4 @@
 import Foundation
 
 class Assembly {
-    
-    func makeMainScreen(output: MainMangaOutput) {
-        
-    }
-    
 }

@@ -10,11 +10,10 @@ import SnapKit
 
 class MainViewController: UIViewController {
     
+    private var router: Router
     private var mangaViewModel: MainScreenMangaViewModelInterface
     private var mangaView = MangaCollectionView()
     private var searchView = SearchView()
-    
-    private var router: Router
     
     init(
         mangaViewModel: MainScreenMangaViewModelInterface,

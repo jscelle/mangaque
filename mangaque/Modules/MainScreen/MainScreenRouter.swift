@@ -9,7 +9,6 @@ import UIKit
 import Alamofire
 
 enum MainScreenRoutes: String {
-    case MainScreen
     case MangaScreen
 }
 
@@ -23,24 +22,23 @@ class MainScreenRouter: Router {
     #warning("TODO: Make a swinject resolve for routing")
     
     func route(to route: String, from controller: UIViewController, parameters: Any?) {
+        
         guard let route = MainScreenRoutes(rawValue: route) else {
             return
         }
         
         switch route {
-            
-        case .MainScreen:
-           
-            
-            
-           break
+        
         case .MangaScreen:
             
             guard let item = parameters as? MangaViewDataItem else {
                 return
             }
             
-            let viewController = SinlgeMangaViewController()
+            #warning("remove item from vc")
+            let viewModel = SingleMangaViewModel(item: item)
+            
+            let viewController = SinlgeMangaViewController(viewModel: viewModel)
             controller.present(viewController, animated: true)
         }
     }

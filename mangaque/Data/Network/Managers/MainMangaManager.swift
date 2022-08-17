@@ -7,14 +7,10 @@
 
 import Alamofire
 
-class MangaNetworkManager: BaseNetworkManager {
+class MainMangaManager: BaseNetworkManager {
     
     func getManga() async -> Result<MangaItem, Error> {
         return await request(route: MangaRouter.getManga)
-    }
-    
-    func getMangaAppregate(mangaId: String) async -> Result<AggregateItem, Error> {
-        return await request(route: MangaRouter.getMangaAggregate(mangaId: mangaId))
     }
     
     private func getMangaCover(coverId: String) async -> Result<CoverItem, Error> {
