@@ -49,12 +49,16 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                     switch pages {
                     case .success(let chapter):
                         
+                        guard let hash = chapter.chapter?.hash else {
+                            return
+                        }
+                        
                         guard let pageUrls = chapter
                             .chapter?
                             .data?
                             .compactMap({ fileName in
                                 return URL(
-                                    string: "\(Configuration.sourceQualityImagesUrl)/\(fileName)"
+                                    string: "\(Configuration.sourceQualityImagesUrl)/\(hash)/\(fileName)"
                                 )
                         }) else {
                             return

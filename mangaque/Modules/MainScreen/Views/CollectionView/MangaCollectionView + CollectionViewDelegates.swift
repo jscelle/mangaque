@@ -57,6 +57,7 @@ extension MangaCollectionView: UICollectionViewDataSource {
         
         cell.mangaItem = mangaItems[indexPath.row]
         
+        
         return cell
     }
 }

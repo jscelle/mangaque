@@ -16,7 +16,9 @@ class MangaPageCollectionView: UIView {
         }
     }
     
+    private lazy var pageCollectionView = self.createTableView()
     
+    var pageUrls: [URL] = []
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -28,16 +30,21 @@ class MangaPageCollectionView: UIView {
         case .loading:
             break
         case .success(let pages):
+            setupViews()
             
-            print(pages)
+            pageUrls = pages.pageUrls
+            pageCollectionView.reloadData()
             
-            break
         case .failure(let error):
-            
+            #warning("error handling")
             print(error)
-            
-            break
         }
-        
+    }
+    
+    private func setupViews() {
+        addSubview(pageCollectionView)
+        pageCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }

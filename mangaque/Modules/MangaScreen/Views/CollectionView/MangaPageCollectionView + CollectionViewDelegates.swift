@@ -9,40 +9,33 @@ import UIKit
 
 extension MangaPageCollectionView {
     
-    func createCollection() -> UICollectionView {
-        let collectionViewLayout = UICollectionViewFlowLayout()
+    func createTableView() -> UITableView {
         
-        collectionViewLayout.itemSize.width = frame.width
+        let tableView = UITableView(frame: CGRect.zero)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 1000
+        tableView.separatorColor = .clear
+        tableView.register(MangaPageTableViewCell.self, forCellReuseIdentifier: "MangaPageTableViewCell")
         
-        let collectionView = UICollectionView(
-            frame: CGRect.zero,
-            collectionViewLayout: collectionViewLayout
-        )
+        tableView.dataSource = self
         
-        collectionView.register(
-            MangaPageCollectionViewCell.self,
-            forCellWithReuseIdentifier: "MangaPageCollectionViewCell"
-        )
-        
-        collectionView.dataSource = self
-        
-        return collectionView
+        return tableView
     }
 }
 
-extension MangaPageCollectionView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return 1
+extension MangaPageCollectionView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return pageUrls.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MangaPageTableViewCell", for: indexPath) as! MangaPageTableViewCell
         
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "MangaPageCollectionViewCell",
-            for: indexPath
-        ) as! MangaPageCollectionViewCell
+        cell.data = pageUrls[indexPath.row]
         
         return cell
     }
+    
+    
 }
+
