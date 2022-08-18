@@ -7,13 +7,14 @@
 
 import UIKit
 
+
 extension MangaPageCollectionView {
-    
+    #warning("TODO: Not show table view untill it filled and resized")
     func createTableView() -> UITableView {
         
         let tableView = UITableView(frame: CGRect.zero)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 1000
+        tableView.estimatedRowHeight = 100
         tableView.separatorColor = .clear
         tableView.register(MangaPageTableViewCell.self, forCellReuseIdentifier: "MangaPageTableViewCell")
         
@@ -25,17 +26,21 @@ extension MangaPageCollectionView {
 
 extension MangaPageCollectionView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pageUrls.count
+        return pageImages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MangaPageTableViewCell", for: indexPath) as! MangaPageTableViewCell
         
-        cell.data = pageUrls[indexPath.row]
+        cell.data = pageImages[indexPath.row]
         
         return cell
     }
-    
-    
+}
+
+extension MangaPageCollectionView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 }
 

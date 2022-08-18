@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+import CollectionConcurrencyKit
 
 protocol SingleMangaViewModelInterface {
     var updateViewData: ((_ item: ViewData<PagesViewData>) -> ())? { get set }
@@ -50,22 +52,29 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                     case .success(let chapter):
                         
                         guard let hash = chapter.chapter?.hash else {
+                            break
+                        }
+                        
+                        guard let chapter = chapter.chapter else {
                             return
                         }
                         
-                        guard let pageUrls = chapter
-                            .chapter?
-                            .data?
-                            .compactMap({ fileName in
-                                return URL(
-                                    string: "\(Configuration.sourceQualityImagesUrl)/\(hash)/\(fileName)"
-                                )
-                        }) else {
-                            return
+                        let imagesData = await chapter.data?.asyncCompactMap { fileName -> Data? in
+                            let imageResponse = await manager.getImageData(hash: hash, fileName: fileName)
+                            
+                            switch imageResponse {
+                            case .success(let data):
+                                return data
+                            case .failure(let error):
+                                print(error)
+                                break
+                            }
+                            return nil
                         }
+                        
                         updateViewData?(.success(
                             PagesViewData(
-                                pageUrls: pageUrls
+                                pageImages: imagesData ?? []
                             )
                         ))
                     case .failure(let error):

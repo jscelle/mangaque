@@ -12,12 +12,20 @@ enum Result<T, Error> {
     case failure(Error)
 }
 
+enum BaseNetwordErrors: Error {
+    case invalidRoute
+}
+
 class BaseNetworkManager {
     
     func request<T: Decodable>(
-        route: BaseRouteBuilder,
+        route: Any,
         decoder: JSONDecoder = JSONDecoder()
     ) async -> Result<T, Error> {
+        
+        guard let route = route as? URLRequestConvertible else {
+            return .failure(BaseNetwordErrors.invalidRoute)
+        }
         
         return await withCheckedContinuation { continuation in
             
@@ -30,7 +38,13 @@ class BaseNetworkManager {
                 
                 if let data = response.data {
                     
+                    if T.self == Data.self {
+                        continuation.resume(returning: .success(data as! T))
+                        return
+                    }
+                    
                     do {
+                        
                         let decodedData = try decoder.decode(T.self, from: data)
                         continuation.resume(returning: .success(decodedData))
                             

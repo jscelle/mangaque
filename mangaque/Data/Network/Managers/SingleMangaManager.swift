@@ -5,7 +5,9 @@
 //  Created by Artem Raykh on 17.08.2022.
 //
 
-import Foundation
+import Alamofire
+
+#warning("TODO: Refactor this")
 
 class SingleMangaManager: BaseNetworkManager {
     
@@ -15,5 +17,15 @@ class SingleMangaManager: BaseNetworkManager {
     
     func getChapterData(chapterId: String) async -> Result<ChapterDataModel, Error> {
         return await request(route: SingleMangaAPIRouter.getChapterData(chapterId: chapterId))
+    }
+    
+    func getImageData(hash: String, fileName: String) async -> Result<Data, Error> {
+        
+        return await request(
+            route: SingleMangaAPIRouter.getChapterPages(
+                hash: hash,
+                fileName: fileName
+            )
+        )
     }
 }

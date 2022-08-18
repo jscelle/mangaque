@@ -10,6 +10,8 @@ import SnapKit
 
 class MainViewController: UIViewController {
     
+#warning("TODO: Change kingfisher to own image download implementation")
+#warning("TODO: Make loading view")
     private var router: Router
     private var mangaViewModel: MainScreenMangaViewModelInterface
     private var mangaView = MangaCollectionView()

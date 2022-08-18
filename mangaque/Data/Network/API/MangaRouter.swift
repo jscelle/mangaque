@@ -14,6 +14,10 @@ enum MangaRouter: BaseRouteBuilder {
     case getMangaAggregate(mangaId: String)
     case getMangaCover(coverId: String)
     
+    var apiUrl: String {
+        return Configuration.mangaApiUrl
+    }
+    
     var path: String {
         switch self {
         case .getManga:

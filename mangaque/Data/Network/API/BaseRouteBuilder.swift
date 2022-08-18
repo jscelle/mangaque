@@ -12,8 +12,9 @@ enum RequestParameters {
     case body(_ : Parameters)
 }
 
-// MARK: We do not need headers for mangadex api
 protocol BaseRouteBuilder: URLRequestConvertible {
+    // MARK: API Url for resusable manager
+    var apiUrl: String { get }
     var path: String { get }
     var method: HTTPMethod { get }
     var parameters: RequestParameters { get }
@@ -23,7 +24,7 @@ extension BaseRouteBuilder {
     
     func asURLRequest() throws -> URLRequest {
         
-        let baseURL = URL(string: Configuration.mangaApiUrl)!
+        let baseURL = URL(string: apiUrl)!
         let url = baseURL.appendingPathComponent(path)
         var urlRequest = URLRequest(url: url)
         

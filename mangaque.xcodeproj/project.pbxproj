@@ -35,7 +35,8 @@
 		A4819FD028AE33AA008D9EAB /* ChapterDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4819FCF28AE33AA008D9EAB /* ChapterDataModel.swift */; };
 		A4819FD328AE38D7008D9EAB /* MangaPageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4819FD228AE38D7008D9EAB /* MangaPageCollectionView.swift */; };
 		A4819FD528AE38FA008D9EAB /* MangaPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4819FD428AE38FA008D9EAB /* MangaPageTableViewCell.swift */; };
-		A4819FD728AE3A17008D9EAB /* MangaPageCollectionView + CollectionViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4819FD628AE3A17008D9EAB /* MangaPageCollectionView + CollectionViewDelegates.swift */; };
+		A4819FD728AE3A17008D9EAB /* MangaPageCollectionView + TableViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4819FD628AE3A17008D9EAB /* MangaPageCollectionView + TableViewDelegates.swift */; };
+		A4819FDC28AE8899008D9EAB /* CollectionConcurrencyKit in Frameworks */ = {isa = PBXBuildFile; productRef = A4819FDB28AE8899008D9EAB /* CollectionConcurrencyKit */; };
 		A4EF4DBA28A812B4003ED8EC /* UIImage + Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EF4DB928A812B4003ED8EC /* UIImage + Crop.swift */; };
 		A4EF4DD028AD25EF003ED8EC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EF4DCF28AD25EF003ED8EC /* Router.swift */; };
 		A4EF4DD228AD2841003ED8EC /* MainScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EF4DD128AD2841003ED8EC /* MainScreenRouter.swift */; };
@@ -78,7 +79,7 @@
 		A4819FCF28AE33AA008D9EAB /* ChapterDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterDataModel.swift; sourceTree = "<group>"; };
 		A4819FD228AE38D7008D9EAB /* MangaPageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaPageCollectionView.swift; sourceTree = "<group>"; };
 		A4819FD428AE38FA008D9EAB /* MangaPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaPageTableViewCell.swift; sourceTree = "<group>"; };
-		A4819FD628AE3A17008D9EAB /* MangaPageCollectionView + CollectionViewDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MangaPageCollectionView + CollectionViewDelegates.swift"; sourceTree = "<group>"; };
+		A4819FD628AE3A17008D9EAB /* MangaPageCollectionView + TableViewDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MangaPageCollectionView + TableViewDelegates.swift"; sourceTree = "<group>"; };
 		A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mangaque.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4EF4DB928A812B4003ED8EC /* UIImage + Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Crop.swift"; sourceTree = "<group>"; };
 		A4EF4DCF28AD25EF003ED8EC /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25A3780467993B5F7A96BD47 /* Pods_mangaque.framework in Frameworks */,
+				A4819FDC28AE8899008D9EAB /* CollectionConcurrencyKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +287,7 @@
 			children = (
 				A4819FD228AE38D7008D9EAB /* MangaPageCollectionView.swift */,
 				A4819FD428AE38FA008D9EAB /* MangaPageTableViewCell.swift */,
-				A4819FD628AE3A17008D9EAB /* MangaPageCollectionView + CollectionViewDelegates.swift */,
+				A4819FD628AE3A17008D9EAB /* MangaPageCollectionView + TableViewDelegates.swift */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -352,6 +354,9 @@
 			dependencies = (
 			);
 			name = mangaque;
+			packageProductDependencies = (
+				A4819FDB28AE8899008D9EAB /* CollectionConcurrencyKit */,
+			);
 			productName = mangaque;
 			productReference = 9B98315328A2D7E80053A472 /* mangaque.app */;
 			productType = "com.apple.product-type.application";
@@ -380,6 +385,9 @@
 				Base,
 			);
 			mainGroup = 9B98314A28A2D7E80053A472;
+			packageReferences = (
+				A4819FDA28AE8899008D9EAB /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */,
+			);
 			productRefGroup = 9B98315428A2D7E80053A472 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -494,7 +502,7 @@
 				A4EF4DD528AD2C78003ED8EC /* SingleMangaViewController.swift in Sources */,
 				9B98317A28A3B9FE0053A472 /* MainMangaManager.swift in Sources */,
 				9B98317228A2DB030053A472 /* BaseRouteBuilder.swift in Sources */,
-				A4819FD728AE3A17008D9EAB /* MangaPageCollectionView + CollectionViewDelegates.swift in Sources */,
+				A4819FD728AE3A17008D9EAB /* MangaPageCollectionView + TableViewDelegates.swift in Sources */,
 				9B98317028A2DA7A0053A472 /* BaseNetworkManager.swift in Sources */,
 				A4EF4DD228AD2841003ED8EC /* MainScreenRouter.swift in Sources */,
 				A4EF4DD928AD3117003ED8EC /* SingleMangaViewModel.swift in Sources */,
@@ -701,6 +709,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A4819FDA28AE8899008D9EAB /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnSundell/CollectionConcurrencyKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A4819FDB28AE8899008D9EAB /* CollectionConcurrencyKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A4819FDA28AE8899008D9EAB /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */;
+			productName = CollectionConcurrencyKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9B98314B28A2D7E80053A472 /* Project object */;
 }

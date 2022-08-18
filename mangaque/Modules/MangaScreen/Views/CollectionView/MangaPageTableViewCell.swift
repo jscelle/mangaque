@@ -9,12 +9,14 @@ import UIKit
 
 class MangaPageTableViewCell: UITableViewCell {
     
-    private let pageImageView: UIImageView  = {
+    public lazy var pageImageView: UIImageView  = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    var data: URL? {
+    var imageLoaded: (()->())?
+    
+    var data: UIImage? {
         didSet {
             configureCell()
         }
@@ -26,20 +28,15 @@ class MangaPageTableViewCell: UITableViewCell {
             return
         }
         
+        pageImageView.contentMode = .scaleAspectFit
         
+        addSubview(self.pageImageView)
         
-        pageImageView.kf.setImage(with: data) { [weak self] result in
-            
-            guard let self = self else {
-                return
-            }
-            
-            self.addSubview(self.pageImageView)
-            
-            self.pageImageView.contentMode = .scaleAspectFit
-            self.pageImageView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
+        pageImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
+        
+        pageImageView.image = data
+        
     }
 }

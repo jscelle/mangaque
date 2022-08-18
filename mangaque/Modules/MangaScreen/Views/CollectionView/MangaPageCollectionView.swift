@@ -18,7 +18,7 @@ class MangaPageCollectionView: UIView {
     
     private lazy var pageCollectionView = self.createTableView()
     
-    var pageUrls: [URL] = []
+    var pageImages: [UIImage] = []
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -32,7 +32,9 @@ class MangaPageCollectionView: UIView {
         case .success(let pages):
             setupViews()
             
-            pageUrls = pages.pageUrls
+            pageImages = pages.pageImages.compactMap {
+                UIImage(data: $0)
+            }
             pageCollectionView.reloadData()
             
         case .failure(let error):
