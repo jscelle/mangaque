@@ -9,7 +9,7 @@ import Alamofire
 
 class MainMangaManager: BaseNetworkManager {
     
-    func getManga() async -> Result<MangaItem, Error> {
+    func getManga() async -> Result<MangaModel, Error> {
         return await request(route: MangaRouter.getManga)
     }
     

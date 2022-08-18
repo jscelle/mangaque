@@ -9,8 +9,11 @@ import Foundation
 
 class SingleMangaManager: BaseNetworkManager {
     
-    func getMangaAppregiate(mangaId: String) async -> Result<AggregateItem, Error> {
+    func getMangaAppregiate(mangaId: String) async -> Result<AggregateModel, Error> {
         return await request(route: SingleMangaAPIRouter.getMangaAppregiate(mangaId: mangaId))
     }
     
+    func getChapterData(chapterId: String) async -> Result<ChapterDataModel, Error> {
+        return await request(route: SingleMangaAPIRouter.getChapterData(chapterId: chapterId))
+    }
 }

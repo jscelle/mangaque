@@ -38,7 +38,7 @@ class MainScreenRouter: Router {
             #warning("remove item from vc")
             let viewModel = SingleMangaViewModel(item: item)
             
-            let viewController = SinlgeMangaViewController(viewModel: viewModel)
+            let viewController = SingleMangaViewController(viewModel: viewModel)
             controller.present(viewController, animated: true)
         }
     }

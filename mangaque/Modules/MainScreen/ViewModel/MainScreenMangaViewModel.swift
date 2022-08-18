@@ -56,7 +56,8 @@ final class MainScreenMangaViewModel: MainScreenMangaViewModelInterface {
                                 
                                 guard let mangaTitle = dataItem
                                     .attributes?
-                                    .title?["en"] else {
+                                    .title?
+                                    .en else {
                                     break
                                 }
                                 

@@ -36,4 +36,3 @@ struct Attributes: Codable {
 struct Relationship: Codable {
     let id, type: String?
 }
-

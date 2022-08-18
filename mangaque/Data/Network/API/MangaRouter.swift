@@ -43,7 +43,7 @@ enum MangaRouter: BaseRouteBuilder {
     var parameters: RequestParameters {
         switch self {
         case .getManga:
-            return .url([:])
+            return .url(["title" : "one"])
         case .getRandomManga:
             return .url([:])
         case .getMangaAggregate:

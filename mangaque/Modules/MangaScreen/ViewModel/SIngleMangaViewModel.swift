@@ -1,5 +1,5 @@
 //
-//  SIngleMangaViewModel.swift
+//  SingleMangaViewModel.swift
 //  mangaque
 //
 //  Created by Artem Raykh on 17.08.2022.
@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SingleMangaViewModelInterface {
-    var updateViewData: (() -> ())? { get set }
+    var updateViewData: ((_ item: ViewData<Chapter>) -> ())? { get set }
     func startFetch()
 }
 
@@ -21,15 +21,33 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
         self.item = item
     }
     
-    var updateViewData: (() -> ())?
+    var updateViewData: ((_ item: ViewData<Chapter>) -> ())?
     
     func startFetch() {
         Task {
             do {
                 let response = await manager.getMangaAppregiate(mangaId: item.mangaId)
-                print(response)
+                
+                switch response {
+                case .success(let aggregate):
+                    
+                    guard let firstChapter = aggregate
+                        .volumes?
+                        .first(where: {  $0.key == "1"})?
+                        .value
+                        .chapters?
+                        .first(where: { $0.key == "1" })?
+                        .value
+                    else {
+                        return
+                    }
+                    updateViewData?(.success(firstChapter))
+                    
+                case .failure(let error):
+                    print(error)
+                    updateViewData?(.failure(error))
+                }
             }
-            
         }
     }
 }
