@@ -10,7 +10,7 @@ import Foundation
 
 class MangaPageCollectionView: UIView {
     
-    var viewData: ViewData<Chapter> = .initial {
+    var viewData: ViewData<PagesViewData> = .initial {
         didSet {
             setNeedsLayout()
         }
@@ -27,9 +27,9 @@ class MangaPageCollectionView: UIView {
             #warning("TODO: Loading screen")
         case .loading:
             break
-        case .success(let chapter):
+        case .success(let pages):
             
-            print(chapter)
+            print(pages)
             
             break
         case .failure(let error):

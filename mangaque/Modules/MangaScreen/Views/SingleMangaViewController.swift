@@ -42,7 +42,6 @@ class SingleMangaViewController: UIViewController {
         pageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
     }
     
     private func updateView() {

@@ -8,6 +8,6 @@
 import Foundation
 
 #warning("TODO: Create view data")
-struct SingleMangaViewData {
-    let aggregate: AggregateModel
+struct PagesViewData {
+    let pageUrls: [URL]
 }

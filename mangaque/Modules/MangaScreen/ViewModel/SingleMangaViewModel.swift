@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SingleMangaViewModelInterface {
-    var updateViewData: ((_ item: ViewData<Chapter>) -> ())? { get set }
+    var updateViewData: ((_ item: ViewData<PagesViewData>) -> ())? { get set }
     func startFetch()
 }
 
@@ -21,7 +21,7 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
         self.item = item
     }
     
-    var updateViewData: ((_ item: ViewData<Chapter>) -> ())?
+    var updateViewData: ((_ item: ViewData<PagesViewData>) -> ())?
     
     func startFetch() {
         Task {
@@ -31,17 +31,42 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                 switch response {
                 case .success(let aggregate):
                     
-                    guard let firstChapter = aggregate
+                    #warning("TODO: ")
+                    guard let firstChapterId = aggregate
                         .volumes?
-                        .first(where: {  $0.key == "1"})?
+                        .first(where: { $0.key == "1"})?
                         .value
                         .chapters?
                         .first(where: { $0.key == "1" })?
                         .value
+                        .id
                     else {
                         return
                     }
-                    updateViewData?(.success(firstChapter))
+                    
+                    let pages = await manager.getChapterData(chapterId: firstChapterId)
+                    
+                    switch pages {
+                    case .success(let chapter):
+                        
+                        guard let pageUrls = chapter
+                            .chapter?
+                            .data?
+                            .compactMap({ fileName in
+                                return URL(
+                                    string: "\(Configuration.sourceQualityImagesUrl)/\(fileName)"
+                                )
+                        }) else {
+                            return
+                        }
+                        updateViewData?(.success(
+                            PagesViewData(
+                                pageUrls: pageUrls
+                            )
+                        ))
+                    case .failure(let error):
+                        updateViewData?(.failure(error))
+                    }
                     
                 case .failure(let error):
                     print(error)
