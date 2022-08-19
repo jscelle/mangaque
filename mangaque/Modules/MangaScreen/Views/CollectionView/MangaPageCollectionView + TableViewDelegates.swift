@@ -33,6 +33,7 @@ extension MangaPageCollectionView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MangaPageTableViewCell", for: indexPath) as! MangaPageTableViewCell
         
         cell.data = pageImages[indexPath.row]
+        cell.selectionStyle = .none
         
         return cell
     }

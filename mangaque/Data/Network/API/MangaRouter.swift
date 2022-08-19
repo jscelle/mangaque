@@ -7,16 +7,12 @@
 
 import Alamofire
 
-enum MangaRouter: BaseRouteBuilder {
+enum MangaRouter: BaseMangaRouteBuilder {
     
     case getManga
     case getRandomManga
     case getMangaAggregate(mangaId: String)
     case getMangaCover(coverId: String)
-    
-    var apiUrl: String {
-        return Configuration.mangaApiUrl
-    }
     
     var path: String {
         switch self {

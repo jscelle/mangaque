@@ -12,19 +12,18 @@ enum RequestParameters {
     case body(_ : Parameters)
 }
 
-protocol BaseRouteBuilder: URLRequestConvertible {
+protocol BaseMangaRouteBuilder: URLRequestConvertible {
     // MARK: API Url for resusable manager
-    var apiUrl: String { get }
     var path: String { get }
     var method: HTTPMethod { get }
     var parameters: RequestParameters { get }
 }
 
-extension BaseRouteBuilder {
+extension BaseMangaRouteBuilder {
     
     func asURLRequest() throws -> URLRequest {
         
-        let baseURL = URL(string: apiUrl)!
+        let baseURL = URL(string: Configuration.mangaApiUrl)!
         let url = baseURL.appendingPathComponent(path)
         var urlRequest = URLRequest(url: url)
         

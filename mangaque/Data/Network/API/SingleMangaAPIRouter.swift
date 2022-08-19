@@ -7,22 +7,11 @@
 
 import Alamofire
 
-enum SingleMangaAPIRouter: BaseRouteBuilder {
+enum SingleMangaAPIRouter: BaseMangaRouteBuilder {
     
     case getMangaAppregiate(mangaId: String)
     case getChapterData(chapterId: String)
-    case getChapterPages(hash: String, fileName: String)
     
-    var apiUrl: String {
-        switch self {
-        case .getChapterData:
-            return Configuration.mangaApiUrl
-        case .getMangaAppregiate:
-            return Configuration.mangaApiUrl
-        case .getChapterPages:
-            return Configuration.sourceQualityImagesUrl
-        }
-    }
     
     var path: String {
         switch self {
@@ -30,8 +19,6 @@ enum SingleMangaAPIRouter: BaseRouteBuilder {
             return "/manga/\(mangaId)/aggregate"
         case .getChapterData(chapterId: let chapterId):
             return "/at-home/server/\(chapterId)"
-        case .getChapterPages(hash: let hash, fileName: let fileName):
-            return "\(hash)/\(fileName)"
         }
     }
     
@@ -41,8 +28,7 @@ enum SingleMangaAPIRouter: BaseRouteBuilder {
             return .get
         case .getChapterData:
             return .get
-        case .getChapterPages:
-            return .get
+        
         }
     }
     
@@ -51,8 +37,6 @@ enum SingleMangaAPIRouter: BaseRouteBuilder {
         case .getMangaAppregiate:
             return .url([:])
         case .getChapterData:
-            return .url([:])
-        case .getChapterPages:
             return .url([:])
         }
     }

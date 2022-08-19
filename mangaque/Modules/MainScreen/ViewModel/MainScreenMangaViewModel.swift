@@ -13,12 +13,6 @@ protocol MainScreenMangaViewModelInterface {
     func startFetch()
 }
 
-enum MangaErrors: Error {
-    case failedToGetId
-    case failedToGetTitle
-    case failedToGetCoverUrl
-}
-
 final class MainScreenMangaViewModel: MainScreenMangaViewModelInterface {
     
     private let mangaManager = MainMangaManager()

@@ -19,13 +19,9 @@ enum BaseNetwordErrors: Error {
 class BaseNetworkManager {
     
     func request<T: Decodable>(
-        route: Any,
+        route: BaseMangaRouteBuilder,
         decoder: JSONDecoder = JSONDecoder()
     ) async -> Result<T, Error> {
-        
-        guard let route = route as? URLRequestConvertible else {
-            return .failure(BaseNetwordErrors.invalidRoute)
-        }
         
         return await withCheckedContinuation { continuation in
             
@@ -37,11 +33,7 @@ class BaseNetworkManager {
                 }
                 
                 if let data = response.data {
-                    
-                    if T.self == Data.self {
-                        continuation.resume(returning: .success(data as! T))
-                        return
-                    }
+
                     
                     do {
                         
@@ -52,6 +44,28 @@ class BaseNetworkManager {
                         continuation.resume(returning: .failure(error))
                         return
                     }
+                }
+            }
+        }
+    }
+    func getData(route: URL) async -> Result<Data, Error> {
+        
+        
+        
+        return await withCheckedContinuation{ continuation in
+            
+            AF.request(route).validate().response { response in
+                
+                if let error = response.error {
+                    
+                    continuation.resume(returning: .failure(error))
+                    return
+                }
+                
+                if let data = response.data {
+                    
+                    continuation.resume(returning: .success(data))
+                    return
                 }
             }
         }

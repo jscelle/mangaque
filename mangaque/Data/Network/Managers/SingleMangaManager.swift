@@ -20,12 +20,9 @@ class SingleMangaManager: BaseNetworkManager {
     }
     
     func getImageData(hash: String, fileName: String) async -> Result<Data, Error> {
-        
-        return await request(
-            route: SingleMangaAPIRouter.getChapterPages(
-                hash: hash,
-                fileName: fileName
-            )
-        )
+        guard let url = Configuration.sourceQualityImageUrl(hash: hash, fileName: fileName) else {
+            return .failure(MangaErrors.failedToConvert(from: String.self, to: URL.self))
+        }
+        return await getData(route: url)
     }
 }
