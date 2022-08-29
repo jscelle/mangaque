@@ -19,8 +19,8 @@ class MainViewController: UIViewController {
     private lazy var mangaView = MangaCollectionView(frame: self.view.bounds)
     private var searchView = SearchView()
     
-    init(mangaViewModel: MainViewModel) {
-        self.mangaViewModel = mangaViewModel
+    init(viewModel: MainViewModel) {
+        self.mangaViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     

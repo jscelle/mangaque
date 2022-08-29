@@ -12,6 +12,7 @@ class Router {
     
     enum Scene {
         case main
+        case singleManga(manga: MainViewData)
     }
     
     enum Transition {
@@ -21,7 +22,9 @@ class Router {
     func getSeague(seague: Scene) -> UIViewController {
         switch seague {
         case .main:
-            return MainViewController(mangaViewModel: MainViewModel())
+            return MainViewController(viewModel: MainViewModel())
+        case .singleManga(let manga):
+            return SingleMangaViewController(viewModel: <#T##SingleMangaViewModelInterface#>)
         }
     }
 }

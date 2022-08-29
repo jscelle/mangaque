@@ -10,5 +10,5 @@ import UIKit
 
 #warning("TODO: Create view data")
 struct PagesViewData {
-    let pageImages: [Data]
+    let pageUrls: [URL]
 }

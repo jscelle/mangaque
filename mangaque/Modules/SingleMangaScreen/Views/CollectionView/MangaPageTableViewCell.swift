@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MangaPageTableViewCell: UITableViewCell {
     
@@ -16,7 +17,7 @@ class MangaPageTableViewCell: UITableViewCell {
     
     var imageLoaded: (()->())?
     
-    var data: UIImage? {
+    var url: URL? {
         didSet {
             configureCell()
         }
@@ -24,7 +25,7 @@ class MangaPageTableViewCell: UITableViewCell {
     
     private func configureCell() {
         
-        guard let data = data else {
+        guard let url = url else {
             return
         }
         
@@ -36,7 +37,7 @@ class MangaPageTableViewCell: UITableViewCell {
             make.edges.equalToSuperview()
         }
         
-        pageImageView.image = data
+        pageImageView.kf.setImage(with: url, options: [])
         
     }
 }

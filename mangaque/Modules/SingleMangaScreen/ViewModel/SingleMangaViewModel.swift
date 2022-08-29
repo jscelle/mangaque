@@ -7,15 +7,12 @@
 
 import Foundation
 import UIKit
-import CollectionConcurrencyKit
+import RxCocoa
+import RxSwift
 
-protocol SingleMangaViewModelInterface {
-    var updateViewData: ((_ item: ViewData<PagesViewData>) -> ())? { get set }
-    func startFetch()
-}
-
-#warning("rewrite anything to rxswift")
-final class SingleMangaViewModel: SingleMangaViewModelInterface {
+final class SingleMangaViewModel: ViewModelInterface {
+    
+    var data: BehaviorRelay<ViewData<PagesViewData>>
     
     private let manager = SingleMangaManager()
     private let item: MainViewData
@@ -23,9 +20,7 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
     init(item: MainViewData) {
         self.item = item
     }
-    
-    var updateViewData: ((_ item: ViewData<PagesViewData>) -> ())?
-    
+        
     func startFetch() {
         Task {
             do {
@@ -33,6 +28,7 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                 
                 switch response {
                 case .success(let aggregate):
+                    
                     guard let firstChapterId = aggregate
                         .volumes?
                         .first?
@@ -57,33 +53,28 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                         guard let chapter = chapter.chapter else {
                             return
                         }
-                        #warning("make sure it is the fastest method to do it")
-                        #warning("no for sure :)")
-                        let imagesData = await chapter.data?.asyncCompactMap { fileName -> Data? in
-                            let imageResponse = await manager.getImageData(hash: hash, fileName: fileName)
-                            
-                            switch imageResponse {
-                            case .success(let data):
-                                return data
-                            case .failure(let error):
-                                print(error)
-                                break
-                            }
-                            return nil
+                        
+                        let urls = chapter.data?.compactMap {
+                            Configuration.sourceQualityImageUrl(
+                                hash: hash,
+                                fileName: $0
+                            )
                         }
                         
-                        updateViewData?(.success(
-                            PagesViewData(
-                                pageImages: imagesData ?? []
-                            )
-                        ))
+                        guard let urls = urls else {
+                            return
+                        }
+                        
+                        let pagesData = PagesViewData(pageUrls: urls)
+                        
+                        self.data.accept(.success(pagesData))
+                        
                     case .failure(let error):
-                        updateViewData?(.failure(error))
+                        self.data.accept(.failure(error))
                     }
                     
                 case .failure(let error):
-                    print(error)
-                    updateViewData?(.failure(error))
+                    self.data.accept(.failure(error))
                 }
             }
         }
