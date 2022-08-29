@@ -14,9 +14,9 @@ enum MainScreenRoutes: String {
 
 class MainScreenRouter: Router {
     
-    private weak var viewModel: MainScreenMangaViewModel!
+    private weak var viewModel: MainViewModel!
     
-    init(viewModel: MainScreenMangaViewModel) {
+    init(viewModel: MainViewModel) {
         self.viewModel = viewModel
     }
     #warning("TODO: Make a swinject resolve for routing")
@@ -31,7 +31,7 @@ class MainScreenRouter: Router {
         
         case .MangaScreen:
             
-            guard let item = parameters as? MangaViewDataItem else {
+            guard let item = parameters as? MainViewData else {
                 return
             }
             

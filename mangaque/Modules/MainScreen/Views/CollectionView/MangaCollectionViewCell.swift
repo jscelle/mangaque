@@ -21,7 +21,7 @@ class MangaCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var mangaItem: MangaViewDataItem? {
+    var mangaItem: MainViewData? {
         didSet {
             configureCell()
         }
@@ -48,7 +48,6 @@ class MangaCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(50)
         }
         
-        #warning("make it fit full widht +  bind to top")
         coverImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.equalToSuperview()

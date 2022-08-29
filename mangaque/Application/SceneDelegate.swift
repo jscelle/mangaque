@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let viewModel = MainScreenMangaViewModel()
+        let viewModel = MainViewModel()
         let router = MainScreenRouter(viewModel: viewModel)
         
         let viewController = MainViewController(

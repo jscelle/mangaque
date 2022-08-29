@@ -14,12 +14,13 @@ protocol SingleMangaViewModelInterface {
     func startFetch()
 }
 
+#warning("rewrite anything to rxswift")
 final class SingleMangaViewModel: SingleMangaViewModelInterface {
     
     private let manager = SingleMangaManager()
-    private let item: MangaViewDataItem
+    private let item: MainViewData
     
-    init(item: MangaViewDataItem) {
+    init(item: MainViewData) {
         self.item = item
     }
     
@@ -32,11 +33,9 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                 
                 switch response {
                 case .success(let aggregate):
-                    
-                    #warning("TODO: ")
                     guard let firstChapterId = aggregate
                         .volumes?
-                        .first(where: { $0.key == "1"})?
+                        .first?
                         .value
                         .chapters?
                         .first(where: { $0.key == "1" })?
@@ -58,7 +57,8 @@ final class SingleMangaViewModel: SingleMangaViewModelInterface {
                         guard let chapter = chapter.chapter else {
                             return
                         }
-                        
+                        #warning("make sure it is the fastest method to do it")
+                        #warning("no for sure :)")
                         let imagesData = await chapter.data?.asyncCompactMap { fileName -> Data? in
                             let imageResponse = await manager.getImageData(hash: hash, fileName: fileName)
                             

@@ -9,7 +9,7 @@ import UIKit
 
 
 extension MangaPageCollectionView {
-    #warning("TODO: Not show table view untill it filled and resized")
+
     func createTableView() -> UITableView {
         
         let tableView = UITableView(frame: CGRect.zero)

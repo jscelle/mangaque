@@ -8,46 +8,12 @@
 import SnapKit
 
 class MangaCollectionView: UIView {
-
-    var viewData: ViewData<[MangaViewDataItem]> = .initial {
-        didSet {
-            setNeedsLayout()
-        }
-    }
     
-    var mangaSelected: ((_ item: MangaViewDataItem) -> ())?
-    
-    var mangaItems: [MangaViewDataItem] = []
+    var mangaItems: [MainViewData] = []
     
     lazy var collectionView = createCollectionView()
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        switch viewData {
-        case .initial:
-            break
-        case .loading:
-            #warning("add skeleton view for loading")
-            break
-        case .success(let success):
-            
-            setupView()
-            
-            mangaItems = success
-            collectionView.reloadData()
-            
-            break
-        case .failure(let error):
-            
-            #warning("error")
-            print(error)
-            
-            break
-        }
-    }
-    
-    private func setupView() {
+    func setupView() {
         
         addSubview(collectionView)
         
@@ -57,6 +23,5 @@ class MangaCollectionView: UIView {
             make.left.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(10)
         }
-        
     }
 }

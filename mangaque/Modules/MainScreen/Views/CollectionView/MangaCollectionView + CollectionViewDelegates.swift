@@ -12,7 +12,7 @@ extension MangaCollectionView {
     func createCollectionView() -> UICollectionView {
         
         let collectionViewLayout = UICollectionViewFlowLayout()
-         
+        
         let cellWidht = (frame.size.width - 30) / 2
         
         let cellSize = CGSize(
@@ -31,9 +31,7 @@ extension MangaCollectionView {
             MangaCollectionViewCell.self,
             forCellWithReuseIdentifier: "MangaCollectionViewCell"
         )
-        
         collectionView.dataSource = self
-        collectionView.delegate = self
         
         collectionView.backgroundColor = .clear
         
@@ -57,18 +55,6 @@ extension MangaCollectionView: UICollectionViewDataSource {
         
         cell.mangaItem = mangaItems[indexPath.row]
         
-        
         return cell
-    }
-}
-
-extension MangaCollectionView: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let action = mangaSelected else {
-            return
-        }
-        
-        action(mangaItems[indexPath.row])
     }
 }

@@ -6,19 +6,22 @@
 //
 
 import SnapKit
-
+import RxSwift
 
 class MainViewController: UIViewController {
     
 #warning("TODO: Change kingfisher to own image download implementation")
 #warning("TODO: Make loading view")
+    
+    private let bag = DisposeBag()
+    
     private var router: Router
-    private var mangaViewModel: MainScreenMangaViewModelInterface
-    private var mangaView = MangaCollectionView()
+    private var mangaViewModel: MainViewModel
+    private lazy var mangaView = MangaCollectionView(frame: self.view.bounds)
     private var searchView = SearchView()
     
     init(
-        mangaViewModel: MainScreenMangaViewModelInterface,
+        mangaViewModel: MainViewModel,
         router: Router
     ) {
         self.mangaViewModel = mangaViewModel
@@ -37,35 +40,52 @@ class MainViewController: UIViewController {
     }
     
     private func setupViews() {
+        
         view.backgroundColor = R.color.background()
         
         view.addSubview(mangaView)
+        
         mangaView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        mangaView.mangaSelected = { [weak self] item in
-            
-            guard let self = self else {
-                return
-            }
-            
-            self.router.route(
-                to: MainScreenRoutes.MangaScreen.rawValue,
-                from: self,
-                parameters: item
-            )
-        }
+        mangaView.collectionView.rx.modelSelected(MainViewData.self).bind { manga in
+            print(manga)
+        }.disposed(by: bag)
         
         updateView()
+        
+        mangaView.setupView()
         
         mangaViewModel.startFetch()
     }
     
     private func updateView() {
-        mangaViewModel.updateMangaViewData = { [weak self] viewData in
-            self?.mangaView.viewData = viewData
-        }
+        
+        mangaViewModel.data.subscribe(
+            onNext: { [weak self] viewData in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                switch viewData {
+                case .success(let data):
+                    
+                    print(data.count)
+                    
+                    DispatchQueue.main.async {
+                        self.mangaView.mangaItems = data
+                        self.mangaView.collectionView.reloadData()
+                    }
+                case .failure(let error):
+                    #warning("error handler")
+                case .loading:
+                    #warning("loading skeleton")
+                case .initial:
+                    #warning("initial skeleton")
+                }
+            }).disposed(by: bag)
     }
 }
 
