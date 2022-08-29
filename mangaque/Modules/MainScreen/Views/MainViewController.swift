@@ -15,17 +15,12 @@ class MainViewController: UIViewController {
     
     private let bag = DisposeBag()
     
-    private var router: Router
     private var mangaViewModel: MainViewModel
     private lazy var mangaView = MangaCollectionView(frame: self.view.bounds)
     private var searchView = SearchView()
     
-    init(
-        mangaViewModel: MainViewModel,
-        router: Router
-    ) {
+    init(mangaViewModel: MainViewModel) {
         self.mangaViewModel = mangaViewModel
-        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     

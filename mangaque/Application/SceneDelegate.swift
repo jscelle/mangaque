@@ -17,13 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let viewModel = MainViewModel()
-        let router = MainScreenRouter(viewModel: viewModel)
-        
-        let viewController = MainViewController(
-            mangaViewModel: viewModel,
-            router: router
-        )
+        let viewController = Router.shared.getSeague(seague: Router.Scene.main)
         
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()

@@ -9,7 +9,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-final class MainViewModel: ViewModel {
+final class MainViewModel: ViewModelInterface {
     
     var data: BehaviorRelay<ViewData<[MainViewData]>>
     
