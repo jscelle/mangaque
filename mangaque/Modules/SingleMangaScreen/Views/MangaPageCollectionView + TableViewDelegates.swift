@@ -17,8 +17,7 @@ extension MangaPageTableView {
         tableView.estimatedRowHeight = 100
         tableView.separatorColor = .clear
         tableView.register(MangaPageTableViewCell.self, forCellReuseIdentifier: "MangaPageTableViewCell")
-        
-        tableView.dataSource = self
+        tableView.backgroundColor = R.color.background()
         
         return tableView
     }

@@ -9,36 +9,18 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SingleMangaViewController: UIViewController {
+class SingleMangaViewController: CollectionController<[PageViewData]> {
 
     #warning("TODO: Implement router ")
     
-    private var viewModel: SingleMangaViewModel
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
-    
-    init(viewModel: SingleMangaViewModel) {
-        self.viewModel = viewModel
-        super.init(
-            nibName: nil,
-            bundle: nil
-        )
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .gray
         setupViews()
-        
-        updateView()
     }
     
     private func setupViews() {
-        viewModel.startFetch()
         
         view.addSubview(pageView)
         pageView.snp.makeConstraints { make in
@@ -48,19 +30,18 @@ class SingleMangaViewController: UIViewController {
         pageView.setupViews()
     }
     
-    private func updateView() {
+    override func eventsSubscribe() {
         
-        #warning("make this work :)")
+        super.eventsSubscribe()
         
-        
-        viewModel.data.bind(
+        // MARK: bind collection view
+        collectionData.bind(
             to: pageView.pageTableView.rx.items(
                 cellIdentifier: "MangaPageTableViewCell",
                 cellType: MangaPageTableViewCell.self
-            ) { (row, model, cell) in
-                
-                cell.url = model.url
-            }
-        )
+            )
+        ) { row, data, cell in
+            cell.url = data.pageUrl
+        }.disposed(by: disposeBag)
     }
 }

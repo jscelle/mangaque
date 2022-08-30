@@ -31,30 +31,10 @@ extension MangaCollectionView {
             MangaCollectionViewCell.self,
             forCellWithReuseIdentifier: "MangaCollectionViewCell"
         )
-        collectionView.dataSource = self
         
         collectionView.backgroundColor = .clear
         
         return collectionView
     }
-    
 }
 
-extension MangaCollectionView: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return mangaItems.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "MangaCollectionViewCell",
-            for: indexPath
-        ) as! MangaCollectionViewCell
-        
-        cell.mangaItem = mangaItems[indexPath.row]
-        
-        return cell
-    }
-}

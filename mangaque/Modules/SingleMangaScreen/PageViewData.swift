@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 #warning("TODO: Create view data")
-struct PagesViewData {
-    let pageUrls: [URL]
+struct PageViewData {
+    let pageUrl: URL
 }

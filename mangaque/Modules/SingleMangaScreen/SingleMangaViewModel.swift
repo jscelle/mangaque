@@ -10,9 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class SingleMangaViewModel: ViewModelInterface {
-    
-    var data: BehaviorRelay<ViewData<PagesViewData>>
+final class SingleMangaViewModel: ViewModel<[PageViewData]> {
     
     private let manager = SingleMangaManager()
     private let item: MainViewData
@@ -21,7 +19,7 @@ final class SingleMangaViewModel: ViewModelInterface {
         self.item = item
     }
         
-    func startFetch() {
+    override func startFetch() {
         Task {
             do {
                 let response = await manager.getMangaAppregiate(mangaId: item.mangaId)
@@ -65,16 +63,18 @@ final class SingleMangaViewModel: ViewModelInterface {
                             return
                         }
                         
-                        let pagesData = PagesViewData(pageUrls: urls)
+                        let pages = urls.compactMap { url in
+                            return PageViewData(pageUrl: url)
+                        }
                         
-                        self.data.accept(.success(pagesData))
+                        data.onNext(pages)
                         
                     case .failure(let error):
-                        self.data.accept(.failure(error))
+                        self.error.onNext(error)
                     }
                     
                 case .failure(let error):
-                    self.data.accept(.failure(error))
+                    self.error.onNext(error)
                 }
             }
         }

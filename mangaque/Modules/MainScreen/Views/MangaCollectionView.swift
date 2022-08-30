@@ -9,8 +9,6 @@ import SnapKit
 
 class MangaCollectionView: UIView {
     
-    var mangaItems: [MainViewData] = []
-    
     lazy var collectionView = createCollectionView()
     
     func setupView() {

@@ -10,13 +10,11 @@ import Kingfisher
 
 class MangaPageTableViewCell: UITableViewCell {
     
-    public lazy var pageImageView: UIImageView  = {
+    var pageImageView: UIImageView  = {
         let imageView = UIImageView()
         return imageView
     }()
-    
-    var imageLoaded: (()->())?
-    
+        
     var url: URL? {
         didSet {
             configureCell()
@@ -31,13 +29,23 @@ class MangaPageTableViewCell: UITableViewCell {
         
         pageImageView.contentMode = .scaleAspectFit
         
-        addSubview(self.pageImageView)
+        addSubview(pageImageView)
         
         pageImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        pageImageView.kf.setImage(with: url, options: [])
-        
+        pageImageView.kf.setImage(
+            with: url,
+            options: [.alsoPrefetchToMemory]
+        ) { result in
+            switch result {
+            case .success(let image):
+                break
+            case .failure(let error):
+                #warning("present error")
+                break
+            }
+        }
     }
 }

@@ -8,7 +8,10 @@
 import UIKit
 
 class Router {
+    
     static let shared = Router()
+    
+    private init() {}
     
     enum Scene {
         case main
@@ -22,9 +25,16 @@ class Router {
     func getSeague(seague: Scene) -> UIViewController {
         switch seague {
         case .main:
-            return MainViewController(viewModel: MainViewModel())
+            
+            let mainViewModel = MainViewModel()
+            
+            return MainViewController(viewModel: mainViewModel)
         case .singleManga(let manga):
-            return SingleMangaViewController(viewModel: <#T##SingleMangaViewModelInterface#>)
+            
+            let singleViewModel = SingleMangaViewModel(item: manga)
+            
+            return SingleMangaViewController(viewModel: singleViewModel)
+            
         }
     }
 }

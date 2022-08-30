@@ -9,21 +9,15 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-final class MainViewModel: ViewModelInterface {
-    
-    var data: BehaviorRelay<ViewData<[MainViewData]>>
+final class MainViewModel: ViewModel<[MainViewData]> {
     
     private let mangaManager = MainMangaManager()
-        
-    init() {
-        data = BehaviorRelay(value: .initial)
-    }
     
     #warning("TODO: ALERT CONTROLLER ")
     
-    func startFetch() {
+    override func startFetch() {
+        
         Task {
-            data.accept(.loading)
             let mangaItem = await mangaManager.getManga()
             switch mangaItem {
                 case .success(let mangaItem):
@@ -79,11 +73,11 @@ final class MainViewModel: ViewModelInterface {
                                 mangaItems.append(mangaItem)
                             }
                         }
-                        self.data.accept(.success(mangaItems))
+                        self.data.onNext(mangaItems)
+                        self.loading.onNext(false)
                     }
             case .failure(let error):
-            #warning("error handler")
-                self.data.accept(.failure(error))
+                self.error.onNext(error)
             }
         }
     }
