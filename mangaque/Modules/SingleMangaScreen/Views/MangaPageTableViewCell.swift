@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import MangaqueImage
 
 class MangaPageTableViewCell: UITableViewCell {
     
@@ -35,6 +36,32 @@ class MangaPageTableViewCell: UITableViewCell {
             make.edges.equalToSuperview()
         }
         
-        pageImageView.kf.setImage(with: data.resource)
+        pageImageView.kf.setImage(with: data.resource) { result in
+            switch result {
+            case .success(let image):
+                
+                #warning("ui stop while image redrawing")
+                
+                let mangaqueImage = MangaqueImage()
+                mangaqueImage.redrawImage(
+                    image: image.image,
+                    translator: .none,
+                    textColor: .auto,
+                    backgroundColor: .auto
+                ) { [weak self] image, error in
+
+                        if let error = error {
+                            #warning("add error handler")
+                            print(error)
+                        }
+                        if let image = image {
+                            self?.pageImageView.image = image
+                        }
+                    }
+            case .failure(let error):
+                print(error)
+                #warning("add error hanlder")
+            }
+        }
     }
 }

@@ -6,12 +6,14 @@
 //
 
 import SnapKit
+import UIKit
 import RxSwift
+import RxCocoa
 
 class MainViewController: CollectionController<[MainViewData]> {
     
     private lazy var mangaView = MangaCollectionView(frame: self.view.bounds)
-    private var searchView = SearchView()
+    private lazy var searchView = SearchView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,26 @@ class MainViewController: CollectionController<[MainViewData]> {
             make.edges.equalToSuperview()
         }
         mangaView.setupView()
+        
+        view.addSubview(searchView)
+        
+        searchView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(30)
+            make.right.equalToSuperview().inset(30)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+        
+        searchView.setupView()
+        
+        let tapGesture = UITapGestureRecognizer()
+        searchView.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event.subscribe(onNext: { recognizer in
+            print("tapped")
+        }).disposed(by: disposeBag)
     }
+    
     
     override func eventsSubscribe() {
         

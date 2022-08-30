@@ -16,6 +16,8 @@ final class SingleMangaViewModel: ViewModel<[PageViewData]> {
     private let manager = SingleMangaManager()
     private let item: MainViewData
     
+    private var imagePrefetcher: ImagePrefetcher?
+    
     init(item: MainViewData) {
         self.item = item
     }
@@ -63,17 +65,23 @@ final class SingleMangaViewModel: ViewModel<[PageViewData]> {
                         guard let urls = urls else {
                             return
                         }
-                        
-                        let imagesPrefetcher = ImagePrefetcher(
+                        #warning("bug that makes resize images")
+                        imagePrefetcher = ImagePrefetcher(
                             urls: urls,
                             completionHandler: { [weak self] skippedResources, failedResources, completedResources in
-                                                                
-                                guard completedResources.isEmpty == false,
-                                    let self = self else {
+                                
+                                self?.imagePrefetcher?.stop()
+                                
+                                var resources = skippedResources
+                                resources.append(contentsOf: completedResources)
+                                
+                                print(resources.count)
+                                
+                                guard let self = self else {
                                     return
                                 }
                                 
-                                let pages = completedResources.compactMap { resource in
+                                let pages = resources.compactMap { resource in
                                     PageViewData(resource: resource)
                                 }
                                 
@@ -82,7 +90,7 @@ final class SingleMangaViewModel: ViewModel<[PageViewData]> {
                             }
                         )
                         
-                        imagesPrefetcher.start()
+                        imagePrefetcher?.start()
                         
                     case .failure(let error):
                         self.error.onNext(error)

@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "collectionconcurrencykit",
+      "identity" : "mangaqueimage",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JohnSundell/CollectionConcurrencyKit",
+      "location" : "https://github.com/jscelle/MangaqueImage",
       "state" : {
-        "revision" : "b4f23e24b5a1bff301efc5e70871083ca029ff95",
-        "version" : "0.2.0"
+        "branch" : "main",
+        "revision" : "b454a23aaaacbcf448ad5892985311dfc4f753b0"
       }
     }
   ],
