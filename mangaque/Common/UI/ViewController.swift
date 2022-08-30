@@ -36,13 +36,13 @@ class ViewController<T>: UIViewController {
         viewModel.loading.subscribe(onNext: { isLoading in
             #warning("add skeleton for loading")
             print(isLoading)
-        })
+        }).disposed(by: disposeBag)
         
         // MARK: Bind to error
         
         viewModel.error.subscribe(onNext: { error in
             #warning("show error")
             print(error)
-        })
+        }).disposed(by: disposeBag)
     }
 }

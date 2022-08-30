@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import RxCocoa
 import RxSwift
+import Kingfisher
 
 final class SingleMangaViewModel: ViewModel<[PageViewData]> {
     
@@ -63,11 +64,25 @@ final class SingleMangaViewModel: ViewModel<[PageViewData]> {
                             return
                         }
                         
-                        let pages = urls.compactMap { url in
-                            return PageViewData(pageUrl: url)
-                        }
+                        let imagesPrefetcher = ImagePrefetcher(
+                            urls: urls,
+                            completionHandler: { [weak self] skippedResources, failedResources, completedResources in
+                                                                
+                                guard completedResources.isEmpty == false,
+                                    let self = self else {
+                                    return
+                                }
+                                
+                                let pages = completedResources.compactMap { resource in
+                                    PageViewData(resource: resource)
+                                }
+                                
+                                self.data.onNext(pages)
+                                self.loading.onNext(false)
+                            }
+                        )
                         
-                        data.onNext(pages)
+                        imagesPrefetcher.start()
                         
                     case .failure(let error):
                         self.error.onNext(error)

@@ -41,7 +41,7 @@ class SingleMangaViewController: CollectionController<[PageViewData]> {
                 cellType: MangaPageTableViewCell.self
             )
         ) { row, data, cell in
-            cell.url = data.pageUrl
+            cell.data = data
         }.disposed(by: disposeBag)
     }
 }

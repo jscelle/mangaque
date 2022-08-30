@@ -15,7 +15,7 @@ class MangaPageTableViewCell: UITableViewCell {
         return imageView
     }()
         
-    var url: URL? {
+    var data: PageViewData? {
         didSet {
             configureCell()
         }
@@ -23,7 +23,7 @@ class MangaPageTableViewCell: UITableViewCell {
     
     private func configureCell() {
         
-        guard let url = url else {
+        guard let data = data else {
             return
         }
         
@@ -35,17 +35,6 @@ class MangaPageTableViewCell: UITableViewCell {
             make.edges.equalToSuperview()
         }
         
-        pageImageView.kf.setImage(
-            with: url,
-            options: [.alsoPrefetchToMemory]
-        ) { result in
-            switch result {
-            case .success(let image):
-                break
-            case .failure(let error):
-                #warning("present error")
-                break
-            }
-        }
+        pageImageView.kf.setImage(with: data.resource)
     }
 }

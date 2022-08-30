@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import UIKit
+import Kingfisher
 
-#warning("TODO: Create view data")
 struct PageViewData {
-    let pageUrl: URL
+    let resource: Resource
 }
