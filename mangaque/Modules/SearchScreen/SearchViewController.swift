@@ -9,7 +9,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class SearchViewController: CollectionController<String?, [MangaViewData]> {
+class SearchViewController: ViewController<String?, [MangaViewData]> {
     
     private lazy var searchView = SearchCollectionView(frame: self.view.bounds)
     
@@ -20,6 +20,8 @@ class SearchViewController: CollectionController<String?, [MangaViewData]> {
     }
     
     private func setupViews() {
+        
+        view.backgroundColor = R.color.background()
         
         view.addSubview(searchView)
         searchView.snp.makeConstraints { make in
@@ -43,6 +45,18 @@ class SearchViewController: CollectionController<String?, [MangaViewData]> {
             )
         ) { row, data, cell in
             cell.mangaItem = data
+        }.disposed(by: disposeBag)
+        
+        searchView.collectionView.rx.modelSelected(MangaViewData.self).bind { item in
+            
+            let singleMangaController = Router.shared.getSeague(
+                seague: Router.Scene.singleManga(
+                    manga: item
+                )
+            )
+            singleMangaController.modalPresentationStyle = .fullScreen
+            self.present(singleMangaController, animated: true)
+            
         }.disposed(by: disposeBag)
     }
 }

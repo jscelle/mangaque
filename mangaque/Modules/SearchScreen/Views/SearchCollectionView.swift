@@ -14,16 +14,16 @@ class SearchCollectionView: UIView {
         
         let collectionViewLayout = UICollectionViewFlowLayout()
         
-        let cellWidht = (frame.size.width - 100)
+        let cellWidht = (frame.size.width - 30) / 2
         
         let cellSize = CGSize(
             width: cellWidht,
-            height: cellWidht * 2
+            height: cellWidht * 1.7
         )
         
         collectionViewLayout.itemSize = cellSize
         
-        collectionViewLayout.scrollDirection = .horizontal
+        collectionViewLayout.scrollDirection = .vertical
         
         let collectionView = UICollectionView(
             frame: bounds,
@@ -56,7 +56,6 @@ class SearchCollectionView: UIView {
     }()
     
     func setupViews() {
-        backgroundColor = R.color.background()
         
         addSubview(searchImage)
         searchImage.snp.makeConstraints { make in
@@ -76,8 +75,8 @@ class SearchCollectionView: UIView {
         
         addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(10)
             make.bottom.equalToSuperview()
             make.top.equalTo(textField.snp.bottom).inset(-10)
         }

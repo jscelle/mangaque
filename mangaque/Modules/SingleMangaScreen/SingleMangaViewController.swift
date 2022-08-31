@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SingleMangaViewController: CollectionController<Empty, [PageViewData]> {
+class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
 
     #warning("TODO: Implement router ")
     
@@ -31,11 +31,10 @@ class SingleMangaViewController: CollectionController<Empty, [PageViewData]> {
     }
     
     override func eventsSubscribe() {
-        
         super.eventsSubscribe()
         
         // MARK: bind collection view
-        collectionData.bind(
+        viewModel.outputData.bind(
             to: pageView.pageTableView.rx.items(
                 cellIdentifier: "MangaPageTableViewCell",
                 cellType: MangaPageTableViewCell.self
