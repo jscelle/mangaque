@@ -7,11 +7,18 @@
 
 import Alamofire
 
-enum SingleMangaAPIRouter: BaseMangaRouteBuilder {
+enum SingleMangaAPIRouter: BaseRouteBuilder {
     
     case getMangaAppregiate(mangaId: String)
     case getChapterData(chapterId: String)
     
+    var headers: HTTPHeaders {
+        return HTTPHeaders()
+    }
+    
+    var baseURL: String {
+        return Configuration.mangaApiUrl
+    }
     
     var path: String {
         switch self {
@@ -32,12 +39,10 @@ enum SingleMangaAPIRouter: BaseMangaRouteBuilder {
         }
     }
     
-    var parameters: RequestParameters {
-        switch self {
-        case .getMangaAppregiate:
-            return .url([:])
-        case .getChapterData:
-            return .url([:])
-        }
+    var urlParams: (Parameters) {
+        return [:]
+    }
+    var bodyParams: (Parameters) {
+        return [:]
     }
 }

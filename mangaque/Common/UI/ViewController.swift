@@ -30,7 +30,7 @@ class ViewController<Input, Output>: UIViewController {
     
     func eventsSubscribe() {
         
-        viewModel.startFetch()
+        //viewModel.startFetch()
         
         // MARK: Bind to loading
         viewModel.loading.subscribe(onNext: { isLoading in

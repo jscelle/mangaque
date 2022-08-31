@@ -13,6 +13,8 @@ class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
 
     #warning("TODO: Implement router ")
     
+    let translator = TranslateManager()
+    
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
     
     override func viewDidLoad() {
@@ -31,7 +33,7 @@ class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
     }
     
     override func eventsSubscribe() {
-        super.eventsSubscribe()
+        //super.eventsSubscribe()
         
         // MARK: bind collection view
         viewModel.outputData.bind(

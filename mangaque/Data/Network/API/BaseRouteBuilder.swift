@@ -12,28 +12,35 @@ enum RequestParameters {
     case body(_ : Parameters)
 }
 
-protocol BaseMangaRouteBuilder: URLRequestConvertible {
+protocol BaseRouteBuilder: URLRequestConvertible {
     // MARK: API Url for resusable manager
+    var headers: HTTPHeaders { get }
+    var baseURL: String { get }
     var path: String { get }
     var method: HTTPMethod { get }
-    var parameters: RequestParameters { get }
+    var urlParams: (_ : Parameters) { get }
+    var bodyParams: (_ : Parameters) { get }
 }
 
-extension BaseMangaRouteBuilder {
+extension BaseRouteBuilder {
     
     func asURLRequest() throws -> URLRequest {
         
-        let baseURL = URL(string: Configuration.mangaApiUrl)!
+        let baseURL = URL(string: baseURL)!
         let url = baseURL.appendingPathComponent(path)
         var urlRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = method.rawValue
         
-        switch parameters {
-            
-        case .url(let parameters):
-            guard !parameters.isEmpty else { break }
-            let filteredParameters = parameters.filter { $0.value as? Any.Type != NSNull.self }
+        headers.forEach { header in
+            urlRequest.addValue(
+                header.value,
+                forHTTPHeaderField: header.name
+            )
+        }
+                
+        if !urlParams.isEmpty {
+            let filteredParameters = urlParams.filter { $0.value as? Any.Type != NSNull.self }
             let encoder = Alamofire.URLEncoding(
                 destination: .queryString,
                 arrayEncoding: .noBrackets,
@@ -47,10 +54,10 @@ extension BaseMangaRouteBuilder {
             } catch {
                 throw error
             }
-            
-        case .body(let parameters):
-            guard !parameters.isEmpty else { break }
-            let filteredParameters = parameters.filter { $0.value as? Any.Type != NSNull.self }
+        }
+                
+        if !bodyParams.isEmpty {
+            let filteredParameters = bodyParams.filter { $0.value as? Any.Type != NSNull.self }
             do {
                 let encoder = Alamofire.JSONEncoding()
                 urlRequest = try encoder.encode(
@@ -61,6 +68,7 @@ extension BaseMangaRouteBuilder {
                 throw AFError.parameterEncodingFailed(reason: .jsonEncodingFailed(error: error))
             }
         }
+        
         return urlRequest
     }
 }

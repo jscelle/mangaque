@@ -19,7 +19,7 @@ enum BaseNetwordErrors: Error {
 class BaseNetworkManager {
     
     func request<T: Decodable>(
-        route: BaseMangaRouteBuilder,
+        route: BaseRouteBuilder,
         decoder: JSONDecoder = JSONDecoder()
     ) async -> Result<T, Error> {
         
@@ -33,7 +33,6 @@ class BaseNetworkManager {
                 }
                 
                 if let data = response.data {
-
                     
                     do {
                         

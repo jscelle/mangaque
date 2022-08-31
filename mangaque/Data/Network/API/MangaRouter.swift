@@ -7,13 +7,21 @@
 
 import Alamofire
 
-enum MangaRouter: BaseMangaRouteBuilder {
+enum MangaRouter: BaseRouteBuilder {
     
     case getManga
     case searchManga(title: String)
     case getRandomManga
     case getMangaAggregate(mangaId: String)
     case getMangaCover(coverId: String)
+    
+    var headers: HTTPHeaders {
+        return HTTPHeaders()
+    }
+    
+    var baseURL: String {
+        return Configuration.mangaApiUrl
+    }
     
     var path: String {
         switch self {
@@ -45,18 +53,22 @@ enum MangaRouter: BaseMangaRouteBuilder {
         }
     }
     
-    var parameters: RequestParameters {
+    var urlParams: (Parameters) {
         switch self {
         case .getManga:
-            return .url([:])
-        case .getRandomManga:
-            return .url([:])
-        case .getMangaAggregate:
-            return .url([:])
-        case .getMangaCover:
-            return .url([:])
+            return [:]
         case .searchManga(title: let title):
-            return .url([ "title" : title ])
+            return [ "title" : title ]
+        case .getRandomManga:
+            return [:]
+        case .getMangaAggregate:
+            return [:]
+        case .getMangaCover:
+            return [:]
         }
+    }
+    
+    var bodyParams: (Parameters) {
+        return [:]
     }
 }

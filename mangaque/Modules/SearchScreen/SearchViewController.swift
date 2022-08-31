@@ -11,12 +11,20 @@ import RxCocoa
 
 class SearchViewController: ViewController<String?, [MangaViewData]> {
     
+    private let translator = TranslateManager()
+    
     private lazy var searchView = SearchCollectionView(frame: self.view.bounds)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
+        
+        Task {
+            do {
+                let response = await translator.detectLanguage(text: "Всем привет, с вами я Санечек")
+            }
+        }
     }
     
     private func setupViews() {
