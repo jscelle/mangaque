@@ -8,7 +8,7 @@
 import Kingfisher
 
 class MangaCollectionViewCell: UICollectionViewCell {
-    
+        
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -21,7 +21,7 @@ class MangaCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var mangaItem: MainViewData? {
+    var mangaItem: MangaViewData? {
         didSet {
             configureCell()
         }

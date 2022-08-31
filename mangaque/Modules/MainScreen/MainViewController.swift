@@ -6,11 +6,10 @@
 //
 
 import SnapKit
-import UIKit
 import RxSwift
 import RxCocoa
 
-class MainViewController: CollectionController<[MainViewData]> {
+class MainViewController: CollectionController<Empty, [MangaViewData]> {
     
     private lazy var mangaView = MangaCollectionView(frame: self.view.bounds)
     private lazy var searchView = SearchView()
@@ -47,7 +46,11 @@ class MainViewController: CollectionController<[MainViewData]> {
         searchView.addGestureRecognizer(tapGesture)
         
         tapGesture.rx.event.subscribe(onNext: { recognizer in
-            print("tapped")
+            
+            let searchViewController = Router.shared.getSeague(seague: Router.Scene.search)
+            
+            self.present(searchViewController, animated: true)
+            
         }).disposed(by: disposeBag)
     }
     
@@ -67,7 +70,7 @@ class MainViewController: CollectionController<[MainViewData]> {
         }.disposed(by: disposeBag)
         
         // MARK: bind collection view action
-        mangaView.collectionView.rx.modelSelected(MainViewData.self).bind { manga in
+        mangaView.collectionView.rx.modelSelected(MangaViewData.self).bind { manga in
             
             let singleMangaController = Router.shared.getSeague(
                 seague: Router.Scene.singleManga(

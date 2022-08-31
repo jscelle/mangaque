@@ -13,6 +13,10 @@ class MainMangaManager: BaseNetworkManager {
         return await request(route: MangaRouter.getManga)
     }
     
+    func searchManga(title: String) async -> Result<MangaModel, Error> {
+        return await request(route: MangaRouter.searchManga(title: title))
+    }
+    
     private func getMangaCover(coverId: String) async -> Result<CoverItem, Error> {
         return await request(route: MangaRouter.getMangaCover(coverId: coverId))
     }

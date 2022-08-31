@@ -9,20 +9,14 @@ import UIKit
 import Kingfisher
 import MangaqueImage
 
-class MangaPageTableViewCell: UITableViewCell {
+class MangaPageTableViewCell: TableCell<PageViewData> {
     
     var pageImageView: UIImageView  = {
         let imageView = UIImageView()
         return imageView
     }()
-        
-    var data: PageViewData? {
-        didSet {
-            configureCell()
-        }
-    }
     
-    private func configureCell() {
+    internal override func configureCell() {
         
         guard let data = data else {
             return

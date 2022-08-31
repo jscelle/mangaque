@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SingleMangaViewController: CollectionController<[PageViewData]> {
+class SingleMangaViewController: CollectionController<Empty, [PageViewData]> {
 
     #warning("TODO: Implement router ")
     

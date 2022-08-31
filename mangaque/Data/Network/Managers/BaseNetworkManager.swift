@@ -50,8 +50,6 @@ class BaseNetworkManager {
     }
     func getData(route: URL) async -> Result<Data, Error> {
         
-        
-        
         return await withCheckedContinuation{ continuation in
             
             AF.request(route).validate().response { response in

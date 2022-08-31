@@ -15,7 +15,7 @@ class Router {
     
     enum Scene {
         case main
-        case singleManga(manga: MainViewData)
+        case singleManga(manga: MangaViewData)
         case search
     }
     
@@ -26,16 +26,19 @@ class Router {
     func getSeague(seague: Scene) -> UIViewController {
         switch seague {
         case .main:
+            
             let mainViewModel = MainViewModel()
-            
             return MainViewController(viewModel: mainViewModel)
-        case .singleManga(let manga):
-            let singleViewModel = SingleMangaViewModel(item: manga)
             
+        case .singleManga(let manga):
+            
+            let singleViewModel = SingleMangaViewModel(item: manga)
             return SingleMangaViewController(viewModel: singleViewModel)
             
         case .search:
-            return UIViewController()
+            
+            let searchViewModel = SearchViewModel()
+            return SearchViewController(viewModel: searchViewModel)
         }
     }
 }

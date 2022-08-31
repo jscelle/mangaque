@@ -13,16 +13,18 @@ protocol ViewModelInterface {
     func startFetch()
 }
 
-class ViewModel<T>: NSObject, ViewModelInterface {
+class ViewModel<Input, Output>: NSObject, ViewModelInterface {
     
-    var data = PublishSubject<T>()
+    let disposeBag = DisposeBag()
     
-    var error = PublishSubject<Error>()
+    var outputData = PublishRelay<Output>()
+    var inputData = PublishRelay<Input>()
     
-    var loading = PublishSubject<Bool>()
+    var error = PublishRelay<Error>()
     
-    func startFetch() {
-        loading.onNext(true)
-        print("started fetching")
-    }
+    var loading = PublishRelay<Bool>()
+    
+    func startFetch() { }
 }
+
+struct Empty { }

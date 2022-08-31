@@ -7,8 +7,6 @@
 
 import Alamofire
 
-#warning("TODO: Refactor this")
-
 class SingleMangaManager: BaseNetworkManager {
     
     func getMangaAppregiate(mangaId: String) async -> Result<AggregateModel, Error> {

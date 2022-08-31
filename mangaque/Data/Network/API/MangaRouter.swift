@@ -10,6 +10,7 @@ import Alamofire
 enum MangaRouter: BaseMangaRouteBuilder {
     
     case getManga
+    case searchManga(title: String)
     case getRandomManga
     case getMangaAggregate(mangaId: String)
     case getMangaCover(coverId: String)
@@ -24,6 +25,8 @@ enum MangaRouter: BaseMangaRouteBuilder {
             return "/manga/\(mangaId)/aggregate"
         case .getMangaCover(coverId: let coverId):
             return "/cover/\(coverId)"
+        case .searchManga:
+            return "/manga"
         }
     }
     
@@ -37,19 +40,23 @@ enum MangaRouter: BaseMangaRouteBuilder {
             return .get
         case .getMangaCover:
             return .get
+        case .searchManga:
+            return .get
         }
     }
     
     var parameters: RequestParameters {
         switch self {
         case .getManga:
-            return .url(["title" : "one"])
+            return .url([:])
         case .getRandomManga:
             return .url([:])
         case .getMangaAggregate:
             return .url([:])
         case .getMangaCover:
             return .url([:])
+        case .searchManga(title: let title):
+            return .url([ "title" : title ])
         }
     }
 }

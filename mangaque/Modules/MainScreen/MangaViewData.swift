@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MainViewData {
+struct MangaViewData {
     var mangaId: String
     var title: String
     var coverURL: URL

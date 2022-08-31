@@ -8,13 +8,13 @@
 import UIKit
 import RxSwift
 
-class ViewController<T>: UIViewController {
+class ViewController<Input, Output>: UIViewController {
     
-    var viewModel: ViewModel<T>
+    var viewModel: ViewModel<Input, Output>
     
     let disposeBag = DisposeBag()
     
-    init(viewModel: ViewModel<T>) {
+    init(viewModel: ViewModel<Input, Output>) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -35,14 +35,12 @@ class ViewController<T>: UIViewController {
         // MARK: Bind to loading
         viewModel.loading.subscribe(onNext: { isLoading in
             #warning("add skeleton for loading")
-            print(isLoading)
         }).disposed(by: disposeBag)
         
         // MARK: Bind to error
         
         viewModel.error.subscribe(onNext: { error in
             #warning("show error")
-            print(error)
         }).disposed(by: disposeBag)
     }
 }

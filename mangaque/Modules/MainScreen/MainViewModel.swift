@@ -9,7 +9,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-final class MainViewModel: ViewModel<[MainViewData]> {
+final class MainViewModel: ViewModel<Empty, [MangaViewData]> {
     
     private let mangaManager = MainMangaManager()
     
@@ -22,13 +22,13 @@ final class MainViewModel: ViewModel<[MainViewData]> {
             switch mangaItem {
                 case .success(let mangaItem):
                 
-                    var mangaItems: [MainViewData] = []
+                    var mangaItems: [MangaViewData] = []
                     
                     guard let data = mangaItem.data else {
                         return
                     }
                 
-                    await withTaskGroup(of: MainViewData?.self) { group in
+                    await withTaskGroup(of: MangaViewData?.self) { group in
                         
                             for dataItem in data {
                                 
@@ -60,7 +60,7 @@ final class MainViewModel: ViewModel<[MainViewData]> {
                                         return nil
                                     }
                                     
-                                    return MainViewData(
+                                    return MangaViewData(
                                         mangaId: mangaId,
                                         title: mangaTitle,
                                         coverURL: coverUrl
@@ -73,11 +73,11 @@ final class MainViewModel: ViewModel<[MainViewData]> {
                                 mangaItems.append(mangaItem)
                             }
                         }
-                        self.data.onNext(mangaItems)
-                        self.loading.onNext(false)
+                        self.outputData.accept(mangaItems)
+                        self.loading.accept(false)
                     }
             case .failure(let error):
-                self.error.onNext(error)
+                self.error.accept(error)
             }
         }
     }

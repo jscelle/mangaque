@@ -9,16 +9,16 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class CollectionController<T>: ViewController<T> {
+class CollectionController<Input, Output>: ViewController<Input, Output> {
     
-    var collectionData = PublishRelay<T>()
+    var collectionData = PublishRelay<Output>()
     
     override func eventsSubscribe() {
         
         super.eventsSubscribe()
         
         viewModel
-            .data
+            .outputData
             .observe(on: MainScheduler.instance)
             .bind(to: collectionData)
             .disposed(by: disposeBag)

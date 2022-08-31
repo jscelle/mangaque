@@ -11,18 +11,21 @@ import RxCocoa
 import RxSwift
 import Kingfisher
 
-final class SingleMangaViewModel: ViewModel<[PageViewData]> {
+final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     
     private let manager = SingleMangaManager()
-    private let item: MainViewData
+    private let item: MangaViewData
     
     private var imagePrefetcher: ImagePrefetcher?
     
-    init(item: MainViewData) {
+    init(item: MangaViewData) {
         self.item = item
     }
         
     override func startFetch() {
+        
+        loading.accept(true)
+        
         Task {
             do {
                 let response = await manager.getMangaAppregiate(mangaId: item.mangaId)
@@ -70,34 +73,34 @@ final class SingleMangaViewModel: ViewModel<[PageViewData]> {
                             urls: urls,
                             completionHandler: { [weak self] skippedResources, failedResources, completedResources in
                                 
-                                self?.imagePrefetcher?.stop()
-                                
+                                guard
+                                    let self = self,
+                                    failedResources.isEmpty else {
+                                    return
+                                }
+                                                                
                                 var resources = skippedResources
                                 resources.append(contentsOf: completedResources)
                                 
                                 print(resources.count)
                                 
-                                guard let self = self else {
-                                    return
-                                }
-                                
                                 let pages = resources.compactMap { resource in
                                     PageViewData(resource: resource)
                                 }
                                 
-                                self.data.onNext(pages)
-                                self.loading.onNext(false)
+                                self.outputData.accept(pages)
+                                self.loading.accept(false)
                             }
                         )
                         
                         imagePrefetcher?.start()
                         
                     case .failure(let error):
-                        self.error.onNext(error)
+                        self.error.accept(error)
                     }
                     
                 case .failure(let error):
-                    self.error.onNext(error)
+                    self.error.accept(error)
                 }
             }
         }
