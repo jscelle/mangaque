@@ -23,8 +23,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     }
         
     override func startFetch() {
-        
-        loading.accept(true)
+        super.startFetch()
         
         Task {
             do {
@@ -51,11 +50,13 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                     case .success(let chapter):
                         
                         guard let hash = chapter.chapter?.hash else {
+                            self.error.accept(MangaErrors.failedToGetImagesUrls)
                             break
                         }
                         
                         guard let chapter = chapter.chapter else {
-                            return
+                            self.error.accept(MangaErrors.failedToGetImagesUrls)
+                            break
                         }
                         
                         let urls = chapter.data?.compactMap {
@@ -66,8 +67,12 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                         }
                         
                         guard let urls = urls else {
-                            return
+                            self.error.accept(MangaErrors.failedToGetImagesUrls)
+                            break
                         }
+                        
+                        print(urls.count)
+                        
                         #warning("bug that makes resize images")
                         imagePrefetcher = ImagePrefetcher(
                             urls: urls,
@@ -76,6 +81,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                                 guard
                                     let self = self,
                                     failedResources.isEmpty else {
+                                    self?.error.accept(MangaErrors.failedToLoadImages)
                                     return
                                 }
                                                                 

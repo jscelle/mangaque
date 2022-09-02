@@ -14,8 +14,8 @@
             filePath = "mangaque/Data/Network/Managers/BaseNetworkManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "request(route:decoder:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7912CD88-AF3D-44D8-9279-F42232B72651"
+            uuid = "19F88897-0E0B-4206-8DD5-9E023DF93200"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "mangaque/Data/Network/Managers/BaseNetworkManager.swift"
+            filePath = "mangaque/Modules/SingleMangaScreen/SingleMangaViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "getData(route:)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "startFetch()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

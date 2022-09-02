@@ -6,6 +6,8 @@
 //
 
 import Alamofire
+import RxCocoa
+import RxSwift
 
 enum Result<T, Error> {
     case success(T)
@@ -18,6 +20,7 @@ enum BaseNetwordErrors: Error {
 
 class BaseNetworkManager {
     
+    // MARK: Async / await style
     func request<T: Decodable>(
         route: BaseRouteBuilder,
         decoder: JSONDecoder = JSONDecoder()
@@ -47,24 +50,35 @@ class BaseNetworkManager {
             }
         }
     }
-    func getData(route: URL) async -> Result<Data, Error> {
+    
+    // MARK: RxSwift style
+    func request<T: Decodable>(
+        route: BaseRouteBuilder,
+        decoder: JSONDecoder = JSONDecoder()
+    ) -> Observable<T> {
         
-        return await withCheckedContinuation{ continuation in
-            
+        return Observable.create { observer -> Disposable in
             AF.request(route).validate().response { response in
                 
                 if let error = response.error {
-                    
-                    continuation.resume(returning: .failure(error))
+                    observer.onError(error)
                     return
                 }
                 
                 if let data = response.data {
-                    
-                    continuation.resume(returning: .success(data))
-                    return
+                    do {
+                        
+                        let decodedData = try decoder.decode(T.self, from: data)
+                        observer.onNext(decodedData)
+                        return
+                        
+                    } catch let error {
+                        observer.onError(error)
+                        return
+                    }
                 }
             }
+            return Disposables.create()
         }
     }
 }

@@ -6,15 +6,24 @@
 //
 
 import Alamofire
+import RxSwift
 
 class MainMangaManager: BaseNetworkManager {
     
-    func getManga() async -> Result<MangaModel, Error> {
-        return await request(route: MangaRouter.getManga)
+    private let disposeBag = DisposeBag()
+    
+    func getManga() -> Observable<MangaModel> {
+        return request(route: MangaRouter.getManga)
     }
     
     func searchManga(title: String) async -> Result<MangaModel, Error> {
         return await request(route: MangaRouter.searchManga(title: title))
+    }
+    
+    func searchManga(title: String) -> Observable<MangaModel> {
+        return request(
+            route: MangaRouter.searchManga(title: title)
+        )
     }
     
     private func getMangaCover(coverId: String) async -> Result<CoverItem, Error> {
@@ -36,7 +45,7 @@ class MainMangaManager: BaseNetworkManager {
                 else {
                     break
                 }
-                
+            
                 guard let url = Configuration.mangaCoverUrl(
                     mangaId: mangaId,
                     coverFileName: fileName

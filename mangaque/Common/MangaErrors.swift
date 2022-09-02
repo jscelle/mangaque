@@ -8,8 +8,18 @@
 import Foundation
 
 enum MangaErrors: Error {
-    case failedToGetId
-    case failedToGetTitle
-    case failedToGetCoverUrl
-    case failedToConvert(from: Any, to: Any)
+    case failedToGetManga
+    case failedToLoadImages
+    case failedToGetImagesUrls
+    
+    var localizedDescription: String {
+        switch self {
+        case .failedToGetManga:
+            return "Failed to load manga"
+        case .failedToLoadImages:
+            return "Failed to load images"
+        case .failedToGetImagesUrls:
+            return "Failed to get images urls"
+        }
+    }
 }

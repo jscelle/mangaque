@@ -30,17 +30,34 @@ class ViewController<Input, Output>: UIViewController {
     
     func eventsSubscribe() {
         
-        //viewModel.startFetch()
+        viewModel.startFetch()
         
         // MARK: Bind to loading
         viewModel.loading.subscribe(onNext: { isLoading in
-            #warning("add skeleton for loading")
+#warning("add skeleton for loading")
         }).disposed(by: disposeBag)
         
         // MARK: Bind to error
         
-        viewModel.error.subscribe(onNext: { error in
-            #warning("show error")
+        viewModel.error.subscribe(onNext: { [weak self] error in
+            
+            guard let self = self else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.alert(message: error.localizedDescription)
+            }
+            
         }).disposed(by: disposeBag)
+    }
+    
+    
+    private func alert(message: String, title: String = "") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }

@@ -22,9 +22,7 @@ class ViewModel<Input, Output>: NSObject, ViewModelInterface {
     
     var error = PublishRelay<Error>()
     
-    var loading = PublishRelay<Bool>()
+    var loading = BehaviorRelay<Bool>(value: true)
     
     func startFetch() { }
 }
-
-struct Empty { }

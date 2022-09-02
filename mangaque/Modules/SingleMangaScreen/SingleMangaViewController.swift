@@ -33,7 +33,7 @@ class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
     }
     
     override func eventsSubscribe() {
-        //super.eventsSubscribe()
+        super.eventsSubscribe()
         
         // MARK: bind collection view
         viewModel.outputData.bind(

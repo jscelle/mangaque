@@ -40,6 +40,7 @@
 		A4EDEACE28BF584600331C91 /* RxSwift + InfixOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEACD28BF584600331C91 /* RxSwift + InfixOperator.swift */; };
 		A4EDEAD028BF843D00331C91 /* TranslatorAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEACF28BF843D00331C91 /* TranslatorAPIRouter.swift */; };
 		A4EDEAD228BF8A5F00331C91 /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEAD128BF8A5F00331C91 /* TranslateManager.swift */; };
+		A4EDEAD828C20B6800331C91 /* EmptyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEAD728C20B6800331C91 /* EmptyModel.swift */; };
 		A4EF4DBA28A812B4003ED8EC /* UIImage + Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EF4DB928A812B4003ED8EC /* UIImage + Crop.swift */; };
 		A4EF4DD028AD25EF003ED8EC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EF4DCF28AD25EF003ED8EC /* Router.swift */; };
 		A4EF4DD528AD2C78003ED8EC /* SingleMangaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EF4DD428AD2C78003ED8EC /* SingleMangaViewController.swift */; };
@@ -86,6 +87,7 @@
 		A4EDEACD28BF584600331C91 /* RxSwift + InfixOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxSwift + InfixOperator.swift"; sourceTree = "<group>"; };
 		A4EDEACF28BF843D00331C91 /* TranslatorAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorAPIRouter.swift; sourceTree = "<group>"; };
 		A4EDEAD128BF8A5F00331C91 /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
+		A4EDEAD728C20B6800331C91 /* EmptyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyModel.swift; sourceTree = "<group>"; };
 		A4EF4DB928A812B4003ED8EC /* UIImage + Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Crop.swift"; sourceTree = "<group>"; };
 		A4EF4DCF28AD25EF003ED8EC /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		A4EF4DD428AD2C78003ED8EC /* SingleMangaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleMangaViewController.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				A4EDEAAC28BDF2B700331C91 /* UI */,
 				A4EF4DCF28AD25EF003ED8EC /* Router.swift */,
 				A4819FDD28AF705C008D9EAB /* MangaErrors.swift */,
+				A4EDEAD728C20B6800331C91 /* EmptyModel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				A4EDEAD028BF843D00331C91 /* TranslatorAPIRouter.swift in Sources */,
 				9B98317028A2DA7A0053A472 /* BaseNetworkManager.swift in Sources */,
 				A4EF4DD928AD3117003ED8EC /* SingleMangaViewModel.swift in Sources */,
+				A4EDEAD828C20B6800331C91 /* EmptyModel.swift in Sources */,
 				A4819FD028AE33AA008D9EAB /* ChapterDataModel.swift in Sources */,
 				A4EF4DE028AD38FA003ED8EC /* SingleMangaAPIRouter.swift in Sources */,
 				A4EF4DDC28AD3191003ED8EC /* PageViewData.swift in Sources */,
