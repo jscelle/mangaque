@@ -9,12 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
-
-    #warning("TODO: Implement router ")
-    
-    let translator = TranslateManager()
-    
+final class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
     
     override func viewDidLoad() {

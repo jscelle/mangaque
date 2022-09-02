@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SearchCollectionView: UIView {
+final class SearchCollectionView: UIView {
     
     lazy var collectionView: UICollectionView = {
         

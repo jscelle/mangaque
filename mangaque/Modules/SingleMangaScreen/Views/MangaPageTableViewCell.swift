@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import MangaqueImage
 
-class MangaPageTableViewCell: TableCell<PageViewData> {
+final class MangaPageTableViewCell: TableCell<PageViewData> {
     
     var pageImageView: UIImageView  = {
         let imageView = UIImageView()

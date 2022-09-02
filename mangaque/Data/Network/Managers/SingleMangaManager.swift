@@ -6,14 +6,27 @@
 //
 
 import Alamofire
+import RxSwift
 
-class SingleMangaManager: BaseNetworkManager {
+final class SingleMangaManager: BaseNetworkManager {
     
     func getMangaAppregiate(mangaId: String) async -> Result<AggregateModel, Error> {
         return await request(route: SingleMangaAPIRouter.getMangaAppregiate(mangaId: mangaId))
     }
     
+    func getMangaAppregiate(mangaId: String) -> Observable<AggregateModel> {
+        return request(
+            route: SingleMangaAPIRouter.getMangaAppregiate(mangaId: mangaId)
+        )
+    }
+    
     func getChapterData(chapterId: String) async -> Result<ChapterDataModel, Error> {
         return await request(route: SingleMangaAPIRouter.getChapterData(chapterId: chapterId))
+    }
+    
+    func getChapterData(chapterId: String) -> Observable<ChapterDataModel> {
+        return request(
+            route: SingleMangaAPIRouter.getChapterData(chapterId: chapterId)
+        )
     }
 }

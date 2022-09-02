@@ -7,7 +7,7 @@
 
 import Kingfisher
 
-class MangaCollectionViewCell: UICollectionViewCell {
+final class MangaCollectionViewCell: UICollectionViewCell {
         
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()

@@ -8,9 +8,18 @@
 import UIKit
 import Foundation
 
-class MangaPageTableView: UIView {
+final class MangaPageTableView: UIView {
     
-    lazy var pageTableView = self.createTableView()
+    var pageTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect.zero)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        tableView.separatorColor = .clear
+        tableView.register(MangaPageTableViewCell.self, forCellReuseIdentifier: "MangaPageTableViewCell")
+        tableView.backgroundColor = R.color.background()
+        
+        return tableView
+    }()
     
     func setupViews() {
         addSubview(pageTableView)

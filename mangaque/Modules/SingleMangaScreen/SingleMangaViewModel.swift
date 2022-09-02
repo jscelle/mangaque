@@ -21,18 +21,17 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     init(item: MangaViewData) {
         self.item = item
     }
-        
+    
     override func startFetch() {
         super.startFetch()
         
-        Task {
-            do {
-                let response = await manager.getMangaAppregiate(mangaId: item.mangaId)
+        manager
+            .getMangaAppregiate(mangaId: item.mangaId)
+            .subscribe { [weak self] aggregate in
                 
-                switch response {
-                case .success(let aggregate):
-                    
-                    guard let firstChapterId = aggregate
+                guard
+                    let self = self,
+                    let firstChapterId = aggregate
                         .volumes?
                         .first?
                         .value
@@ -40,23 +39,20 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                         .first(where: { $0.key == "1" })?
                         .value
                         .id
-                    else {
-                        return
-                    }
-                    
-                    let pages = await manager.getChapterData(chapterId: firstChapterId)
-                    
-                    switch pages {
-                    case .success(let chapter):
-                        
+                else {
+                    return
+                }
+                
+                self.manager.getChapterData(chapterId: firstChapterId)
+                    .subscribe { chapter in
                         guard let hash = chapter.chapter?.hash else {
                             self.error.accept(MangaErrors.failedToGetImagesUrls)
-                            break
+                            return
                         }
                         
                         guard let chapter = chapter.chapter else {
                             self.error.accept(MangaErrors.failedToGetImagesUrls)
-                            break
+                            return
                         }
                         
                         let urls = chapter.data?.compactMap {
@@ -68,13 +64,10 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                         
                         guard let urls = urls else {
                             self.error.accept(MangaErrors.failedToGetImagesUrls)
-                            break
+                            return
                         }
                         
-                        print(urls.count)
-                        
-                        #warning("bug that makes resize images")
-                        imagePrefetcher = ImagePrefetcher(
+                        self.imagePrefetcher = ImagePrefetcher(
                             urls: urls,
                             completionHandler: { [weak self] skippedResources, failedResources, completedResources in
                                 
@@ -84,7 +77,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                                     self?.error.accept(MangaErrors.failedToLoadImages)
                                     return
                                 }
-                                                                
+                                
                                 var resources = skippedResources
                                 resources.append(contentsOf: completedResources)
                                 
@@ -99,16 +92,14 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                             }
                         )
                         
-                        imagePrefetcher?.start()
+                        self.imagePrefetcher?.start()
                         
-                    case .failure(let error):
-                        self.error.accept(error)
-                    }
-                    
-                case .failure(let error):
-                    self.error.accept(error)
-                }
-            }
-        }
+                    } onError: { erorr in
+                        self.error.accept(MangaErrors.failedToLoadImages)
+                    }.disposed(by: self.disposeBag)
+                
+            } onError: { [weak self] error in
+                self?.error.accept(error)
+            }.disposed(by: disposeBag)
     }
 }

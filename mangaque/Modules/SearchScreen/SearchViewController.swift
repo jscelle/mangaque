@@ -9,7 +9,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class SearchViewController: ViewController<String?, [MangaViewData]> {
+final class SearchViewController: ViewController<String?, [MangaViewData]> {
     
     private let translator = TranslateManager()
     
@@ -19,12 +19,6 @@ class SearchViewController: ViewController<String?, [MangaViewData]> {
         super.viewDidLoad()
         
         setupViews()
-        
-        Task {
-            do {
-                let response = await translator.detectLanguage(text: "Всем привет, с вами я Санечек")
-            }
-        }
     }
     
     private func setupViews() {
@@ -45,8 +39,8 @@ class SearchViewController: ViewController<String?, [MangaViewData]> {
     override func eventsSubscribe() {
         super.eventsSubscribe()
         
-        (searchView.textField.rx.text <-> viewModel.inputData).disposed(by: disposeBag)
-        
+        searchView.textField.rx.text.bind(to: viewModel.inputData).disposed(by: disposeBag)
+                
         viewModel.outputData.bind(to: searchView.collectionView.rx.items(
                 cellIdentifier: "MangaCollectionViewCell",
                 cellType: MangaCollectionViewCell.self

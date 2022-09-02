@@ -16,7 +16,7 @@ enum TranslatorAPIRouter: BaseRouteBuilder {
         var headers = HTTPHeaders()
         
         headers.add(name: "content-type", value: "application/json")
-        headers.add(name: "X-RapidAPI-Key", value: "ef2ff4edc5mshcaa88e744885781p1b48f3jsn47871268beea")
+        headers.add(name: "X-RapidAPI-Key", value: "nope")
         headers.add(name: "X-RapidAPI-Host", value: "microsoft-translator-text.p.rapidapi.com")
         
         return headers

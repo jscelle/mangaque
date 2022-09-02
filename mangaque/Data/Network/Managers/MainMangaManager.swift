@@ -8,7 +8,7 @@
 import Alamofire
 import RxSwift
 
-class MainMangaManager: BaseNetworkManager {
+final class MainMangaManager: BaseNetworkManager {
     
     private let disposeBag = DisposeBag()
     
