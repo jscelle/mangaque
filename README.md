@@ -23,9 +23,11 @@ Mangaque is an app, which translate any existing manga on your prefered language
 ## 🔴 Bugs & features that need improvement 🔴
 
 - Image redrawer stops main thread, scroll feels laggy
+- Manga pages resizes wrongly sometimes
 
 ## 🛠 TODO 🛠
 
+- Navigation
 - Loading / error handling
 - Translation API implementation
 - Manga chapter and volume select
