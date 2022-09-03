@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import NVActivityIndicatorView
 
 class ViewController<Input, Output>: UIViewController {
     
@@ -30,7 +31,7 @@ class ViewController<Input, Output>: UIViewController {
     
     func eventsSubscribe() {
         
-        viewModel.startFetch()
+        viewModel.getOutput()
         
         // MARK: Bind to loading
         viewModel.loading.subscribe(onNext: { isLoading in

@@ -22,8 +22,8 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
         self.item = item
     }
     
-    override func startFetch() {
-        super.startFetch()
+    override func getOutput() {
+        super.getOutput()
         
         manager
             .getMangaAppregiate(mangaId: item.mangaId)

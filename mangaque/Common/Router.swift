@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Router {
+final class Router {
     
     static let shared = Router()
     
@@ -18,11 +18,8 @@ class Router {
         case search
     }
     
-    enum Transition {
-        case root
-    }
-    
     func getSeague(seague: Scene) -> UIViewController {
+        
         switch seague {
             
         case .singleManga(let manga):

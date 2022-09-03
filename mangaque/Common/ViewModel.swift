@@ -9,20 +9,16 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol ViewModelInterface {
-    func startFetch()
-}
-
-class ViewModel<Input, Output>: NSObject, ViewModelInterface {
+open class ViewModel<Input, Output>: NSObject {
     
     let disposeBag = DisposeBag()
     
-    var outputData = PublishRelay<Output>()
     var inputData = PublishRelay<Input>()
+    var outputData = PublishRelay<Output>()
     
     var error = PublishRelay<Error>()
     
     var loading = BehaviorRelay<Bool>(value: true)
     
-    func startFetch() { }
+    func getOutput() { }
 }

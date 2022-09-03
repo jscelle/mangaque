@@ -153,6 +153,7 @@
 		9B98315528A2D7E80053A472 /* mangaque */ = {
 			isa = PBXGroup;
 			children = (
+				9B98316C28A2DA3F0053A472 /* Network */,
 				A4EDEAA628BCF9AC00331C91 /* Common */,
 				A4EF4DB828A812A7003ED8EC /* Extensions */,
 				9B346FF628A50EC100861B20 /* Modules */,
@@ -210,7 +211,6 @@
 			children = (
 				9B98317B28A3BBC30053A472 /* DataModels */,
 				9B98317528A3B42E0053A472 /* Configuration.swift */,
-				9B98316C28A2DA3F0053A472 /* Network */,
 			);
 			path = Data;
 			sourceTree = "<group>";

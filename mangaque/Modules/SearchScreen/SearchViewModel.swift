@@ -13,8 +13,8 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
     
     private let mangaManager = MainMangaManager()
     
-    override func startFetch() {
-        super.startFetch()
+    override func getOutput() {
+        super.getOutput()
         
         inputSubscribe()
         
