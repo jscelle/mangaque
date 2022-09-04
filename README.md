@@ -28,7 +28,8 @@ Mangaque is an app, which translate any existing manga on your prefered language
 ## 🛠 TODO 🛠
 
 - Navigation
-- Loading / error handling
+- Moya implementation
+- Loading handling
 - Translation API implementation
 - Manga chapter and volume select
 - Mangadex account implementation
