@@ -12,6 +12,8 @@ pod 'Kingfisher'
 pod 'RxSwift', '6.5.0'
 pod 'RxCocoa', '6.5.0'
 pod 'NVActivityIndicatorView'
+pod 'Moya/RxSwift', '~> 15.0'
+pod 'SwiftyJSON'
 
   # Pods for mangaque
 

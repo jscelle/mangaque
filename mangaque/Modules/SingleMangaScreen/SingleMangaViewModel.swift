@@ -10,13 +10,19 @@ import UIKit
 import RxCocoa
 import RxSwift
 import Kingfisher
+import Moya
 
 final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     
-    private let manager = SingleMangaManager()
     private let item: MangaViewData
     
+    private let provider = MoyaProvider<SingleMangaAPI>()
+    
     private var imagePrefetcher: ImagePrefetcher?
+    
+    private var availableVolumes = [Volume]()
+    
+    private var currentChapter = PublishRelay<Chapter>()
     
     init(item: MangaViewData) {
         self.item = item
@@ -25,81 +31,127 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     override func getOutput() {
         super.getOutput()
         
-        manager
-            .getMangaAppregiate(mangaId: item.mangaId)
-            .subscribe { [weak self] aggregate in
+        provider.rx.request(.getMangaAppregiate(
+                mangaId: item.mangaId
+            )
+        ).subscribe { [weak self] response in
+            guard let self = self else {
+                return
+            }
+            
+            do {
+                let aggregate = try response.map(AggregateModel.self)
                 
-                guard
-                    let self = self,
-                    let firstChapterId = aggregate
-                        .volumes?
-                        .first?
-                        .value
-                        .chapters?
-                        .first(where: { $0.key == "1" })?
-                        .value
-                        .id
-                else {
+                self.getPages(aggregate: aggregate)
+                
+            } catch {
+                self.error.accept(error)
+            }
+            
+        } onFailure: { [weak self] error in
+            self?.error.accept(error)
+        }.disposed(by: disposeBag)
+    }
+    
+    private func getPages(aggregate: AggregateModel) {
+        
+        let volumes = aggregate.volumes?.values.compactMap{ $0 as Volume }
+        
+        guard let volumes = volumes else {
+            return
+        }
+        
+        availableVolumes = volumes
+        
+        guard let ch = availableVolumes.first?.chapters?.first?.value else {
+            return
+        }
+        
+        drawChapter()
+        
+        self.currentChapter.accept(ch)
+        
+    }
+    
+    private func drawChapter() {
+        
+        currentChapter.subscribe(onNext: { [weak self] chapter in
+            
+            print(chapter)
+            
+            guard let self = self else {
+                return
+            }
+            
+            guard let id = chapter.id else {
+                self.error.accept(
+                    MangaErrors.failedToLoad(stage: .getPages)
+                )
+                return
+            }
+            
+            self.provider.rx.request(
+                .getChapterData(chapterId: id)
+            ).subscribe { [weak self] response in
+                
+                guard let self = self else {
                     return
                 }
                 
-                self.manager.getChapterData(chapterId: firstChapterId)
-                    .subscribe { chapter in
-                        guard let hash = chapter.chapter?.hash else {
-                            self.error.accept(MangaErrors.failedToGetImagesUrls)
-                            return
-                        }
-                        
-                        guard let chapter = chapter.chapter else {
-                            self.error.accept(MangaErrors.failedToGetImagesUrls)
-                            return
-                        }
-                        
-                        let urls = chapter.data?.compactMap {
-                            Configuration.sourceQualityImageUrl(
-                                hash: hash,
-                                fileName: $0
-                            )
-                        }
-                        
-                        guard let urls = urls else {
-                            self.error.accept(MangaErrors.failedToGetImagesUrls)
-                            return
-                        }
-                        
-                        self.imagePrefetcher = ImagePrefetcher(
-                            urls: urls,
-                            completionHandler: { [weak self] skippedResources, failedResources, completedResources in
-                                
-                                guard
-                                    let self = self,
-                                    failedResources.isEmpty else {
-                                    self?.error.accept(MangaErrors.failedToLoadImages)
-                                    return
-                                }
-                                
-                                var resources = skippedResources
-                                resources.append(contentsOf: completedResources)
-                                
-                                print(resources.count)
-                                
-                                let pages = resources.compactMap { resource in
-                                    PageViewData(resource: resource)
-                                }
-                                
-                                self.outputData.accept(pages)
-                                self.loading.accept(false)
-                            }
+                do {
+                    let chapterData = try response.map(ChapterDataModel.self)
+                    
+                    guard
+                        let hash = chapterData.chapter?.hash,
+                        let chapterPages = chapterData.chapter?.data
+                    else {
+                        self.error.accept(
+                            MangaErrors.failedToLoad(stage: .getPages)
                         )
-                        
-                        self.imagePrefetcher?.start()
-                        
-                    } onError: { erorr in
-                        self.error.accept(MangaErrors.failedToLoadImages)
-                    }.disposed(by: self.disposeBag)
+                        return
+                    }
+                    
+                    let urls = chapterPages.compactMap { data in
+                        Configuration.sourceQualityImageUrl(hash: hash, fileName: data)
+                    }
+                    
+                    self.imagePrefetcher = ImagePrefetcher(
+                        urls: urls,
+                        completionHandler: { [weak self] skippedResources, failedResources, completedResources in
+                            
+                            guard
+                                let self = self,
+                                failedResources.isEmpty else {
+                                self?.error.accept(MangaErrors.failedToLoad(stage: .getPages))
+                                return
+                            }
+                            
+                            var resources = skippedResources
+                            resources.append(contentsOf: completedResources)
+                            
+                            print(resources.count)
+                            
+                            let pages = resources.compactMap { resource in
+                                PageViewData(resource: resource)
+                            }
+                            
+                            self.outputData.accept(pages)
+                            self.loading.accept(false)
+                        }
+                    )
+                    
+                    self.imagePrefetcher?.start()
+                   
+                    
+                } catch {
+                    self.error.accept(error)
+                }
                 
-            } onError: { [weak self] error in
+            } onFailure: { [weak self] error in
                 self?.error.accept(error)
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.disposeBag)
+            
+        }).disposed(by: disposeBag)
+
     }
 }

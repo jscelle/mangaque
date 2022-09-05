@@ -35,7 +35,7 @@ class ViewController<Input, Output>: UIViewController {
         
         // MARK: Bind to loading
         viewModel.loading.subscribe(onNext: { isLoading in
-#warning("add skeleton for loading")
+        #warning("add something for loading")
         }).disposed(by: disposeBag)
         
         // MARK: Bind to error

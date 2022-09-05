@@ -10,9 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class SearchViewController: ViewController<String?, [MangaViewData]> {
-    
-    private let translator = TranslateManager()
-    
+        
     private lazy var searchView = SearchCollectionView(frame: self.view.bounds)
     
     override func viewDidLoad() {

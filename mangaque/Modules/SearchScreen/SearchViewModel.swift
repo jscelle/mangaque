@@ -8,36 +8,44 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import Moya
+import SwiftyJSON
 
 final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
     
-    private let mangaManager = MainMangaManager()
+    private let provider = MoyaProvider<MangaAPI>()
     
     override func getOutput() {
         super.getOutput()
         
         inputSubscribe()
         
-        mangaManager.getManga().subscribe { [weak self] manga in
-                
-                guard let self = self else {
-                    return
-                }
-                self.getMangaItems(manga: manga)
+        provider.rx.request(.getManga).subscribe { [weak self] response in
+            
+            guard let self = self else {
+                return
             }
             
-            onError: { error in
+            do {
+                let data = try response.mapJSON()
+                self.getMangaData(
+                    json: JSON(
+                        data
+                    )
+                )
+            } catch {
                 self.error.accept(error)
             }
             
-            onCompleted: { [weak self] in
-                self?.loading.accept(false)
-            }.disposed(by: disposeBag)
+        } onFailure: { [weak self] error in
+            self?.error.accept(error)
+        }.disposed(by: disposeBag)
+        
     }
     
     private func inputSubscribe() {
         
-        inputData.subscribe { [weak self] text in
+        inputData.subscribe (onNext: { [weak self] text in
             guard
                 let text = text,
                 let self = self
@@ -45,82 +53,103 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
                 return
             }
             
-            self.mangaManager.searchManga(title: text).subscribe { [weak self] manga in
-                self?.getMangaItems(manga: manga)
-            } onError: { error in
-                self.error.accept(error)
-            }.disposed(by: self.disposeBag)
+            self.provider.rx.request(.searchManga(title: text))
+                .subscribe { [weak self] response in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    do {
+                        let data = try response.mapJSON()
+                        self.getMangaData(
+                            json: JSON(
+                                data
+                            )
+                        )
+                    } catch {
+                        self.error.accept(error)
+                    }
+                } onFailure: { [weak self] error in
+                    self?.error.accept(error)
+                }.disposed(by: self.disposeBag)
             
-            
-        } onError: { [weak self] error in
-            self?.error.accept(error)
-        } onCompleted: { [weak self] in
-            self?.loading.accept(false)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
     
-    private func getMangaItems(manga: MangaModel) {
+    private func getMangaData(json: JSON) {
         
-        Task {
-            guard let data = manga.data else {
-                error.accept(MangaErrors.failedToGetManga)
+        let json = json["data"].array
+        
+        let group = DispatchGroup()
+        
+        var manga = [MangaViewData]()
+        
+        json?.forEach { json in
+            
+            group.enter()
+            
+            guard
+                let id = json["id"].string,
+                let title = json["attributes"]["title"]["en"].string
+            else {
+                self.error.accept(MangaErrors.failedToLoad(stage: .getManga))
                 return
             }
             
-            var mangaItems: [MangaViewData] = []
+            let coverId = json["relationships"]
+                .array?
+                .filter { $0["type"].string == "cover_art" }
+                .compactMap { $0["id"].string }
+                .first
             
-            await withTaskGroup(of: MangaViewData?.self) { group in
-                
-                for dataItem in data {
+            guard let coverId = coverId else {
+                return
+            }
+            
+            self.provider.rx.request(.getMangaCover(coverId: coverId))
+                .subscribe { [weak self] response in
                     
-                    guard let mangaId = dataItem.id else {
-                        error.accept(MangaErrors.failedToGetManga)
-                        break
+                    guard let self = self else {
+                        return
                     }
                     
-                    guard let mangaTitle = dataItem
-                        .attributes?
-                        .title?
-                        .en
-                    else {
-                        error.accept(MangaErrors.failedToGetManga)
-                        break
-                    }
-                    
-                    guard let coverId = dataItem
-                        .relationships?
-                        .first(where: {
-                            $0.type == "cover_art"
-                        })?
-                        .id
-                    else {
-                        error.accept(MangaErrors.failedToGetManga)
-                        break
-                    }
-                    group.addTask {
-                        guard let coverUrl = await self.mangaManager.getCoverUrl(
-                            coverId: coverId,
-                            mangaId: mangaId
-                        ) else {
-                            self.error.accept(MangaErrors.failedToGetManga)
-                            return nil
+                    do {
+                        let coverData = try response.mapJSON()
+                        
+                        guard
+                            let fileName = JSON(coverData)["data"]["attributes"]["fileName"].string,
+                            let url = Configuration.mangaCoverUrl(
+                                mangaId: id,
+                                coverFileName: fileName
+                            )
+                        else {
+                            self.error.accept(MangaErrors.failedToLoad(stage: .getThumbnail))
+                            return
                         }
                         
-                        return MangaViewData(
-                            mangaId: mangaId,
-                            title: mangaTitle,
-                            coverURL: coverUrl
+                        manga.append(
+                            MangaViewData(
+                                mangaId: id,
+                                title: title,
+                                coverURL: url
+                            )
                         )
+                        
+                    } catch {
+                        self.error.accept(error)
                     }
-                }
-                for await mangaItem in group {
-                    if let mangaItem = mangaItem {
-                        mangaItems.append(mangaItem)
-                    }
-                }
-                outputData.accept(mangaItems)
-                loading.accept(false)
-            }
+                    
+                    group.leave()
+                    
+                } onFailure: { [weak self] error in
+                    self?.error.accept(error)
+                    group.leave()
+                }.disposed(by: self.disposeBag)
+        }
+        
+        group.notify(queue: .main) {
+            self.outputData.accept(manga)
         }
     }
 }
