@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct Manga {
+    let title: String
+    let mangaId: String
+    let coverId: String
+}
+
+// MARK: Cover is url
 struct MangaViewData {
     var mangaId: String
     var title: String

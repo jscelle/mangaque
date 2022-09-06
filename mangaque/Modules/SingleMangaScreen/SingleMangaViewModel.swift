@@ -34,10 +34,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
         provider.rx.request(.getMangaAppregiate(
                 mangaId: item.mangaId
             )
-        ).subscribe { [weak self] response in
-            guard let self = self else {
-                return
-            }
+        ).subscribe { [unowned self] response in
             
             do {
                 let aggregate = try response.map(AggregateModel.self)
@@ -45,11 +42,11 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                 self.getPages(aggregate: aggregate)
                 
             } catch {
-                self.error.accept(error)
+                self.outputData.onError(error)
             }
             
-        } onFailure: { [weak self] error in
-            self?.error.accept(error)
+        } onFailure: { [unowned self] error in
+            self.outputData.onError(error)
         }.disposed(by: disposeBag)
     }
     
@@ -75,28 +72,16 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     
     private func drawChapter() {
         
-        currentChapter.subscribe(onNext: { [weak self] chapter in
-            
-            print(chapter)
-            
-            guard let self = self else {
-                return
-            }
+        currentChapter.subscribe(onNext: { [unowned self] chapter in
             
             guard let id = chapter.id else {
-                self.error.accept(
-                    MangaErrors.failedToLoad(stage: .getPages)
-                )
+                self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
                 return
             }
             
             self.provider.rx.request(
                 .getChapterData(chapterId: id)
-            ).subscribe { [weak self] response in
-                
-                guard let self = self else {
-                    return
-                }
+            ).subscribe { [unowned self] response in
                 
                 do {
                     let chapterData = try response.map(ChapterDataModel.self)
@@ -105,9 +90,8 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                         let hash = chapterData.chapter?.hash,
                         let chapterPages = chapterData.chapter?.data
                     else {
-                        self.error.accept(
-                            MangaErrors.failedToLoad(stage: .getPages)
-                        )
+                        self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
+                        self.outputData.onCompleted()
                         return
                     }
                     
@@ -117,12 +101,11 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                     
                     self.imagePrefetcher = ImagePrefetcher(
                         urls: urls,
-                        completionHandler: { [weak self] skippedResources, failedResources, completedResources in
+                        completionHandler: { [unowned self] skippedResources, failedResources, completedResources in
                             
-                            guard
-                                let self = self,
-                                failedResources.isEmpty else {
-                                self?.error.accept(MangaErrors.failedToLoad(stage: .getPages))
+                            guard failedResources.isEmpty else {
+                                self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
+                                self.outputData.onCompleted()
                                 return
                             }
                             
@@ -135,8 +118,8 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                                 PageViewData(resource: resource)
                             }
                             
-                            self.outputData.accept(pages)
-                            self.loading.accept(false)
+                            self.outputData.onNext(pages)
+                            self.outputData.onCompleted()
                         }
                     )
                     
@@ -144,11 +127,13 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                    
                     
                 } catch {
-                    self.error.accept(error)
+                    self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
+                    self.outputData.onCompleted()
                 }
                 
-            } onFailure: { [weak self] error in
-                self?.error.accept(error)
+            } onFailure: { [unowned self] error in
+                self.outputData.onError(error)
+                self.outputData.onCompleted()
             }.disposed(by: self.disposeBag)
             
         }).disposed(by: disposeBag)

@@ -13,6 +13,8 @@ class ViewController<Input, Output>: UIViewController {
     
     var viewModel: ViewModel<Input, Output>
     
+    private var isLoading = false
+    
     let disposeBag = DisposeBag()
     
     init(viewModel: ViewModel<Input, Output>) {
@@ -34,13 +36,11 @@ class ViewController<Input, Output>: UIViewController {
         viewModel.getOutput()
         
         // MARK: Bind to loading
-        viewModel.loading.subscribe(onNext: { isLoading in
-        #warning("add something for loading")
-        }).disposed(by: disposeBag)
+        isLoading = true
         
         // MARK: Bind to error
         
-        viewModel.error.subscribe(onNext: { [weak self] error in
+        viewModel.outputData.subscribe(onError:  { [weak self] error in
             
             guard let self = self else {
                 return
@@ -49,6 +49,14 @@ class ViewController<Input, Output>: UIViewController {
             DispatchQueue.main.async {
                 self.alert(message: error.localizedDescription)
             }
+            
+        }, onCompleted: { [weak self] in
+            
+            guard let self = self else{
+                return
+            }
+            #warning("add loading")
+            self.isLoading = false
             
         }).disposed(by: disposeBag)
     }

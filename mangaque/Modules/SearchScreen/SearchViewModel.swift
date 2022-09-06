@@ -19,100 +19,114 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
         super.getOutput()
         
         inputSubscribe()
-        
-        provider.rx.request(.getManga).subscribe { [weak self] response in
-            
-            guard let self = self else {
-                return
-            }
+                
+        provider.rx.request(.getManga).subscribe { [unowned self] response in
             
             do {
                 let data = try response.mapJSON()
-                self.getMangaData(
-                    json: JSON(
-                        data
-                    )
-                )
+                
+                guard let json = JSON(data)["data"].array else {
+                    return
+                }
+                
+                getManga(json: json)
+                
+                
             } catch {
-                self.error.accept(error)
+                outputData.onError(error)
             }
             
-        } onFailure: { [weak self] error in
-            self?.error.accept(error)
+        } onFailure: { [unowned self] error in
+            outputData.onError(error)
         }.disposed(by: disposeBag)
         
     }
     
     private func inputSubscribe() {
         
-        inputData.subscribe (onNext: { [weak self] text in
-            guard
-                let text = text,
-                let self = self
-            else {
+        inputData.subscribe (onNext: { [unowned self] text in
+            guard let text = text else {
                 return
             }
             
             self.provider.rx.request(.searchManga(title: text))
-                .subscribe { [weak self] response in
-                    
-                    guard let self = self else {
-                        return
-                    }
+                .subscribe { [unowned self] response in
                     
                     do {
                         let data = try response.mapJSON()
-                        self.getMangaData(
-                            json: JSON(
-                                data
-                            )
-                        )
+                        
+                        guard let json = JSON(data)["data"].array else {
+                            return
+                        }
+                        getManga(json: json)
                     } catch {
-                        self.error.accept(error)
+                        outputData.onError(error)
+                        outputData.onCompleted()
                     }
-                } onFailure: { [weak self] error in
-                    self?.error.accept(error)
-                }.disposed(by: self.disposeBag)
+                } onFailure: { [unowned self] error in
+                    
+                    outputData.onError(error)
+                    outputData.onCompleted()
+                    
+                }.disposed(by: disposeBag)
             
         }).disposed(by: disposeBag)
     }
     
-    private func getMangaData(json: JSON) {
+    
+    private func getManga(json: [JSON]) {
         
-        let json = json["data"].array
-        
-        let group = DispatchGroup()
-        
-        var manga = [MangaViewData]()
-        
-        json?.forEach { json in
-            
-            group.enter()
-            
-            guard
-                let id = json["id"].string,
+        Observable.from(json)
+            .compactMap { json -> Manga? in
+                
                 let title = json["attributes"]["title"]["en"].string
-            else {
-                self.error.accept(MangaErrors.failedToLoad(stage: .getManga))
-                return
+                
+                let coverId = json["relationships"]
+                    .array?
+                    .filter { $0["type"].string == "cover_art" }
+                    .compactMap { $0["id"].string }
+                    .first
+                
+                let id = json["id"].string
+                
+                guard
+                    let title = title,
+                    let coverId = coverId,
+                    let id = id
+                else {
+                    return nil
+                }
+                #warning("refactor this model")
+                return Manga(
+                    title: title,
+                    mangaId: id,
+                    coverId: coverId
+                )
             }
+            .flatMap(getMangaViewData)
+            .toArray()
+            .subscribe(on: SerialDispatchQueueScheduler(qos: .background))
+            .subscribe({ [unowned self] manga in
+                
+                switch manga {
+                case .success(let manga):
+                    self.outputData.onNext(manga)
+                case .failure(let error):
+                    self.outputData.onError(error)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func getMangaViewData(manga: Manga) -> Single<MangaViewData> {
+        
+        return Single.create { [unowned self] single in
             
-            let coverId = json["relationships"]
-                .array?
-                .filter { $0["type"].string == "cover_art" }
-                .compactMap { $0["id"].string }
-                .first
-            
-            guard let coverId = coverId else {
-                return
-            }
-            
-            self.provider.rx.request(.getMangaCover(coverId: coverId))
-                .subscribe { [weak self] response in
+            provider.request(.getMangaCover(coverId: manga.coverId)) { result in
+                
+                switch result {
                     
-                    guard let self = self else {
-                        return
-                    }
+                case .success(let response):
                     
                     do {
                         let coverData = try response.mapJSON()
@@ -120,36 +134,31 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
                         guard
                             let fileName = JSON(coverData)["data"]["attributes"]["fileName"].string,
                             let url = Configuration.mangaCoverUrl(
-                                mangaId: id,
+                                mangaId: manga.mangaId,
                                 coverFileName: fileName
                             )
                         else {
-                            self.error.accept(MangaErrors.failedToLoad(stage: .getThumbnail))
-                            return
+                            break
                         }
                         
-                        manga.append(
-                            MangaViewData(
-                                mangaId: id,
-                                title: title,
-                                coverURL: url
-                            )
+                        let viewData = MangaViewData(
+                            mangaId: manga.mangaId,
+                            title: manga.title,
+                            coverURL: url
                         )
                         
+                        single(.success(viewData))
+                        
                     } catch {
-                        self.error.accept(error)
+                        single(.failure(error))
                     }
                     
-                    group.leave()
-                    
-                } onFailure: { [weak self] error in
-                    self?.error.accept(error)
-                    group.leave()
-                }.disposed(by: self.disposeBag)
-        }
-        
-        group.notify(queue: .main) {
-            self.outputData.accept(manga)
+                case .failure(let error):
+                    single(.failure(error))
+                }
+            }
+                        
+            return Disposables.create()
         }
     }
 }

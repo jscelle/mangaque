@@ -14,11 +14,7 @@ open class ViewModel<Input, Output>: NSObject {
     let disposeBag = DisposeBag()
     
     var inputData = PublishRelay<Input>()
-    var outputData = PublishRelay<Output>()
-    
-    var error = PublishRelay<Error>()
-    
-    var loading = BehaviorRelay<Bool>(value: true)
-    
+    var outputData = PublishSubject<Output>()
+        
     func getOutput() { }
 }
