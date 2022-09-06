@@ -12,7 +12,7 @@ Mangaque is an app, which translate any existing manga on your prefered language
 
 - [Mangaque Image](https://github.com/jscelle/MangaqueImage)
 - [RxSwift](https://github.com/ReactiveX/RxSwift)
-- [Alamofire](https://github.com/Alamofire/Alamofire)
+- [Moya](https://github.com/Moya/Moya)
 - [Kingfisher](https://github.com/onevcat/Kingfisher)
 - [SnapKit](https://github.com/SnapKit/SnapKit)
 
@@ -23,10 +23,13 @@ Mangaque is an app, which translate any existing manga on your prefered language
 ## 🔴 Bugs & features that need improvement 🔴
 
 - Image redrawer stops main thread, scroll feels laggy
+- Manga pages resizes wrongly sometimes
 
 ## 🛠 TODO 🛠
 
-- Loading / error handling
+- Navigation
+- Moya implementation
+- Loading handling
 - Translation API implementation
 - Manga chapter and volume select
 - Mangadex account implementation
