@@ -18,28 +18,34 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
     override func getOutput() {
         super.getOutput()
         
-        inputSubscribe()
-                
-        provider.rx.request(.getManga).subscribe { [unowned self] response in
+        //inputSubscribe()
+        
+        provider.request(.getManga) { [weak self] result in
             
-            do {
-                let data = try response.mapJSON()
-                
-                guard let json = JSON(data)["data"].array else {
-                    return
-                }
-                
-                getManga(json: json)
-                
-                
-            } catch {
-                outputData.onError(error)
+            guard let self = self else {
+                return
             }
             
-        } onFailure: { [unowned self] error in
-            outputData.onError(error)
-        }.disposed(by: disposeBag)
-        
+            switch result {
+            case .success(let response):
+                do {
+                    let data = try response.mapJSON()
+                    
+                    guard let dataArray = JSON(data)["data"].array else {
+                        return
+                        
+                    }
+                    
+                    self.getManga(json: dataArray)
+                    
+                } catch {
+                    self.outputData.onError(error)
+                }
+            case .failure(let error):
+                self.outputData.onError(error)
+                break
+            }
+        }
     }
     
     private func inputSubscribe() {
@@ -58,7 +64,9 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
                         guard let json = JSON(data)["data"].array else {
                             return
                         }
+                        
                         getManga(json: json)
+                        
                     } catch {
                         outputData.onError(error)
                         outputData.onCompleted()
@@ -78,7 +86,6 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
         
         Observable.from(json)
             .compactMap { json -> Manga? in
-                
                 let title = json["attributes"]["title"]["en"].string
                 
                 let coverId = json["relationships"]

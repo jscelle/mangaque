@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import RxCocoa
 import RxSwift
 import Kingfisher
@@ -28,28 +27,29 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
         self.item = item
     }
     
+    #warning("refactor app so image doesnt redraws in main thread")
+    
     override func getOutput() {
         super.getOutput()
         
-        provider.rx.request(.getMangaAppregiate(
-                mangaId: item.mangaId
-            )
-        ).subscribe { [unowned self] response in
+        provider.rx.request(.getMangaAppregiate(mangaId: item.mangaId))
+            .subscribe { [unowned self] response in
             
             do {
                 let aggregate = try response.map(AggregateModel.self)
                 
-                self.getPages(aggregate: aggregate)
+                getPages(aggregate: aggregate)
                 
             } catch {
-                self.outputData.onError(error)
+                outputData.onError(error)
             }
             
         } onFailure: { [unowned self] error in
-            self.outputData.onError(error)
+            outputData.onError(error)
         }.disposed(by: disposeBag)
     }
     
+    #warning("refactor this")
     private func getPages(aggregate: AggregateModel) {
         
         let volumes = aggregate.volumes?.values.compactMap{ $0 as Volume }
@@ -67,76 +67,86 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
         drawChapter()
         
         self.currentChapter.accept(ch)
-        
     }
     
     private func drawChapter() {
-        
-        currentChapter.subscribe(onNext: { [unowned self] chapter in
-            
-            guard let id = chapter.id else {
-                self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
-                return
-            }
-            
-            self.provider.rx.request(
-                .getChapterData(chapterId: id)
-            ).subscribe { [unowned self] response in
+        currentChapter
+            .compactMap { $0.id }
+            .flatMap(getChapterData)
+            .compactMap { chapter -> [URL]? in
                 
-                do {
-                    let chapterData = try response.map(ChapterDataModel.self)
-                    
-                    guard
-                        let hash = chapterData.chapter?.hash,
-                        let chapterPages = chapterData.chapter?.data
-                    else {
-                        self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
-                        self.outputData.onCompleted()
-                        return
-                    }
-                    
-                    let urls = chapterPages.compactMap { data in
-                        Configuration.sourceQualityImageUrl(hash: hash, fileName: data)
-                    }
-                    
-                    self.imagePrefetcher = ImagePrefetcher(
-                        urls: urls,
-                        completionHandler: { [unowned self] skippedResources, failedResources, completedResources in
-                            
-                            guard failedResources.isEmpty else {
-                                self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
-                                self.outputData.onCompleted()
-                                return
-                            }
-                            
-                            var resources = skippedResources
-                            resources.append(contentsOf: completedResources)
-                            
-                            print(resources.count)
-                            
-                            let pages = resources.compactMap { resource in
-                                PageViewData(resource: resource)
-                            }
-                            
-                            self.outputData.onNext(pages)
-                            self.outputData.onCompleted()
-                        }
-                    )
-                    
-                    self.imagePrefetcher?.start()
-                   
-                    
-                } catch {
-                    self.outputData.onError(MangaErrors.failedToLoad(stage: .getPages))
-                    self.outputData.onCompleted()
+                guard
+                    let data = chapter.chapter,
+                    let hash = data.hash,
+                    let data = data.data
+                else {
+                    return nil
                 }
                 
-            } onFailure: { [unowned self] error in
-                self.outputData.onError(error)
-                self.outputData.onCompleted()
-            }.disposed(by: self.disposeBag)
+                return data.compactMap { fileName in
+                    return Configuration.sourceQualityImageUrl(
+                        hash: hash,
+                        fileName: fileName
+                    )
+                }
+            }
+            .flatMap(downloadImages)
+            .bind(to: outputData)
+            .disposed(by: disposeBag)
+    }
+    
+    private func downloadImages(urls: [URL]) -> Single<[PageViewData]> {
+        
+        return Single.create { [unowned self] single in
             
-        }).disposed(by: disposeBag)
-
+            let disposables = Disposables.create()
+            
+            self.imagePrefetcher = ImagePrefetcher(resources: urls, options: .none) { skippedResources, failedResources, completedResources in
+                
+                if failedResources.isEmpty {
+                    let viewData = (skippedResources + completedResources).compactMap {
+                        PageViewData(resource: $0)
+                    }
+                    single(.success(viewData))
+                }
+                
+                self.imagePrefetcher?.stop()
+            }
+            
+            self.imagePrefetcher?.start()
+            
+            return disposables
+            
+        }
+    }
+    
+    private func getChapterData(id: String) -> Single<ChapterDataModel> {
+        
+        return Single.create { [weak self] single in
+            
+            let disposables = Disposables.create()
+            
+            guard let self = self else {
+                return disposables
+            }
+            
+            self.provider.request(.getChapterData(chapterId: id)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        
+                        let data = try response.map(ChapterDataModel.self)
+                        
+                        single(.success(data))
+                    } catch {
+                        single(.failure(error))
+                    }
+                case .failure(let error):
+                    single(.failure(error))
+                }
+            }
+            
+            return disposables
+        }
     }
 }
