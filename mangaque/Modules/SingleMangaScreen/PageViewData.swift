@@ -9,5 +9,5 @@ import Foundation
 import Kingfisher
 
 struct PageViewData {
-    let resource: Resource
+    let image: UIImage
 }

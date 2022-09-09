@@ -14,14 +14,11 @@ import Moya
 final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     
     private let item: MangaViewData
-    
     private let provider = MoyaProvider<SingleMangaAPI>()
-    
     private var imagePrefetcher: ImagePrefetcher?
-    
     private var availableVolumes = [Volume]()
-    
     private var currentChapter = PublishRelay<Chapter>()
+    private let mangaqueManager = MangaqueManager()
     
     init(item: MangaViewData) {
         self.item = item
@@ -66,7 +63,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
         
         drawChapter()
         
-        self.currentChapter.accept(ch)
+        currentChapter.accept(ch)
     }
     
     private func drawChapter() {
@@ -91,29 +88,33 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                 }
             }
             .flatMap(downloadImages)
+            .flatMap(mangaqueManager.redrawChapter)
+            .compactMap {
+                $0.compactMap {
+                    PageViewData(image: $0)
+                }
+            }
             .bind(to: outputData)
             .disposed(by: disposeBag)
     }
     
-    private func downloadImages(urls: [URL]) -> Single<[PageViewData]> {
+    private func downloadImages(urls: [URL]) -> Single<[Resource]> {
         
         return Single.create { [unowned self] single in
             
             let disposables = Disposables.create()
             
-            self.imagePrefetcher = ImagePrefetcher(resources: urls, options: .none) { skippedResources, failedResources, completedResources in
+            imagePrefetcher = ImagePrefetcher(resources: urls, options: .none) { [unowned self] skippedResources, failedResources, completedResources in
                 
                 if failedResources.isEmpty {
-                    let viewData = (skippedResources + completedResources).compactMap {
-                        PageViewData(resource: $0)
-                    }
+                    let viewData = (skippedResources + completedResources)
                     single(.success(viewData))
                 }
                 
-                self.imagePrefetcher?.stop()
+                imagePrefetcher?.stop()
             }
             
-            self.imagePrefetcher?.start()
+            imagePrefetcher?.start()
             
             return disposables
             
@@ -145,7 +146,6 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                     single(.failure(error))
                 }
             }
-            
             return disposables
         }
     }
