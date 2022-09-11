@@ -71,7 +71,6 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
             .compactMap { $0.id }
             .flatMap(getChapterData)
             .compactMap { chapter -> [URL]? in
-                
                 guard
                     let data = chapter.chapter,
                     let hash = data.hash,
@@ -88,33 +87,37 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                 }
             }
             .flatMap(downloadImages)
-            .flatMap(mangaqueManager.redrawChapter)
-            .compactMap {
-                $0.compactMap {
-                    PageViewData(image: $0)
-                }
-            }
-            .bind(to: outputData)
-            .disposed(by: disposeBag)
+            .subscribe(onNext: { self.mangaqueManager.redrawChapter(pages: $0) })
+//            .flatMap(mangaqueManager.redrawChapter)
+//            .compactMap {
+//                $0.compactMap {
+//                    PageViewData(image: $0)
+//                }
+//            }
+//            .bind(to: outputData)
+           .disposed(by: disposeBag)
     }
     
     private func downloadImages(urls: [URL]) -> Single<[Resource]> {
         
-        return Single.create { [unowned self] single in
+        return Single.create { single in
             
             let disposables = Disposables.create()
             
-            imagePrefetcher = ImagePrefetcher(resources: urls, options: .none) { [unowned self] skippedResources, failedResources, completedResources in
+            self.imagePrefetcher = ImagePrefetcher(
+                resources: urls,
+                options: .none
+            ) { skippedResources, failedResources, completedResources in
                 
                 if failedResources.isEmpty {
                     let viewData = (skippedResources + completedResources)
                     single(.success(viewData))
                 }
                 
-                imagePrefetcher?.stop()
+                self.imagePrefetcher?.stop()
             }
             
-            imagePrefetcher?.start()
+            self.imagePrefetcher?.start()
             
             return disposables
             
@@ -123,13 +126,9 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     
     private func getChapterData(id: String) -> Single<ChapterDataModel> {
         
-        return Single.create { [weak self] single in
+        return Single.create { single in
             
             let disposables = Disposables.create()
-            
-            guard let self = self else {
-                return disposables
-            }
             
             self.provider.request(.getChapterData(chapterId: id)) { result in
                 switch result {

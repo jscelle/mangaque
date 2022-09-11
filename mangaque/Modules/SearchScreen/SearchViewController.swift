@@ -37,9 +37,20 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
     override func eventsSubscribe() {
         super.eventsSubscribe()
         
-        searchView.textField.rx.text.bind(to: viewModel.inputData).disposed(by: disposeBag)
+        searchView
+            .textField
+            .rx
+            .text
+            .bind(to: viewModel.inputData)
+            .disposed(by: disposeBag)
                 
-        viewModel.outputData.bind(to: searchView.collectionView.rx.items(
+        viewModel
+            .outputData
+            .bind(
+                to: searchView
+                    .collectionView
+                    .rx
+                    .items(
                 cellIdentifier: "MangaCollectionViewCell",
                 cellType: MangaCollectionViewCell.self
             )
@@ -47,7 +58,11 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             cell.mangaItem = data
         }.disposed(by: disposeBag)
         
-        searchView.collectionView.rx.modelSelected(MangaViewData.self).bind { item in
+        searchView
+            .collectionView
+            .rx
+            .modelSelected(MangaViewData.self)
+            .bind { item in
             
             let singleMangaController = Router.shared.getSeague(
                 seague: Router.Scene.singleManga(
@@ -58,5 +73,8 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             self.present(singleMangaController, animated: true)
             
         }.disposed(by: disposeBag)
+        
+        // trigger to loading start
+        viewModel.inputData.accept("")
     }
 }
