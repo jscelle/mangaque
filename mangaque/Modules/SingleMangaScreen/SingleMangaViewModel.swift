@@ -87,14 +87,16 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                 }
             }
             .flatMap(downloadImages)
-            .subscribe(onNext: { self.mangaqueManager.redrawChapter(pages: $0) })
-//            .flatMap(mangaqueManager.redrawChapter)
-//            .compactMap {
-//                $0.compactMap {
-//                    PageViewData(image: $0)
-//                }
-//            }
-//            .bind(to: outputData)
+        
+            .flatMap(self.mangaqueManager.redrawChapter)
+        
+//            .flatMap(self.mangaqueManager.redrawChapter)
+            .compactMap {
+                $0.compactMap {
+                    PageViewData(image: $0)
+                }
+            }
+           .bind(to: outputData)
            .disposed(by: disposeBag)
     }
     

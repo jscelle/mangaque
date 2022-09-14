@@ -8,11 +8,11 @@
 import Foundation
 import Moya
 
-enum TranslotorAPI {
+enum TranslatorAPI {
     case translate(text: String)
 }
 
-extension TranslotorAPI: TargetType {
+extension TranslatorAPI: TargetType {
     var baseURL: URL {
         return URL(string: "https://api-free.deepl.com/v2")!
     }

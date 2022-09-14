@@ -30,13 +30,11 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
     }
     
     private func viewData(json: [JSON]) -> Single<[MangaViewData]> {
-        
         return Observable
             .from(json)
             .compactMap { self.getAttributes(json: $0) }
             .flatMap(getMangaViewData)
             .toArray()
-        
     }
     
     private func searchManga(title: String) -> Maybe<[JSON]> {
@@ -77,7 +75,6 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
         id: String,
         coverId: String
     ) -> Maybe<MangaViewData> {
-        
         return provider.rx
             .request(.getMangaCover(coverId: coverId))
             .filterSuccessfulStatusCodes()

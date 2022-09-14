@@ -82,6 +82,8 @@ final class MangaqueImageProcessor {
     private func groupCloseSynopsis(
         synopisArray: [Synopsis]
     ) -> [Synopsis] {
+        
+        // MARK: Grouping array by x and y coordinates
         let sortedArray = synopisArray.sorted { first, second in
             first.rect.midX > second.rect.midX
         }
@@ -103,7 +105,7 @@ final class MangaqueImageProcessor {
         }
         .joined()
         
-        let unitedArray = sortedArray.compactMap { array -> Synopsis in
+        let unitedArray = sortedArray.compactMap { array -> Synopsis? in
             let text = array.compactMap {
                 $0.text
             }

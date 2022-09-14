@@ -6,43 +6,32 @@
 //
 
 import Foundation
-import MangaqueImage
+import RxSwift
+import RxCocoa
 import SwiftyJSON
 import Moya
 
-#warning("make mangaqueImage rx")
-class TranslatorManager: MangaqueTranslator {
+#warning("make languages to choose from rx")
+class TranslatorManager {
     
-    private let provider = MoyaProvider<TranslotorAPI>()
+    private let provider = MoyaProvider<TranslatorAPI>()
     
-    func performTranslate(
-        untranslatedText: String,
-        comletionHandler: @escaping (String?, Error?) -> ()
-    ) {
+    func translate(
+        text: String
+    ) -> Maybe<String> {
         
-        
-        
-        provider.request(.translate(text: untranslatedText)) { result in
-            
-            switch result {
-            case .success(let response):
-                do {
-                    let data = try response.mapJSON()
-                    guard let translatedText = JSON(data)["translations"].array else {
-                        return
-                    }
-                    
-                    comletionHandler("translate", nil)
-                    
-                    print(translatedText)
-                    
-                } catch {
-                    comletionHandler(nil, error)
+        return provider.rx
+            .request(.translate(text: text))
+            .mapJSON()
+            .compactMap {
+                
+                guard let text = JSON($0)["translations"].array?.first?["text"].string else {
+                    return nil
                 }
-            case .failure(let error):
-                comletionHandler(nil, error)
+                
+                print(text)
+                
+                return text
             }
-            
-        }
     }
 }

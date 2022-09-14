@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7FC268E7-DFF2-4B1D-BDA9-7C489A268014"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "mangaque/Modules/SearchScreen/SearchViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "getMangaViewData(title:id:coverId:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9FE95EBC-B65F-4543-83F8-5796F57686A2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -46,8 +30,8 @@
             filePath = "mangaque/Modules/SearchScreen/SearchViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "getMangaViewData(title:id:coverId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -55,32 +39,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B60FA9E0-5D63-484E-96BA-D1B94C3FD22F"
-            shouldBeEnabled = "Yes"
+            uuid = "1E797A31-8EBF-4C26-8664-DBE5AA4A29A8"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "mangaque/Network/Managers/TranslatorManager.swift"
+            filePath = "mangaque/Network/Managers/ImageRedrawer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "performTranslate(untranslatedText:comletionHandler:)"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "redrawImage(image:synopsys:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1A90DE11-CAE8-465B-AAB0-109CC241B2E5"
+            uuid = "AF1F549B-48E8-4640-BD2E-3FB5E43A01EF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "mangaque/Network/Managers/TranslatorManager.swift"
+            filePath = "mangaque/Modules/SingleMangaScreen/SingleMangaViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "performTranslate(untranslatedText:comletionHandler:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "drawChapter()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AF1F549B-48E8-4640-BD2E-3FB5E43A01EF - e42ecd3b915932dd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "mangaque.SingleMangaViewModel.drawChapter() -&gt; ()"
+                  moduleName = "mangaque"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/artemraykh/Desktop/mangaque/mangaque/Modules/SingleMangaScreen/SingleMangaViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "692">
+               </Location>
+               <Location
+                  uuid = "AF1F549B-48E8-4640-BD2E-3FB5E43A01EF - bf34094639fbd864"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Swift.Array&lt;Kingfisher.Resource&gt;) -&gt; Swift.Optional&lt;()&gt; in mangaque.SingleMangaViewModel.drawChapter() -&gt; ()"
+                  moduleName = "mangaque"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/artemraykh/Desktop/mangaque/mangaque/Modules/SingleMangaScreen/SingleMangaViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10625545-A88F-420B-AB9D-E4EE1D8E8EB8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "mangaque/Network/Managers/ImageRedrawer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "redrawChapter(pages:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
