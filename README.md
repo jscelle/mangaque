@@ -7,29 +7,25 @@ Mangaque is an app, which translate any existing manga on your prefered language
 ### 🔍 API's 🔍
 
 - [Mangadex api](https://api.mangadex.org/docs/)
+- [Deepl api](https://www.deepl.com/docs-api)
 
 ### 🤨 Libraries 🤨
 
-- [Mangaque Image](https://github.com/jscelle/MangaqueImage)
 - [RxSwift](https://github.com/ReactiveX/RxSwift)
 - [Moya](https://github.com/Moya/Moya)
 - [Kingfisher](https://github.com/onevcat/Kingfisher)
 - [SnapKit](https://github.com/SnapKit/SnapKit)
+- Apple vision
 
 ### 🤓 Architecture 🤓
 
 - MVVM
 
-## 🔴 Bugs & features that need improvement 🔴
+### 🛠 TODO 🛠
 
-- Manga pages resizes wrongly sometimes
-
-## 🛠 TODO 🛠
-
-- Navigation
-- Moya implementation
+- Navigation with coordinators
+- Increase perfomance
 - Loading handling
-- Translation API implementation
 - Manga chapter and volume select
 - Mangadex account implementation
 
