@@ -87,10 +87,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                 }
             }
             .flatMap(downloadImages)
-        
             .flatMap(self.mangaqueManager.redrawChapter)
-        
-//            .flatMap(self.mangaqueManager.redrawChapter)
             .compactMap {
                 $0.compactMap {
                     PageViewData(image: $0)
@@ -122,7 +119,6 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
             self.imagePrefetcher?.start()
             
             return disposables
-            
         }
     }
     

@@ -11,7 +11,7 @@ import RxCocoa
 import SwiftyJSON
 import Moya
 
-#warning("make languages to choose from rx")
+#warning("make languages to choose from, pass original chapter language throught trasnlator rx")
 class TranslatorManager {
     
     private let provider = MoyaProvider<TranslatorAPI>()
@@ -19,18 +19,13 @@ class TranslatorManager {
     func translate(
         text: String
     ) -> Maybe<String> {
-        
         return provider.rx
             .request(.translate(text: text))
             .mapJSON()
             .compactMap {
-                
                 guard let text = JSON($0)["translations"].array?.first?["text"].string else {
                     return nil
                 }
-                
-                print(text)
-                
                 return text
             }
     }

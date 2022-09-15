@@ -10,7 +10,6 @@ import RxCocoa
 import RxSwift
 import Vision
 
-
 final class MangaqueImageProcessor {
     
     func getRecognizedText(image: UIImage) -> Single<[Synopsis]> {
@@ -120,7 +119,6 @@ final class MangaqueImageProcessor {
                 rect: rect
             )
         }
-        
         return unitedArray
     }
 }

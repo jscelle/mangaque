@@ -9,7 +9,9 @@ import UIKit
 import RxSwift
 import NVActivityIndicatorView
 
-class ViewController<Input, Output>: UIViewController {
+class ViewController<Input, Output>: UIViewController, Navigatable {
+    
+    var coordinator: Coordinator
     
     var viewModel: ViewModel<Input, Output>
     
@@ -17,8 +19,12 @@ class ViewController<Input, Output>: UIViewController {
     
     let disposeBag = DisposeBag()
     
-    init(viewModel: ViewModel<Input, Output>) {
+    init(
+        viewModel: ViewModel<Input, Output>,
+        coordinator: Coordinator
+    ) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     

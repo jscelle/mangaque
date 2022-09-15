@@ -64,13 +64,11 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             .modelSelected(MangaViewData.self)
             .bind { item in
             
-            let singleMangaController = Router.shared.getSeague(
-                seague: Router.Scene.singleManga(
-                    manga: item
-                )
+            self.coordinator.push(
+                to: .singleManga(manga: item),
+                sender: self
             )
-            singleMangaController.modalPresentationStyle = .fullScreen
-            self.present(singleMangaController, animated: true)
+                
             
         }.disposed(by: disposeBag)
         

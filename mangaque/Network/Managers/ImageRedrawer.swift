@@ -18,18 +18,16 @@ class MangaqueManager {
     private let translator = TranslatorManager()
     
     func redrawChapter(pages: [Resource]) -> Single<[UIImage]> {
-        
-         Observable
+         return Observable
             .from(pages)
             .flatMap(getImage)
             // MARK: Detect synopsys
             .flatMap(recognizeText)
             // MARK: Translate synopsys
             .concatMap(translate)
+            // MARK: Image redraw
             .concatMap(redrawImage)
-            //MARK: Redraw image
             .toArray()
-            
     }
     
     private func getImage(resource: Resource) -> Single<UIImage> {
@@ -49,20 +47,16 @@ class MangaqueManager {
     }
     
     private func recognizeText(image: UIImage) -> Single<(UIImage, [Synopsis])> {
-        return Observable.of(image)
-            .flatMap {
-                Observable.combineLatest(
-                    Observable.just($0),
-                    self.imageProcessor.getRecognizedText(image: $0).asObservable()
-                )
-            }
-            .asSingle()
+        imageProcessor
+            .getRecognizedText(image: image)
+            .map { (image, $0) }
     }
     
     private func redrawImage(
         image: UIImage,
         synopsys: [Synopsis]
     ) -> Single<UIImage> {
+        
         return Single.create { single in
             
             let format = UIGraphicsImageRendererFormat()
@@ -106,6 +100,21 @@ class MangaqueManager {
         }
     }
     
+    private func translate(
+        image: UIImage,
+        synopsys: [Synopsis]
+    ) -> Observable<(UIImage, [Synopsis])> {
+        
+        Observable.combineLatest(
+            synopsys.map { synopsys in
+                translator
+                    .translate(text: synopsys.text)
+                    .asObservable()
+                    .map { Synopsis(text: $0, rect: synopsys.rect) }
+            }
+        ).map { (image, $0) }
+    }
+    
     private func setupLabel(
         text: String,
         backgroundColor: UIColor,
@@ -130,43 +139,5 @@ class MangaqueManager {
         label.textColor = textColor
         
         label.layer.render(in: context)
-    }
-    
-    private func translate(image: UIImage, synopsys: [Synopsis]) -> Maybe<(UIImage, [Synopsis])>{
-        return Observable.from(synopsys)
-            .flatMap {
-                Observable.combineLatest(
-                    Observable.just($0.rect),
-                    self.translator.translate(text: $0.text).asObservable()
-                )
-            }
-            .compactMap {
-                return Synopsis(
-                    text: $0.1,
-                    rect: $0.0
-                )
-            }
-            .toArray()
-            .compactMap {
-                return (image, $0)
-            }
-    }
-    
-    
-    private func translateSynopsys(synopsys: [Synopsis]) -> Single<[Synopsis]> {
-        return Observable.from(synopsys)
-            .flatMap {
-                Observable.combineLatest(
-                    Observable.just($0.rect),
-                    self.translator.translate(text: $0.text).asObservable()
-                )
-            }
-            .compactMap {
-                return Synopsis(
-                    text: $0.1,
-                    rect: $0.0
-                )
-            }
-            .toArray()
     }
 }

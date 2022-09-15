@@ -16,10 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let viewController = Router.shared.getSeague(seague: Router.Scene.search)
-        viewController.modalPresentationStyle = .fullScreen
+        let coordinator = Coordinator()
         
-        window?.rootViewController = viewController
+        window?.rootViewController = coordinator.getRootViewController()
         window?.makeKeyAndVisible()
     }
 }
