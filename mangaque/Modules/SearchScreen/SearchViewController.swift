@@ -62,13 +62,10 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             .collectionView
             .rx
             .modelSelected(MangaViewData.self)
-            .bind { item in
+            .bind
+        { item in
             
-            self.coordinator.push(
-                to: .singleManga(manga: item),
-                sender: self
-            )
-                
+            self.coordinator.push(to: MangaScenes.singleManga(manga: item))
             
         }.disposed(by: disposeBag)
         

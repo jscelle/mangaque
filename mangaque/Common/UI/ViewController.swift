@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 
 class ViewController<Input, Output>: UIViewController, Navigatable {
     
-    var coordinator: Coordinator
+    var coordinator: any Coordinator
     
     var viewModel: ViewModel<Input, Output>
     
@@ -21,7 +21,7 @@ class ViewController<Input, Output>: UIViewController, Navigatable {
     
     init(
         viewModel: ViewModel<Input, Output>,
-        coordinator: Coordinator
+        coordinator: some Coordinator
     ) {
         self.viewModel = viewModel
         self.coordinator = coordinator
