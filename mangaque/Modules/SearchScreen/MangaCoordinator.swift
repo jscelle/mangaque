@@ -16,7 +16,7 @@ final class MangaCoordinator: Coordinator {
     
     typealias Scenes = MangaScenes
     
-    var navigationController: UINavigationController
+    weak var navigationController: UINavigationController?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -28,7 +28,7 @@ final class MangaCoordinator: Coordinator {
             return
         }
         
-        navigationController.pushViewController(viewController, animated: false)
+        navigationController?.pushViewController(viewController, animated: false)
     }
     
     func push(to scene: Scenes) {
@@ -36,11 +36,11 @@ final class MangaCoordinator: Coordinator {
             return
         }
         
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     func pop() {
-        navigationController.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func getScene(_ scene: Scenes) -> UIViewController? {

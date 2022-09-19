@@ -9,7 +9,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-final class SearchViewController: ViewController<String?, [MangaViewData]> {
+final class SearchViewController: ViewController<String?, [MangaViewData], MangaCoordinator> {
         
     private lazy var searchView = SearchCollectionView(frame: self.view.bounds)
     

@@ -9,7 +9,7 @@ import UIKit
 
 protocol Coordinator<Scene> {
     
-    var navigationController: UINavigationController { get set }
+    var navigationController: UINavigationController? { get set }
     
     associatedtype Scene 
     
