@@ -18,7 +18,8 @@ class TranslatorManager {
     
     func translate(
         text: String
-    ) -> Maybe<String> {
+    ) -> Observable<String> {
+        
         return provider.rx
             .request(.translate(text: text))
             .mapJSON()
@@ -28,5 +29,6 @@ class TranslatorManager {
                 }
                 return text
             }
+            .asObservable()
     }
 }

@@ -68,6 +68,9 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
                 to: .singleManga(manga: item),
                 sender: self
             )
+            // this is for test only
+                let vc = self.coordinator.getSeague(seague: .singleManga(manga: item))
+                self.present(vc, animated: true)
                 
             
         }.disposed(by: disposeBag)

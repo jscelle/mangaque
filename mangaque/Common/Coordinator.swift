@@ -31,7 +31,8 @@ final class Coordinator {
         return getSeague(seague: .search)
     }
     
-    private func getSeague(seague: Scene) -> UIViewController {
+     
+    func getSeague(seague: Scene) -> UIViewController {
         switch seague {
             
         case .singleManga(let manga):
