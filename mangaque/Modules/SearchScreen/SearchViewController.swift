@@ -9,7 +9,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-final class SearchViewController: ViewController<String?, [MangaViewData]> {
+final class SearchViewController: ViewController<String?, [MangaViewData], MangaCoordinator> {
         
     private lazy var searchView = SearchCollectionView(frame: self.view.bounds)
     
@@ -62,16 +62,10 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             .collectionView
             .rx
             .modelSelected(MangaViewData.self)
-            .bind { item in
+            .bind
+        { item in
             
-            self.coordinator.push(
-                to: .singleManga(manga: item),
-                sender: self
-            )
-            // this is for test only
-                let vc = self.coordinator.getSeague(seague: .singleManga(manga: item))
-                self.present(vc, animated: true)
-                
+            self.coordinator.push(to: MangaScenes.singleManga(manga: item))
             
         }.disposed(by: disposeBag)
         

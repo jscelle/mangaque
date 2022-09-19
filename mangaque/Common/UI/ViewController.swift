@@ -9,9 +9,9 @@ import UIKit
 import RxSwift
 import NVActivityIndicatorView
 
-class ViewController<Input, Output>: UIViewController, Navigatable {
+class ViewController<Input, Output, Navigator>: UIViewController {
     
-    var coordinator: Coordinator
+    var coordinator: Navigator
     
     var viewModel: ViewModel<Input, Output>
     
@@ -21,7 +21,7 @@ class ViewController<Input, Output>: UIViewController, Navigatable {
     
     init(
         viewModel: ViewModel<Input, Output>,
-        coordinator: Coordinator
+        coordinator: Navigator
     ) {
         self.viewModel = viewModel
         self.coordinator = coordinator
@@ -69,10 +69,22 @@ class ViewController<Input, Output>: UIViewController, Navigatable {
     
     
     private func alert(message: String, title: String = "") {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
         
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let OKAction = UIAlertAction(
+            title: "OK",
+            style: .default,
+            handler: nil
+        )
+        
         alertController.addAction(OKAction)
-        self.present(alertController, animated: true, completion: nil)
+        present(
+            alertController,
+            animated: true
+        )
     }
 }

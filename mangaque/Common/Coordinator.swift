@@ -1,56 +1,23 @@
 //
-//  Router.swift
+//  Coordinator.swift
 //  mangaque
 //
-//  Created by Artem Raykh on 17.08.2022.
+//  Created by Artem Raykh on 16.09.2022.
 //
 
 import UIKit
 
-final class Coordinator {
+protocol Coordinator<Scene> {
     
-    static var `default` = Coordinator()
-        
-    enum Scene {
-        case singleManga(manga: MangaViewData)
-        case search
-    }
+    var navigationController: UINavigationController? { get set }
     
-    func pop(sender: UIViewController?) {
-        sender?.navigationController?.popViewController(animated: true)
-    }
+    associatedtype Scene 
     
-    func push(to scene: Scene, sender: UIViewController) {
-        sender.navigationController?.pushViewController(
-            getSeague(seague: scene),
-            animated: true
-        )
-    }
+    func start()
     
-    func getRootViewController() -> UIViewController {
-        return getSeague(seague: .search)
-    }
+    func pop()
     
-     
-    func getSeague(seague: Scene) -> UIViewController {
-        switch seague {
-            
-        case .singleManga(let manga):
-            
-            let singleViewModel = SingleMangaViewModel(item: manga)
-            return SingleMangaViewController(
-                viewModel: singleViewModel,
-                coordinator: self
-            )
-            
-        case .search:
-            
-            let searchViewModel = SearchViewModel()
-            return SearchViewController(
-                viewModel: searchViewModel,
-                coordinator: self
-            )
-        }
-    }
+    func push(to scene: Scene)
+    
+    func getScene(_ scene: Scene) -> UIViewController?
 }
-
