@@ -64,9 +64,7 @@ final class SearchViewController: ViewController<String?, [MangaViewData], Manga
             .modelSelected(MangaViewData.self)
             .bind
         { item in
-            
-            self.coordinator.push(to: MangaScenes.singleManga(manga: item))
-            
+            self.coordinator.push(to: .singleManga(manga: item))
         }.disposed(by: disposeBag)
         
         // trigger to loading start

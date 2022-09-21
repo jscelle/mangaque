@@ -11,6 +11,7 @@ import Kingfisher
 import RxSwift
 
 #warning("make a translate from language that comes from mangadex api")
+#warning("fix out of range bug")
 class MangaqueManager {
     
     private let disposeBag = DisposeBag()
@@ -66,7 +67,7 @@ class MangaqueManager {
         return UIGraphicsImageRenderer(bounds: bounds, format: format).image { context in
             image.draw(in: bounds)
             for syn in synopses {
-                let backgroundColor = cgImage.averageColorOf(rect: syn.rect)
+                let backgroundColor = ColorManager(image: cgImage).averageColor(of: syn.rect)
                 let textColor = backgroundColor.textColor()
                 setupLabel(
                     text: syn.text,

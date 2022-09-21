@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import NVActivityIndicatorView
 
-class ViewController<Input, Output, Navigator>: UIViewController {
+class ViewController<Input, Output, Navigator: Coordinator>: UIViewController {
     
     var coordinator: Navigator
     
@@ -46,21 +46,12 @@ class ViewController<Input, Output, Navigator>: UIViewController {
         
         // MARK: Bind to error
         
-        viewModel.outputData.subscribe(onError:  { [weak self] error in
-            
-            guard let self = self else {
-                return
-            }
-            
+        viewModel.outputData.subscribe(onError:  { error in
             DispatchQueue.main.async {
                 self.alert(message: error.localizedDescription)
             }
             
-        }, onCompleted: { [weak self] in
-            
-            guard let self = self else{
-                return
-            }
+        }, onCompleted: {
             #warning("add loading")
             self.isLoading = false
             

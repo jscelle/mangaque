@@ -7,12 +7,13 @@
 
 import UIKit
 
-enum MangaScenes {
-    case singleManga(manga: MangaViewData)
-    case search
-}
 
 final class MangaCoordinator: Coordinator {
+    
+    enum MangaScenes {
+        case singleManga(manga: MangaViewData)
+        case search
+    }
     
     typealias Scenes = MangaScenes
     

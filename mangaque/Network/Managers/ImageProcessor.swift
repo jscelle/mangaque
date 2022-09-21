@@ -14,7 +14,7 @@ final class MangaqueImageProcessor {
     
     func getRecognizedText(image: UIImage) -> Single<[Synopsis]> {
         
-        return Single.create { [unowned self] single in
+        return Single.create { single in
             
             let disposables = Disposables.create()
             

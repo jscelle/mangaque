@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol Coordinator<Scene> {
+protocol Coordinator {
     
     var navigationController: UINavigationController? { get set }
     
