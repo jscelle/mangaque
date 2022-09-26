@@ -15,15 +15,15 @@ Mangaque is an app, which translate any existing manga on your prefered language
 - [Moya](https://github.com/Moya/Moya)
 - [Kingfisher](https://github.com/onevcat/Kingfisher)
 - [SnapKit](https://github.com/SnapKit/SnapKit)
+- [Nivelir](https://github.com/hhru/Nivelir)
 - Apple vision
 
 ### 🤓 Architecture 🤓
 
-- MVVM
+- MVVM-C
 
 ### 🛠 TODO 🛠
 
-- Navigation with coordinators
 - Increase perfomance
 - Loading handling
 - Manga chapter and volume select
