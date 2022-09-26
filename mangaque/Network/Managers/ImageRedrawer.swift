@@ -11,7 +11,6 @@ import Kingfisher
 import RxSwift
 
 #warning("make a translate from language that comes from mangadex api")
-#warning("fix out of range bug")
 class MangaqueManager {
     
     private let disposeBag = DisposeBag()
@@ -25,10 +24,9 @@ class MangaqueManager {
 
         let translatedSynopses = image
             .flatMap(imageProcessor.getRecognizedText)
-            .flatMap { Single.zip($0.map(self.translate)) }
+            .concatMap { Single.zip($0.map(self.translate)) }
 
         return Observable.zip(image, translatedSynopses)
-            .observe(on: MainScheduler.instance)
             .compactMap(redrawImage)
             .toArray()
     }
@@ -38,7 +36,6 @@ class MangaqueManager {
         Single.create { single in
             
             KingfisherManager.shared.retrieveImage(with: resource) { result in
-                
                 switch result {
                     case .success(let value):
                         single(.success(value.image))

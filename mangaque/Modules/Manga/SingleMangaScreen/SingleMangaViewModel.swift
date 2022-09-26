@@ -23,27 +23,43 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     init(item: MangaViewData) {
         self.item = item
     }
-    
     #warning("refactor app so image doesnt redraws in main thread")
     
     override func getOutput() {
         super.getOutput()
         
-        provider.rx.request(.getMangaAppregiate(mangaId: item.mangaId))
-            .subscribe { [unowned self] response in
+        drawChapter()
+        
+        provider
+            .rx
+            .request(.getMangaAppregiate(mangaId: item.mangaId))
+            .filterSuccessfulStatusCodes()
+            .map(AggregateModel.self)
+            .asObservable()
+            .flatMap(getChapter)
+            .bind(to: currentChapter)
+            .disposed(by: disposeBag)
+    }
+    
+    private func getChapter(aggregate: AggregateModel) -> Single<Chapter> {
+        Single.create { single in
             
-            do {
-                let aggregate = try response.map(AggregateModel.self)
-                
-                getPages(aggregate: aggregate)
-                
-            } catch {
-                outputData.onError(error)
+            let disposables = Disposables.create()
+            
+            let volumes = aggregate.volumes?.values.compactMap{ $0 as Volume }
+            
+            guard let volumes = volumes else {
+                return disposables
             }
             
-        } onFailure: { [unowned self] error in
-            outputData.onError(error)
-        }.disposed(by: disposeBag)
+            guard let chapter = volumes.first?.chapters?.first?.value else {
+                return disposables
+            }
+            
+            single(.success(chapter))
+            
+            return Disposables.create()
+        }
     }
     
     #warning("refactor this")

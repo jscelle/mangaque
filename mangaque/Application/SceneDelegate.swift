@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Nivelir
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,15 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        window = UIWindow(windowScene: windowScene)
+        setupCoordinator(scene: windowScene)
+    }
+    
+    private func setupCoordinator(scene: UIWindowScene) {
+        let window = UIWindow(windowScene: scene)
         
-        let navigationController = UINavigationController()
+        self.window = window
         
-        let coordinator = MangaCoordinator(navigationController: navigationController)
-        coordinator.start()
+        let navigator = ScreenNavigator(window: window)
         
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        navigator.navigate { route in
+            route.setRoot(to: SearchScreen())
+                .makeKeyAndVisible()
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SingleMangaViewController: ViewController<Empty, [PageViewData], MangaCoordinator> {
+final class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
     
     override func viewDidLoad() {

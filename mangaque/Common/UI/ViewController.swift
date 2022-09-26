@@ -8,12 +8,13 @@
 import UIKit
 import RxSwift
 import NVActivityIndicatorView
+import Nivelir
 
-class ViewController<Input, Output, Navigator: Coordinator>: UIViewController {
-    
-    var coordinator: Navigator
-    
+class ViewController<Input, Output>: UIViewController {
+        
     var viewModel: ViewModel<Input, Output>
+    
+    let navigator: ScreenNavigator
     
     private var isLoading = false
     
@@ -21,10 +22,11 @@ class ViewController<Input, Output, Navigator: Coordinator>: UIViewController {
     
     init(
         viewModel: ViewModel<Input, Output>,
-        coordinator: Navigator
+        navigator: ScreenNavigator
+        
     ) {
         self.viewModel = viewModel
-        self.coordinator = coordinator
+        self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
     }
     
