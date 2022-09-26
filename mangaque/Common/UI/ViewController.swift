@@ -9,16 +9,16 @@ import UIKit
 import RxSwift
 import NVActivityIndicatorView
 
-class ViewController<Input, Output>: UIViewController {
+class ViewController: UIViewController {
         
-    var viewModel: ViewModel<Input, Output>
+    let viewModel: ViewModel
         
     private var isLoading = false
     
     let disposeBag = DisposeBag()
     
     init(
-        viewModel: ViewModel<Input, Output>
+        viewModel: ViewModel
     ) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -35,23 +35,11 @@ class ViewController<Input, Output>: UIViewController {
     
     func eventsSubscribe() {
         
-        viewModel.getOutput()
-        
         // MARK: Bind to loading
         isLoading = true
         
         // MARK: Bind to error
-        
-        viewModel.outputData.subscribe(onError:  { error in
-            DispatchQueue.main.async {
-                self.alert(message: error.localizedDescription)
-            }
-            
-        }, onCompleted: {
-            #warning("add loading")
-            self.isLoading = false
-            
-        }).disposed(by: disposeBag)
+        #warning("add error handling")
     }
     
     

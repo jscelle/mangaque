@@ -9,7 +9,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
+final class SingleMangaViewController: ViewController
+{
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
     
     override func viewDidLoad() {
@@ -30,12 +31,23 @@ final class SingleMangaViewController: ViewController<Empty, [PageViewData]> {
     override func eventsSubscribe() {
         super.eventsSubscribe()
         
+        guard let viewModel = self.viewModel as? SingleMangaViewModel else {
+            return
+        }
+        
+        let output = viewModel.transform()
+        
         // MARK: bind collection view
-        viewModel.outputData.bind(
-            to: pageView.pageTableView.rx.items(
-                cellIdentifier: "MangaPageTableViewCell",
-                cellType: MangaPageTableViewCell.self
-            )
+        output
+            .page
+            .drive(
+                pageView
+                    .pageTableView
+                    .rx
+                    .items(
+                        cellIdentifier: "MangaPageTableViewCell",
+                        cellType: MangaPageTableViewCell.self
+                    )
         ) { row, data, cell in
             cell.data = data
         }.disposed(by: disposeBag)

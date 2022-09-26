@@ -11,22 +11,26 @@ import RxSwift
 import Moya
 import SwiftyJSON
 
-final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
+final class SearchViewModel: ViewModel, ViewModelType {
     
     private let provider = MoyaProvider<MangaAPI>()
     
-    override func getOutput() {
-        super.getOutput()
-        inputSubscribe()
+    func transform(input: SearchInput) -> SearchOutput {
+        
+        let mangaData = getManga(input: input)
+        
+        return SearchOutput(
+            mangaData: mangaData
+        )
     }
     
-    private func inputSubscribe() {
-        inputData
+    private func getManga(input: SearchInput) -> Driver<[MangaViewData]> {
+        input
+            .text
             .compactMap { $0 }
             .flatMap(searchManga)
             .flatMap(viewData)
-            .bind(to: outputData)
-            .disposed(by: disposeBag)
+            .asDriver(onErrorJustReturn: [])
     }
     
     private func viewData(json: [JSON]) -> Single<[MangaViewData]> {

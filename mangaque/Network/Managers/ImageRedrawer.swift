@@ -11,6 +11,8 @@ import Kingfisher
 import RxSwift
 
 #warning("make a translate from language that comes from mangadex api")
+#warning("implement tests")
+#warning("implement realm")
 class MangaqueManager {
     
     private let disposeBag = DisposeBag()

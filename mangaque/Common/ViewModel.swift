@@ -10,14 +10,17 @@ import RxSwift
 import RxCocoa
 import RxFlow
 
-open class ViewModel<Input, Output>: Stepper {
+protocol ViewModelType {
+    associatedtype Input
+    associatedtype Output
     
+    func transform(input: Input) -> Output
+}
+
+open class ViewModel: Stepper {
+        
     public var steps = PublishRelay<Step>()
     
     let disposeBag = DisposeBag()
-    #warning("refactor to driver")
-    var inputData = PublishRelay<Input>()
-    var outputData = PublishSubject<Output>()
-        
-    func getOutput() { }
+    
 }

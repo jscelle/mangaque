@@ -11,7 +11,7 @@ import RxSwift
 import Kingfisher
 import Moya
 
-final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
+final class SingleMangaViewModel: ViewModel, ViewModelType {
     
     private let item: MangaViewData
     private let provider = MoyaProvider<SingleMangaAPI>()
@@ -23,12 +23,10 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
     init(item: MangaViewData) {
         self.item = item
     }
-    #warning("refactor app so image doesnt redraws in main thread")
     
-    override func getOutput() {
-        super.getOutput()
+    func transform(input: Empty? = nil) -> SingleMangaOutput {
         
-        drawChapter()
+        let chapter = redrawedChapter()
         
         provider
             .rx
@@ -39,6 +37,8 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
             .flatMap(getChapter)
             .bind(to: currentChapter)
             .disposed(by: disposeBag)
+        
+        return SingleMangaOutput(page: chapter)
     }
     
     private func getChapter(aggregate: AggregateModel) -> Single<Chapter> {
@@ -77,13 +77,11 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
             return
         }
         
-        drawChapter()
-        
         currentChapter.accept(ch)
     }
     
-    private func drawChapter() {
-        currentChapter
+    private func redrawedChapter() -> Driver<[PageViewData]> {
+        return currentChapter
             .compactMap { $0.id }
             .flatMap(getChapterData)
             .compactMap { chapter -> [URL]? in
@@ -109,8 +107,7 @@ final class SingleMangaViewModel: ViewModel<Empty, [PageViewData]> {
                     PageViewData(image: $0)
                 }
             }
-           .bind(to: outputData)
-           .disposed(by: disposeBag)
+           .asDriver(onErrorJustReturn: [])
     }
     
     private func downloadImages(urls: [URL]) -> Single<[Resource]> {

@@ -9,7 +9,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-final class SearchViewController: ViewController<String?, [MangaViewData]> {
+final class SearchViewController: ViewController {
         
     private lazy var searchView = SearchCollectionView(frame: self.view.bounds)
     
@@ -24,6 +24,7 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
         view.backgroundColor = R.color.background()
         
         view.addSubview(searchView)
+        
         searchView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
             make.left.equalToSuperview()
@@ -37,26 +38,33 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
     override func eventsSubscribe() {
         super.eventsSubscribe()
         
-        searchView
-            .textField
-            .rx
-            .text
-            .bind(to: viewModel.inputData)
-            .disposed(by: disposeBag)
-                
-        viewModel
-            .outputData
-            .bind(
-                to: searchView
+        guard let viewModel = self.viewModel as? SearchViewModel else {
+            return
+        }
+        
+        let textInput = getText()
+        
+        let input = SearchInput(
+            text: textInput
+        )
+        
+        let output = viewModel.transform(input: input)
+               
+        output
+            .mangaData
+            .drive(
+                searchView
                     .collectionView
                     .rx
                     .items(
-                cellIdentifier: "MangaCollectionViewCell",
-                cellType: MangaCollectionViewCell.self
-            )
-        ) { row, data, cell in
-            cell.mangaItem = data
-        }.disposed(by: disposeBag)
+                        cellIdentifier: "MangaCollectionViewCell",
+                        cellType: MangaCollectionViewCell.self
+                    )
+            ) { row, data, cell in
+                
+                cell.mangaItem = data
+                
+            }.disposed(by: disposeBag)
         
         searchView
             .collectionView
@@ -65,15 +73,17 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             .bind
         { item in
             
-            guard let viewModel = self.viewModel as? SearchViewModel else {
-                return
-            }
-            
             viewModel.toSingle(item: item)
             
         }.disposed(by: disposeBag)
-        
-        // trigger to loading start
-        viewModel.inputData.accept("")
+    }
+    
+    private func getText() -> Observable<String> {
+        searchView
+            .textField
+            .rx
+            .text
+            .compactMap { $0 }
+            .asObservable()
     }
 }

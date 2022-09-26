@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
+import RxRelay
 
 struct Manga {
     let title: String
@@ -18,4 +21,12 @@ struct MangaViewData {
     var mangaId: String
     var title: String
     var coverURL: URL
+}
+
+struct SearchInput {
+    var text: Observable<String>
+}
+
+struct SearchOutput {
+    var mangaData: Driver<[MangaViewData]>
 }

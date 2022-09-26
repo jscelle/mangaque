@@ -6,8 +6,13 @@
 //
 
 import Foundation
-import Kingfisher
+import RxCocoa
+import RxSwift
 
 struct PageViewData {
     let image: UIImage
+}
+
+struct SingleMangaOutput {
+    let page: Driver<[PageViewData]>
 }
