@@ -1,6 +1,0 @@
-framework module Nivelir {
-  umbrella header "Nivelir-umbrella.h"
-
-  export *
-  module * { export * }
-}

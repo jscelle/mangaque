@@ -6,11 +6,13 @@
 //
 
 import UIKit
-import Nivelir
+import RxFlow
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    let coordinator = FlowCoordinator()
     
     func scene(
         _ scene: UIScene,
@@ -20,20 +22,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        setupCoordinator(scene: windowScene)
-    }
-    
-    private func setupCoordinator(scene: UIWindowScene) {
-        let window = UIWindow(windowScene: scene)
-        
+        let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        let navigator = ScreenNavigator(window: window)
+        let flow = MangaFlow()
         
-        navigator.navigate { route in
-            route.setRoot(to: SearchScreen())
-                .makeKeyAndVisible()
+        Flows.use(flow, when: .created) { root in
+            window.rootViewController = root
+            window.makeKeyAndVisible()
         }
+        
+        coordinator.coordinate(
+            flow: flow,
+            with: OneStepper(
+                withSingleStep: MangaStep.searchManga
+            )
+        )
     }
 }
 

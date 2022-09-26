@@ -8,7 +8,6 @@
 import SnapKit
 import RxSwift
 import RxCocoa
-import Nivelir
 
 final class SearchViewController: ViewController<String?, [MangaViewData]> {
         
@@ -65,19 +64,16 @@ final class SearchViewController: ViewController<String?, [MangaViewData]> {
             .modelSelected(MangaViewData.self)
             .bind
         { item in
-            self.navigator.navigate(from: self) { route in
-                route.present(SingleMangaScreen(item: item), animated: true)
+            
+            guard let viewModel = self.viewModel as? SearchViewModel else {
+                return
             }
+            
+            viewModel.toSingle(item: item)
             
         }.disposed(by: disposeBag)
         
         // trigger to loading start
         viewModel.inputData.accept("")
-    }
-}
-
-struct Screens {
-    func someScreen(item: MangaViewData) -> AnyModalScreen {
-        return SingleMangaScreen(item: item).eraseToAnyScreen()
     }
 }

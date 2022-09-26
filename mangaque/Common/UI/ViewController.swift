@@ -8,25 +8,19 @@
 import UIKit
 import RxSwift
 import NVActivityIndicatorView
-import Nivelir
 
 class ViewController<Input, Output>: UIViewController {
         
     var viewModel: ViewModel<Input, Output>
-    
-    let navigator: ScreenNavigator
-    
+        
     private var isLoading = false
     
     let disposeBag = DisposeBag()
     
     init(
-        viewModel: ViewModel<Input, Output>,
-        navigator: ScreenNavigator
-        
+        viewModel: ViewModel<Input, Output>
     ) {
         self.viewModel = viewModel
-        self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
     }
     

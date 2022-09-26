@@ -98,5 +98,11 @@ final class SearchViewModel: ViewModel<String?, [MangaViewData]> {
                 )
         }
     }
+    
+    func toSingle(item: MangaViewData) {
+        steps.accept(
+            MangaStep.singleManga(item: item)
+        )
+    }
 }
 

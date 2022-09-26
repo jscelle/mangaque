@@ -6,7 +6,6 @@ PODS:
   - Moya/RxSwift (15.0.0):
     - Moya/Core
     - RxSwift (~> 6.0)
-  - Nivelir (1.4.6)
   - NVActivityIndicatorView (5.1.1):
     - NVActivityIndicatorView/Base (= 5.1.1)
   - NVActivityIndicatorView/Base (5.1.1)
@@ -16,6 +15,9 @@ PODS:
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxFlow (2.13.0):
+    - RxCocoa (>= 6.0.0)
+    - RxSwift (>= 6.0.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -27,10 +29,10 @@ DEPENDENCIES:
   - Alamofire
   - Kingfisher
   - Moya/RxSwift (~> 15.0)
-  - Nivelir
   - NVActivityIndicatorView
   - R.swift
   - RxCocoa (= 6.5.0)
+  - RxFlow
   - RxSwift (= 6.5.0)
   - SnapKit
   - SwiftyJSON
@@ -41,11 +43,11 @@ SPEC REPOS:
     - Alamofire
     - Kingfisher
     - Moya
-    - Nivelir
     - NVActivityIndicatorView
     - R.swift
     - R.swift.Library
     - RxCocoa
+    - RxFlow
     - RxRelay
     - RxSwift
     - SnapKit
@@ -56,17 +58,17 @@ SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
   Kingfisher: cdb1189a9223b1bc028816bd47c8b8101a58831c
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  Nivelir: 740bb364a9db3ffb53a11e846dc7113c46c09107
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxFlow: 52f6f6379918392c1ea8cb62d8dcf2df9a5463dd
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   Swinject: b4a11b31992e8668308dc594ba1cb9b3164a37ab
 
-PODFILE CHECKSUM: 4e766a1f31833d431828bf882ecbd9df3ca21815
+PODFILE CHECKSUM: 7044bb238b821a3af35a598e2937056e81311e16
 
 COCOAPODS: 1.11.3

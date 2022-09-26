@@ -8,8 +8,11 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 
-open class ViewModel<Input, Output>: NSObject {
+open class ViewModel<Input, Output>: Stepper {
+    
+    public var steps = PublishRelay<Step>()
     
     let disposeBag = DisposeBag()
     #warning("refactor to driver")
