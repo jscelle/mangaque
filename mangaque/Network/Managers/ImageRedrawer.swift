@@ -22,11 +22,11 @@ class MangaqueManager {
     func redrawChapter(pages: [Resource]) -> Single<[UIImage]> {
         
         let image = Observable.from(pages)
-            .concatMap(getImage)
+            .flatMap(getImage)
 
         let translatedSynopses = image
             .flatMap(imageProcessor.getRecognizedText)
-            .concatMap { Single.zip($0.map(self.translate)) }
+            .flatMap { Single.zip($0.map(self.translate)) }
 
         return Observable.zip(image, translatedSynopses)
             .compactMap(redrawImage)

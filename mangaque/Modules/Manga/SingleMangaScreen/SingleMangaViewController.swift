@@ -13,12 +13,24 @@ final class SingleMangaViewController: ViewController
 {
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
     
+    private lazy var pickerView = UIPickerView()
+    
+    private lazy var chapterSelectView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
     
     private func setupViews() {
+        
+        view.addSubview(chapterSelectView)
+        chapterSelectView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(10)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(40)
+            make.height.equalTo(20)
+        }
         
         view.addSubview(pageView)
         pageView.snp.makeConstraints { make in

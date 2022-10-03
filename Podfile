@@ -16,6 +16,13 @@ pod 'Moya/RxSwift', '~> 15.0'
 pod 'SwiftyJSON'
 pod 'RxFlow'
 
+target 'mangaqueTests' do
+    inherit! :search_paths
+    pod 'RxNimble', subspecs: ['RxBlocking', 'RxTest']
+    pod 'Quick'
+    pod 'Nimble'
+   
+  end
   # Pods for mangaque
 
 end

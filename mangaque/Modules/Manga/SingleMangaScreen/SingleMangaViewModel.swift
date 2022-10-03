@@ -42,6 +42,7 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
     }
     
     private func getChapter(aggregate: AggregateModel) -> Single<Chapter> {
+        
         Single.create { single in
             
             let disposables = Disposables.create()
@@ -101,7 +102,7 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
                 }
             }
             .flatMap(downloadImages)
-            .flatMap(self.mangaqueManager.redrawChapter)
+            .concatMap(self.mangaqueManager.redrawChapter)
             .compactMap {
                 $0.compactMap {
                     PageViewData(image: $0)

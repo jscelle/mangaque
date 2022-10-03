@@ -8,7 +8,7 @@
 import Kingfisher
 
 final class MangaCollectionViewCell: UICollectionViewCell {
-        
+    
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -26,7 +26,7 @@ final class MangaCollectionViewCell: UICollectionViewCell {
             configureCell()
         }
     }
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupViews()

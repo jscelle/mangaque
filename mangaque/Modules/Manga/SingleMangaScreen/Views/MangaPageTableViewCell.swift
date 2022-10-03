@@ -15,8 +15,8 @@ final class MangaPageTableViewCell: TableCell<PageViewData> {
         let imageView = UIImageView()
         return imageView
     }()
-    
-    internal override func configureCell() {
+        
+    override func configureCell() {
         
         guard let data = data else {
             return
