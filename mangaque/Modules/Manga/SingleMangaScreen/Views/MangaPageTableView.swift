@@ -15,7 +15,10 @@ final class MangaPageTableView: UIView {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.separatorColor = .clear
-        tableView.register(MangaPageTableViewCell.self, forCellReuseIdentifier: "MangaPageTableViewCell")
+        tableView.register(
+            MangaPageTableViewCell.self,
+            forCellReuseIdentifier: "MangaPageTableViewCell"
+        )
         tableView.backgroundColor = R.color.background()
         
         return tableView

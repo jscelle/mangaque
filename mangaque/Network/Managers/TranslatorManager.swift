@@ -20,7 +20,7 @@ class TranslatorManager {
         text: String
     ) -> Observable<String> {
         
-        return provider.rx
+        provider.rx
             .request(.translate(text: text))
             .mapJSON()
             .compactMap {

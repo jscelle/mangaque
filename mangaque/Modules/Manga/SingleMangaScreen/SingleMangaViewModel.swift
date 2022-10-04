@@ -18,7 +18,7 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
     private var imagePrefetcher: ImagePrefetcher?
     private var availableVolumes = [Volume]()
     private var currentChapter = PublishRelay<Chapter>()
-    private let mangaqueManager = MangaqueManager()
+    private let mangaqueManager = ImageRedrawer()
     
     init(item: MangaViewData) {
         self.item = item
@@ -27,6 +27,8 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
     func transform(input: Empty? = nil) -> SingleMangaOutput {
         
         let chapter = redrawedChapter()
+        
+        print(item)
         
         provider
             .rx
@@ -82,7 +84,7 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
     }
     
     private func redrawedChapter() -> Driver<[PageViewData]> {
-        return currentChapter
+        currentChapter
             .compactMap { $0.id }
             .flatMap(getChapterData)
             .compactMap { chapter -> [URL]? in
@@ -101,7 +103,11 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
                     )
                 }
             }
-            .flatMap(downloadImages)
+            .compactMap {
+                $0.compactMap {
+                    ImageResource(downloadURL: $0)
+                }
+            }
             .concatMap(self.mangaqueManager.redrawChapter)
             .compactMap {
                 $0.compactMap {
@@ -111,53 +117,20 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
            .asDriver(onErrorJustReturn: [])
     }
     
-    private func downloadImages(urls: [URL]) -> Single<[Resource]> {
-        
-        return Single.create { single in
-            
-            let disposables = Disposables.create()
-            
-            self.imagePrefetcher = ImagePrefetcher(
-                resources: urls,
-                options: .none
-            ) { skippedResources, failedResources, completedResources in
-                
-                if failedResources.isEmpty {
-                    let viewData = (skippedResources + completedResources)
-                    single(.success(viewData))
-                }
-                
-                self.imagePrefetcher?.stop()
-            }
-            
-            self.imagePrefetcher?.start()
-            
-            return disposables
-        }
+    func redrawChapter() {
+        currentChapter
+            .compactMap { $0.id }
+            .subscribe(onNext: {
+                print($0.count)
+            })
     }
     
-    private func getChapterData(id: String) -> Single<ChapterDataModel> {
+    private func getChapterData(id: String) -> Observable<ChapterDataModel> {
         
-        return Single.create { single in
-            
-            let disposables = Disposables.create()
-            
-            self.provider.request(.getChapterData(chapterId: id)) { result in
-                switch result {
-                case .success(let response):
-                    do {
-                        
-                        let data = try response.map(ChapterDataModel.self)
-                        
-                        single(.success(data))
-                    } catch {
-                        single(.failure(error))
-                    }
-                case .failure(let error):
-                    single(.failure(error))
-                }
-            }
-            return disposables
-        }
+        provider
+            .rx
+            .request(.getChapterData(chapterId: id))
+            .map(ChapterDataModel.self)
+            .asObservable()
     }
 }

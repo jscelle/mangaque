@@ -19,5 +19,4 @@ class ChapterPickerView: UIView {
     func setupViews() {
         addSubview(pickerView)
     }
-    
 }

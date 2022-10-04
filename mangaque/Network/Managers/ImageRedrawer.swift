@@ -1,5 +1,5 @@
 //
-//  MangaqueManager.swift
+//  ImageRedrawer.swift
 //  mangaque
 //
 //  Created by Artem Raykh on 09.09.2022.
@@ -13,13 +13,13 @@ import RxSwift
 #warning("make a translate from language that comes from mangadex api")
 #warning("implement tests")
 #warning("implement realm")
-class MangaqueManager {
+class ImageRedrawer {
     
     private let disposeBag = DisposeBag()
     private let imageProcessor = MangaqueImageProcessor()
     private let translator = TranslatorManager()
     
-    func redrawChapter(pages: [Resource]) -> Single<[UIImage]> {
+    func redrawChapter(pages: [ImageResource]) -> Single<[UIImage]> {
         
         let image = Observable.from(pages)
             .flatMap(getImage)
@@ -33,7 +33,7 @@ class MangaqueManager {
             .toArray()
     }
 
-    func getImage(resource: Resource) -> Single<UIImage> {
+    func getImage(resource: ImageResource) -> Single<UIImage> {
         
         Single.create { single in
             
@@ -56,7 +56,11 @@ class MangaqueManager {
             .asSingle()
     }
 
-    func redrawImage(image: UIImage, synopses: [Synopsis]) -> UIImage? {
+    func redrawImage(
+        image: UIImage,
+        synopses: [Synopsis]
+    ) -> UIImage? {
+        
         guard let cgImage = image.cgImage else { return nil }
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
