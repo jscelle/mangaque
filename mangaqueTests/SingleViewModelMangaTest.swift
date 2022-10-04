@@ -31,6 +31,6 @@ final class SingleViewModelMangaTest: QuickSpec {
             
             viewModel = SingleMangaViewModel(item: testItem)
         }
-        expect(viewModel.redrawChapter())
+        
     }
 }

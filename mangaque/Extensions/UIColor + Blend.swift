@@ -15,7 +15,10 @@ public extension Array where Element: UIColor {
             blue: CGFloat(0)
         )) { (temp, color) in
             
-            guard let components = color.cgColor.components else {
+            guard
+                let components = color.cgColor.components,
+                components.count >= 3
+            else {
                 return temp
             }
             

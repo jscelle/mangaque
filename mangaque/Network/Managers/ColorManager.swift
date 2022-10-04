@@ -69,8 +69,14 @@ class ColorManager: NSObject {
     
     func colorAt(x: Int, y: Int) -> UIColor {
         
-        assert(0<=x && x<width)
-        assert(0<=y && y<height)
+        guard
+            0<=x,
+            x<width,
+            0<=y,
+            y<height
+        else {
+            return .white
+        }
         
         guard let pixelBuffer = context?.data else { return .white }
         let data = pixelBuffer.bindMemory(to: UInt8.self, capacity: width * height)
