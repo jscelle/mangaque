@@ -23,3 +23,17 @@ struct Chapter: Codable {
     let others: [String]?
     let count: Int?
 }
+
+extension AggregateModel {
+    
+    func getFirstChapter() -> Chapter? {
+        self
+            .volumes?
+            .values
+            .compactMap { $0 as Volume }
+            .first?
+            .chapters?
+            .first?
+            .value
+    }
+}

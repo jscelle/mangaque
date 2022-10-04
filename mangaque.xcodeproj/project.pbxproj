@@ -35,7 +35,6 @@
 		A4AD379828EACD310005E411 /* TranslatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AD379728EACD310005E411 /* TranslatorManager.swift */; };
 		A4AD379A28EB2CE90005E411 /* SingleViewModelMangaTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AD379928EB2CE90005E411 /* SingleViewModelMangaTest.swift */; };
 		A4EDEAA828BCF9BA00331C91 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEAA728BCF9BA00331C91 /* ViewModel.swift */; };
-		A4EDEAAE28BDF2C600331C91 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEAAD28BDF2C600331C91 /* ViewController.swift */; };
 		A4EDEAB828BE1C2600331C91 /* UIView + Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEAB728BE1C2600331C91 /* UIView + Blur.swift */; };
 		A4EDEABD28BE4CA000331C91 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEABC28BE4CA000331C91 /* SearchViewController.swift */; };
 		A4EDEABF28BE4CFD00331C91 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EDEABE28BE4CFD00331C91 /* SearchViewModel.swift */; };
@@ -100,7 +99,6 @@
 		A4AD379928EB2CE90005E411 /* SingleViewModelMangaTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleViewModelMangaTest.swift; sourceTree = "<group>"; };
 		A4C962F234FAB7EA14E75945 /* Pods_mangaque.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mangaque.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4EDEAA728BCF9BA00331C91 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		A4EDEAAD28BDF2C600331C91 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A4EDEAB728BE1C2600331C91 /* UIView + Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Blur.swift"; sourceTree = "<group>"; };
 		A4EDEABC28BE4CA000331C91 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A4EDEABE28BE4CFD00331C91 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -195,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				A4EDEB0E28CB33A500331C91 /* Secured */,
+				9B98316E28A2DA590053A472 /* Managers */,
 				9B98316C28A2DA3F0053A472 /* Network */,
 				A4EDEAA628BCF9AC00331C91 /* Common */,
 				A4EF4DB828A812A7003ED8EC /* Extensions */,
@@ -208,7 +207,6 @@
 		9B98316C28A2DA3F0053A472 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				9B98316E28A2DA590053A472 /* Managers */,
 				9B98316D28A2DA4F0053A472 /* API */,
 			);
 			path = Network;
@@ -310,7 +308,6 @@
 		A4EDEAAC28BDF2B700331C91 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				A4EDEAAD28BDF2C600331C91 /* ViewController.swift */,
 				A4EDEACB28BE655D00331C91 /* TableCell.swift */,
 			);
 			path = UI;
@@ -613,7 +610,6 @@
 				A4819FD528AE38FA008D9EAB /* MangaPageTableViewCell.swift in Sources */,
 				A4EF4DD528AD2C78003ED8EC /* SingleMangaViewController.swift in Sources */,
 				A493BC8D28DB00B30009FE2B /* ColorManager.swift in Sources */,
-				A4EDEAAE28BDF2C600331C91 /* ViewController.swift in Sources */,
 				A4EDEABD28BE4CA000331C91 /* SearchViewController.swift in Sources */,
 				A4EDEAFA28C4DC4700331C91 /* SingleMangaAPI.swift in Sources */,
 				A4EF4DD928AD3117003ED8EC /* SingleMangaViewModel.swift in Sources */,

@@ -7,52 +7,56 @@
 
 import Moya
 
-enum MangaAPI {
-    case getManga
-    case searchManga(title: String)
-    case getRandomManga
-    case getMangaAggregate(mangaId: String)
-    case getMangaCover(coverId: String)
+struct MangaAPI: TargetType {
+    let baseURL: URL = URL(string: Configuration.mangaApiUrl)!
+    let path: String
+    let method: Moya.Method
+    let task: Task
+    let headers: [String : String]?
 }
 
-extension MangaAPI: TargetType {
+extension MangaAPI {
+    static let getManga = MangaAPI(
+        path: "/manga",
+        method: .get,
+        task: .requestPlain,
+        headers: nil
+    )
     
-    var baseURL: URL {
-        return URL(string: Configuration.mangaApiUrl)!
-    }
+    static let getRandomManga = MangaAPI(
+        path: "/manga/random",
+        method: .get,
+        task: .requestPlain,
+        headers: nil
+    )
     
-    var path: String {
-        switch self {
-        case .getManga:
-            return "/manga"
-        case .getRandomManga:
-            return "/manga/random"
-        case .getMangaAggregate(mangaId: let mangaId):
-            return "/manga/\(mangaId)/aggregate"
-        case .getMangaCover(coverId: let coverId):
-            return "/cover/\(coverId)"
-        case .searchManga:
-            return "/manga"
-        }
-    }
-    
-    var method: Method {
-        return .get 
-    }
-    
-    var task: Task {
-        switch self {
-        case .getMangaCover, .getManga, .getRandomManga, .getMangaAggregate:
-            return .requestPlain
-        case .searchManga(title: let title):
-            return .requestParameters(
+    static func searchManga(title: String) -> MangaAPI {
+        MangaAPI(
+            path: "/manga",
+            method: .get,
+            task: .requestParameters(
                 parameters: ["title": title],
                 encoding: URLEncoding.queryString
-            )
-        }
+            ),
+            headers: nil
+        )
     }
     
-    var headers: [String : String]? {
-        return nil
+    static func getMangaCover(coverId: String) -> MangaAPI {
+        MangaAPI(
+            path: "/cover\(coverId)",
+            method: .get,
+            task: .requestPlain,
+            headers: nil
+        )
+    }
+    
+    static func getMangaAggregate(mangaId: String) -> MangaAPI {
+        MangaAPI(
+            path: "/manga/\(mangaId)/aggregate",
+            method: .get,
+            task: .requestPlain,
+            headers: nil
+        )
     }
 }

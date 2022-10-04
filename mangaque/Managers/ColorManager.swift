@@ -70,10 +70,10 @@ class ColorManager: NSObject {
     func colorAt(x: Int, y: Int) -> UIColor {
         
         guard
-            0<=x,
-            x<width,
-            0<=y,
-            y<height
+            0 <= x,
+            x < width,
+            0 <= y,
+            y < height
         else {
             return .white
         }

@@ -9,13 +9,26 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SingleMangaViewController: ViewController
-{
+final class SingleMangaViewController: UIViewController {
+    
+    private let disposeBag = DisposeBag()
+    
+    private let viewModel: SingleMangaViewModel
+    
     private lazy var pageView = MangaPageTableView(frame: self.view.bounds)
     
     private lazy var pickerView = UIPickerView()
     
     private lazy var chapterSelectView = UIView()
+    
+    init(viewModel: SingleMangaViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +53,7 @@ final class SingleMangaViewController: ViewController
         pageView.setupViews()
     }
     
-    override func eventsSubscribe() {
-        super.eventsSubscribe()
-        
-        guard let viewModel = self.viewModel as? SingleMangaViewModel else {
-            return
-        }
+    func eventsSubscribe() {
         
         let output = viewModel.transform()
         

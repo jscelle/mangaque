@@ -28,41 +28,17 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
         
         let chapter = redrawedChapter()
         
-        print(item)
-        
         provider
             .rx
             .request(.getMangaAppregiate(mangaId: item.mangaId))
             .filterSuccessfulStatusCodes()
             .map(AggregateModel.self)
             .asObservable()
-            .flatMap(getChapter)
+            .compactMap { $0.getFirstChapter() }
             .bind(to: currentChapter)
             .disposed(by: disposeBag)
         
         return SingleMangaOutput(page: chapter)
-    }
-    
-    private func getChapter(aggregate: AggregateModel) -> Single<Chapter> {
-        
-        Single.create { single in
-            
-            let disposables = Disposables.create()
-            
-            let volumes = aggregate.volumes?.values.compactMap{ $0 as Volume }
-            
-            guard let volumes = volumes else {
-                return disposables
-            }
-            
-            guard let chapter = volumes.first?.chapters?.first?.value else {
-                return disposables
-            }
-            
-            single(.success(chapter))
-            
-            return Disposables.create()
-        }
     }
     
     #warning("refactor this")
@@ -115,14 +91,6 @@ final class SingleMangaViewModel: ViewModel, ViewModelType {
                 }
             }
            .asDriver(onErrorJustReturn: [])
-    }
-    
-    func redrawChapter() {
-        currentChapter
-            .compactMap { $0.id }
-            .subscribe(onNext: {
-                print($0.count)
-            })
     }
     
     private func getChapterData(id: String) -> Observable<ChapterDataModel> {
